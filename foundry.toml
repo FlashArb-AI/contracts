@@ -9,5 +9,4 @@ remappings = [
     "@uniswap/v3-periphery/contracts/interfaces=lib/v3-periphery/contracts/interfaces",
     "@uniswap/v3-core/contracts/interfaces/=lib/v3-core/contracts/interfaces/",
 ]
-
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
