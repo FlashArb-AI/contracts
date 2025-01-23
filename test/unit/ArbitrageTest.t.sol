@@ -41,6 +41,7 @@ contract ArbitrageTest is Test {
             10
         );
         vm.stopPrank();
+
         assertGt(amountOut, 0);
     }
 
