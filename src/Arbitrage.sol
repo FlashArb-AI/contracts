@@ -4,11 +4,14 @@ pragma solidity 0.8.18;
 import "@balancer/balancer-v2-monorepo/pkg/interfaces/contracts/vault/IVault.sol";
 import "@balancer/balancer-v2-monorepo/pkg/interfaces/contracts/vault/IFlashLoanRecipient.sol";
 import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
+import {ISwapRouter02} from "./interfaces/ISwapRouter02.sol";
+import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.sol";
 
 contract Arbitrage is IFlashLoanRecipient {
     IVault private constant vault = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
 
     address public owner;
+    IQuoterV2 public uniswapQuoter;
 
     struct Trade {
         address[] routerPath;
@@ -16,8 +19,9 @@ contract Arbitrage is IFlashLoanRecipient {
         uint24 fee;
     }
 
-    constructor() {
+    constructor(address _quoter) {
         owner = msg.sender;
+        uniswapQuoter = IQuoterV2(_quoter);
     }
 
     function executeTrade(address[] memory _routerPath, address[] memory _tokenPath, uint24 _fee, uint256 _flashAmount)
@@ -82,23 +86,41 @@ contract Arbitrage is IFlashLoanRecipient {
         address _tokenOut,
         uint256 _amountOut,
         uint24 _fee
-    ) internal {
+    ) public returns (uint256 amountOut) {
         // Approve token to swap
         IERC20(_tokenIn).approve(_router, _amountIn);
 
         // Setup swap parameters
-        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter.ExactInputSingleParams({
+        ISwapRouter02.ExactInputSingleParams memory params = ISwapRouter02.ExactInputSingleParams({
             tokenIn: _tokenIn,
             tokenOut: _tokenOut,
             fee: _fee,
             recipient: address(this),
-            deadline: block.timestamp,
             amountIn: _amountIn,
             amountOutMinimum: _amountOut,
             sqrtPriceLimitX96: 0
         });
 
+        // Get fee amount
+        uint256 fee = getUniswapFeeQuote(_tokenIn, _tokenOut, _amountIn, _fee);
+
         // Perform swap
-        ISwapRouter(_router).exactInputSingle(params);
+        amountOut = ISwapRouter02(_router).exactInputSingle{value: fee}(params);
     }
+
+    function getUniswapFeeQuote(address _tokenIn, address _tokenOut, uint256 amountIn, uint24 _fee)
+        public
+        returns (uint256 fee)
+    {
+        IQuoterV2.QuoteExactInputSingleParams memory params = IQuoterV2.QuoteExactInputSingleParams({
+            tokenIn: _tokenIn,
+            tokenOut: _tokenOut,
+            amountIn: amountIn,
+            fee: _fee,
+            sqrtPriceLimitX96: 0
+        });
+        (,,, fee) = uniswapQuoter.quoteExactInputSingle(params);
+    }
+
+    receive() external payable {}
 }
