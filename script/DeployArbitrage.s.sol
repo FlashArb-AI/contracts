@@ -17,9 +17,7 @@ contract DeployArbitrage is Script {
 
     function run() public returns (Arbitrage) {
         vm.startBroadcast();
-
         arbitrage = new Arbitrage(currentConfig.uniswapQuoter);
-
         vm.stopBroadcast();
         return arbitrage;
     }

@@ -4,6 +4,7 @@ pragma solidity 0.8.18;
 import "@balancer/balancer-v2-monorepo/pkg/interfaces/contracts/vault/IVault.sol";
 import "@balancer/balancer-v2-monorepo/pkg/interfaces/contracts/vault/IFlashLoanRecipient.sol";
 import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
+import {ISwapRouter02} from "./interfaces/ISwapRouter02.sol";
 import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.sol";
 
 contract Arbitrage is IFlashLoanRecipient {
@@ -90,12 +91,11 @@ contract Arbitrage is IFlashLoanRecipient {
         IERC20(_tokenIn).approve(_router, _amountIn);
 
         // Setup swap parameters
-        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter.ExactInputSingleParams({
+        ISwapRouter02.ExactInputSingleParams memory params = ISwapRouter02.ExactInputSingleParams({
             tokenIn: _tokenIn,
             tokenOut: _tokenOut,
             fee: _fee,
             recipient: address(this),
-            deadline: block.timestamp,
             amountIn: _amountIn,
             amountOutMinimum: _amountOut,
             sqrtPriceLimitX96: 0
@@ -105,7 +105,7 @@ contract Arbitrage is IFlashLoanRecipient {
         uint256 fee = getUniswapFeeQuote(_tokenIn, _tokenOut, _amountIn, _fee);
 
         // Perform swap
-        amountOut = ISwapRouter(_router).exactInputSingle{value: fee}(params);
+        amountOut = ISwapRouter02(_router).exactInputSingle{value: fee}(params);
     }
 
     function getUniswapFeeQuote(address _tokenIn, address _tokenOut, uint256 amountIn, uint24 _fee)

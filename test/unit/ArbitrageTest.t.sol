@@ -12,7 +12,10 @@ contract ArbitrageTest is Test {
     Arbitrage public arbitrage;
     HelperConfig public helperConfig;
     HelperConfig.NetworkConfig currentConfig;
+
     address owner = address(1);
+    address weth = 0x4200000000000000000000000000000000000006;
+
     uint256 sepoliaFork;
     uint256 baseSepoliaFork;
 
@@ -22,56 +25,37 @@ contract ArbitrageTest is Test {
     function setUp() public {
         helperConfig = new HelperConfig();
         currentConfig = helperConfig.getBaseSepoliaConfig();
-        vm.startPrank(owner);
-        // sepoliaFork = vm.createSelectFork(ETH_SEPOLIA_RPC_URL);
+
         baseSepoliaFork = vm.createFork(BASE_SEPOLIA_RPC_URL);
         vm.selectFork(baseSepoliaFork);
+
+        vm.startPrank(owner);
         arbitrage = new Arbitrage(currentConfig.uniswapQuoter);
         vm.stopPrank();
+
         deal(currentConfig.usdc, owner, 69);
         deal(currentConfig.usdc, address(arbitrage), 69);
         vm.deal(owner, 1 ether);
+        vm.deal(address(arbitrage), 1 ether);
     }
 
     function test_swapOnV3_uniswap() public {
-        console.log(IERC20(currentConfig.usdc).balanceOf(owner));
-        console.log(IERC20(currentConfig.usdc).balanceOf(address(arbitrage)));
         vm.selectFork(baseSepoliaFork);
-        uint256 fee =
-            arbitrage.getUniswapFeeQuote(currentConfig.usdc, 0x4200000000000000000000000000000000000006, 10, 3000);
-        console.log(fee);
-        // Setup swap parameters
-        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter.ExactInputSingleParams({
-            tokenIn: currentConfig.usdc,
-            tokenOut: 0x4200000000000000000000000000000000000006,
-            fee: uint24(3000),
-            recipient: owner,
-            deadline: block.timestamp,
-            amountIn: 2,
-            amountOutMinimum: 0,
-            sqrtPriceLimitX96: 0
-        });
-
         vm.startPrank(owner);
-        IERC20(currentConfig.usdc).approve(currentConfig.uniswapRouter, 2);
-
-        // uint256 amountOut = arbitrage._swapOnV3{value: 0.001 ether}(
-        //     currentConfig.uniswapRouter,
-        //     currentConfig.usdc,
-        //     10,
-        //     0x4200000000000000000000000000000000000006,
-        //     0,
-        //     3000
-        // );
-
-        // Perform swap
-        // vm.selectFork(baseSepoliaFork);
-        // uint256 amountOut = ISwapRouter(currentConfig.uniswapRouter)
-        //     .exactInputSingle{value: fee + 0.001 ether}(params);
+        uint256 amountOut = arbitrage._swapOnV3(currentConfig.uniswapRouter, currentConfig.usdc, 10, weth, 0, 3000);
         vm.stopPrank();
-
-        // assertGt(amountOut, 0);
+        assertGt(amountOut, 0);
     }
 
     function test_swapOnV3_sushiswap() public {}
+
+    function test_getUniswapFeeQuote() public {
+        vm.selectFork(baseSepoliaFork);
+        vm.startPrank(owner);
+        uint256 fee = arbitrage.getUniswapFeeQuote(currentConfig.usdc, weth, 10, 3000);
+        vm.stopPrank();
+        assertGt(fee, 0);
+    }
+
+    function test_receiveFlashLoan() public {}
 }
