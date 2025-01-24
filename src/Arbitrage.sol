@@ -7,27 +7,56 @@ import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRoute
 import {ISwapRouter02} from "./interfaces/ISwapRouter02.sol";
 import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.sol";
 
+/**
+ * @title Arbitrage.
+ * @author FlashArb-AI.
+ * @notice Earn arbitrage between two DEX's using balancer Flash Loans.
+ * @dev DEX's supported currently are the ones that share the same interface as uniswap(i.e. a fork).
+ */
+
 contract Arbitrage is IFlashLoanRecipient {
-    IVault private constant vault = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
+    /// @notice Balancer Vault instance.
+    IVault private constant vault =
+        IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
 
     address public owner;
-    IQuoterV2 public uniswapQuoter;
 
+    /// @notice Struct representing a swap / i.e. a buy or sell in this case.
     struct Trade {
         address[] routerPath;
+        address[] quoterPath;
         address[] tokenPath;
         uint24 fee;
     }
 
-    constructor(address _quoter) {
+    event TokensSwapped(
+        address tokenIn,
+        address tokenOut,
+        uint256 amountIn,
+        uint256 minAmountOut,
+        uint256 quotedFee,
+        uint256 amountOut
+    );
+
+    constructor() {
         owner = msg.sender;
-        uniswapQuoter = IQuoterV2(_quoter);
     }
 
-    function executeTrade(address[] memory _routerPath, address[] memory _tokenPath, uint24 _fee, uint256 _flashAmount)
-        external
-    {
-        bytes memory data = abi.encode(Trade({routerPath: _routerPath, tokenPath: _tokenPath, fee: _fee}));
+    function executeTrade(
+        address[] memory _routerPath,
+        address[] memory _quoterPath,
+        address[] memory _tokenPath,
+        uint24 _fee,
+        uint256 _flashAmount
+    ) external {
+        bytes memory data = abi.encode(
+            Trade({
+                routerPath: _routerPath,
+                quoterPath: _quoterPath,
+                tokenPath: _tokenPath,
+                fee: _fee
+            })
+        );
 
         // Token to flash loan, by default we are flash loaning 1 token.
         IERC20[] memory tokens = new IERC20[](1);
@@ -56,13 +85,22 @@ contract Arbitrage is IFlashLoanRecipient {
 
         // We perform the 1st swap.
         // We swap the flashAmount of token0 and expect to get X amount of token1
-        _swapOnV3(trade.routerPath[0], trade.tokenPath[0], flashAmount, trade.tokenPath[1], 0, trade.fee);
+        _swapOnV3(
+            trade.routerPath[0],
+            trade.quoterPath[0],
+            trade.tokenPath[0],
+            flashAmount,
+            trade.tokenPath[1],
+            0,
+            trade.fee
+        );
 
         // We perform the 2nd swap.
         // We swap the contract balance of token1 and
         // expect to at least get the flashAmount of token0
         _swapOnV3(
             trade.routerPath[1],
+            trade.quoterPath[1],
             trade.tokenPath[1],
             IERC20(trade.tokenPath[1]).balanceOf(address(this)),
             trade.tokenPath[0],
@@ -74,13 +112,17 @@ contract Arbitrage is IFlashLoanRecipient {
         IERC20(trade.tokenPath[0]).transfer(address(vault), flashAmount);
 
         // Transfer any excess tokens [i.e. profits] to owner
-        IERC20(trade.tokenPath[0]).transfer(owner, IERC20(trade.tokenPath[0]).balanceOf(address(this)));
+        IERC20(trade.tokenPath[0]).transfer(
+            owner,
+            IERC20(trade.tokenPath[0]).balanceOf(address(this))
+        );
     }
 
     // -- INTERNAL FUNCTIONS -- //
 
     function _swapOnV3(
         address _router,
+        address _quoter,
         address _tokenIn,
         uint256 _amountIn,
         address _tokenOut,
@@ -91,35 +133,55 @@ contract Arbitrage is IFlashLoanRecipient {
         IERC20(_tokenIn).approve(_router, _amountIn);
 
         // Setup swap parameters
-        ISwapRouter02.ExactInputSingleParams memory params = ISwapRouter02.ExactInputSingleParams({
-            tokenIn: _tokenIn,
-            tokenOut: _tokenOut,
-            fee: _fee,
-            recipient: address(this),
-            amountIn: _amountIn,
-            amountOutMinimum: _amountOut,
-            sqrtPriceLimitX96: 0
-        });
+        ISwapRouter02.ExactInputSingleParams memory params = ISwapRouter02
+            .ExactInputSingleParams({
+                tokenIn: _tokenIn,
+                tokenOut: _tokenOut,
+                fee: _fee,
+                recipient: address(this),
+                amountIn: _amountIn,
+                amountOutMinimum: _amountOut,
+                sqrtPriceLimitX96: 0
+            });
 
         // Get fee amount
-        uint256 fee = getUniswapFeeQuote(_tokenIn, _tokenOut, _amountIn, _fee);
+        uint256 fee = getFeeQuote(
+            _quoter,
+            _tokenIn,
+            _tokenOut,
+            _amountIn,
+            _fee
+        );
 
         // Perform swap
         amountOut = ISwapRouter02(_router).exactInputSingle{value: fee}(params);
+
+        emit TokensSwapped(
+            _tokenIn,
+            _tokenOut,
+            _amountIn,
+            _amountOut,
+            fee,
+            amountOut
+        );
     }
 
-    function getUniswapFeeQuote(address _tokenIn, address _tokenOut, uint256 amountIn, uint24 _fee)
-        public
-        returns (uint256 fee)
-    {
-        IQuoterV2.QuoteExactInputSingleParams memory params = IQuoterV2.QuoteExactInputSingleParams({
-            tokenIn: _tokenIn,
-            tokenOut: _tokenOut,
-            amountIn: amountIn,
-            fee: _fee,
-            sqrtPriceLimitX96: 0
-        });
-        (,,, fee) = uniswapQuoter.quoteExactInputSingle(params);
+    function getFeeQuote(
+        address _quoter,
+        address _tokenIn,
+        address _tokenOut,
+        uint256 amountIn,
+        uint24 _fee
+    ) public returns (uint256 fee) {
+        IQuoterV2.QuoteExactInputSingleParams memory params = IQuoterV2
+            .QuoteExactInputSingleParams({
+                tokenIn: _tokenIn,
+                tokenOut: _tokenOut,
+                amountIn: amountIn,
+                fee: _fee,
+                sqrtPriceLimitX96: 0
+            });
+        (, , , fee) = IQuoterV2(_quoter).quoteExactInputSingle(params);
     }
 
     receive() external payable {}
