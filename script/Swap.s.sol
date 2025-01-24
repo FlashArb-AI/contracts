@@ -22,12 +22,16 @@ contract Swap is Script {
 
     function run() public {
         vm.startBroadcast();
-        bool success = IERC20(currentConfig.usdc).transfer(address(arbitrage), 2000000);
+        bool success = IERC20(currentConfig.usdc).transfer(
+            address(arbitrage),
+            2000000
+        );
 
         console.log("transfer usdc to arbitrage contract", success);
 
         uint256 amountOut = arbitrage._swapOnV3(
             currentConfig.uniswapRouter,
+            currentConfig.uniswapQuoter,
             currentConfig.usdc,
             2000000,
             0x4200000000000000000000000000000000000006,

@@ -14,7 +14,6 @@ contract ArbitrageTest is Test {
     HelperConfig.NetworkConfig currentConfig;
 
     address owner = address(1);
-    address weth = 0x4200000000000000000000000000000000000006;
 
     uint256 sepoliaFork;
     uint256 baseSepoliaFork;
@@ -24,13 +23,12 @@ contract ArbitrageTest is Test {
 
     function setUp() public {
         helperConfig = new HelperConfig();
-        currentConfig = helperConfig.getBaseSepoliaConfig();
+        currentConfig = helperConfig.getETHSepoliaConfig();
 
-        baseSepoliaFork = vm.createFork(BASE_SEPOLIA_RPC_URL);
-        vm.selectFork(baseSepoliaFork);
+        baseSepoliaFork = vm.createSelectFork(ETH_SEPOLIA_RPC_URL);
 
         vm.startPrank(owner);
-        arbitrage = new Arbitrage(currentConfig.uniswapQuoter);
+        arbitrage = new Arbitrage();
         vm.stopPrank();
 
         deal(currentConfig.usdc, owner, 69);
@@ -40,22 +38,64 @@ contract ArbitrageTest is Test {
     }
 
     function test_swapOnV3_uniswap() public {
-        vm.selectFork(baseSepoliaFork);
         vm.startPrank(owner);
-        uint256 amountOut = arbitrage._swapOnV3(currentConfig.uniswapRouter, currentConfig.usdc, 10, weth, 0, 3000);
+        uint256 amountOut = arbitrage._swapOnV3(
+            currentConfig.uniswapRouter,
+            currentConfig.uniswapQuoter,
+            currentConfig.usdc,
+            10,
+            currentConfig.weth,
+            0,
+            3000
+        );
         vm.stopPrank();
         assertGt(amountOut, 0);
+        assertGt(IERC20(currentConfig.weth).balanceOf(address(arbitrage)), 0);
+        assertLt(IERC20(currentConfig.usdc).balanceOf(address(arbitrage)), 69);
     }
 
-    function test_swapOnV3_sushiswap() public {}
+    // function test_swapOnV3_sushiswap() public {
+    //     vm.startPrank(owner);
+    //     uint256 amountOut = arbitrage._swapOnV3(
+    //         currentConfig.sushiswapRouter,
+    //         currentConfig.sushiswapQuoter,
+    //         currentConfig.usdc,
+    //         10,
+    //         currentConfig.weth,
+    //         0,
+    //         3000
+    //     );
+    //     vm.stopPrank();
+    //     assertGt(amountOut, 0);
+    //     assertGt(IERC20(currentConfig.weth).balanceOf(address(arbitrage)), 0);
+    //     assertLt(IERC20(currentConfig.usdc).balanceOf(address(arbitrage)), 69);
+    // }
 
     function test_getUniswapFeeQuote() public {
-        vm.selectFork(baseSepoliaFork);
         vm.startPrank(owner);
-        uint256 fee = arbitrage.getUniswapFeeQuote(currentConfig.usdc, weth, 10, 3000);
+        uint256 fee = arbitrage.getFeeQuote(
+            currentConfig.uniswapQuoter,
+            currentConfig.usdc,
+            currentConfig.weth,
+            10,
+            3000
+        );
         vm.stopPrank();
         assertGt(fee, 0);
     }
+
+    // function test_getSushiswapFeeQuote() public {
+    //     vm.startPrank(owner);
+    //     uint256 fee = arbitrage.getFeeQuote(
+    //         currentConfig.sushiswapQuoter,
+    //         currentConfig.usdc,
+    //         currentConfig.weth,
+    //         10000000,
+    //         3000
+    //     );
+    //     vm.stopPrank();
+    //     assertGt(fee, 0);
+    // }
 
     function test_receiveFlashLoan() public {}
 }
