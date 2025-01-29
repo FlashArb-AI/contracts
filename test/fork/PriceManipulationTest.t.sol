@@ -110,4 +110,6 @@ contract PriceManipulationTest is Test {
     //     assertGt(IERC20(networkConfig.weth).balanceOf(UNLOCKED_ACCOUNT), initialWeth);
     //     vm.stopPrank();
     // }
+
+    function test_receiveFlashLoan() public {}
 }

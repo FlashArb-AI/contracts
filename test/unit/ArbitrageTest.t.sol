@@ -11,7 +11,7 @@ import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRoute
 contract ArbitrageTest is Test {
     Arbitrage public arbitrage;
     HelperConfig public helperConfig;
-    HelperConfig.NetworkConfig currentConfig;
+    HelperConfig.ForkNetworkConfig public networkConfig;
 
     address owner = address(1);
 
@@ -21,21 +21,21 @@ contract ArbitrageTest is Test {
     string ETH_SEPOLIA_RPC_URL = vm.envString("ETH_SEPOLIA_RPC_URL");
     string BASE_SEPOLIA_RPC_URL = vm.envString("BASE_SEPOLIA_RPC_URL");
 
-    // function setUp() public {
-    //     helperConfig = new HelperConfig();
-    //     currentConfig = helperConfig.getETHSepoliaConfig();
+    function setUp() public {
+        helperConfig = new HelperConfig();
+        networkConfig = helperConfig.getSepoliaETHConfig();
 
-    //     baseSepoliaFork = vm.createSelectFork(ETH_SEPOLIA_RPC_URL);
+        baseSepoliaFork = vm.createSelectFork(ETH_SEPOLIA_RPC_URL);
 
-    //     vm.startPrank(owner);
-    //     arbitrage = new Arbitrage();
-    //     vm.stopPrank();
+        vm.startPrank(owner);
+        arbitrage = new Arbitrage();
+        vm.stopPrank();
 
-    //     deal(currentConfig.usdc, owner, 69);
-    //     deal(currentConfig.usdc, address(arbitrage), 69);
-    //     vm.deal(owner, 1 ether);
-    //     vm.deal(address(arbitrage), 1 ether);
-    // }
+        deal(networkConfig.usdc, owner, 69);
+        deal(networkConfig.usdc, address(arbitrage), 69);
+        vm.deal(owner, 1 ether);
+        vm.deal(address(arbitrage), 1 ether);
+    }
 
     // function test_swapOnV3_uniswap() public {
     //     vm.startPrank(owner);
@@ -87,5 +87,5 @@ contract ArbitrageTest is Test {
     //     assertGt(fee, 0);
     // }
 
-    // function test_receiveFlashLoan() public {}
+    function test_receiveFlashLoan() public {}
 }
