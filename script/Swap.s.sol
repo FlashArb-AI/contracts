@@ -14,32 +14,32 @@ contract Swap is Script {
     HelperConfig public helperConfig;
     HelperConfig.NetworkConfig currentConfig;
 
-    function setUp() public {
-        helperConfig = new HelperConfig();
-        currentConfig = helperConfig.getBaseSepoliaConfig();
-        arbitrage = Arbitrage(payable(address(0)));
-    }
+    // function setUp() public {
+    //     helperConfig = new HelperConfig();
+    //     currentConfig = helperConfig.getBaseSepoliaConfig();
+    //     arbitrage = Arbitrage(payable(address(0)));
+    // }
 
-    function run() public {
-        vm.startBroadcast();
-        bool success = IERC20(currentConfig.usdc).transfer(
-            address(arbitrage),
-            2000000
-        );
+    // function run() public {
+    //     vm.startBroadcast();
+    //     bool success = IERC20(currentConfig.usdc).transfer(
+    //         address(arbitrage),
+    //         2000000
+    //     );
 
-        console.log("transfer usdc to arbitrage contract", success);
+    //     console.log("transfer usdc to arbitrage contract", success);
 
-        uint256 amountOut = arbitrage._swapOnV3(
-            currentConfig.uniswapRouter,
-            currentConfig.uniswapQuoter,
-            currentConfig.usdc,
-            2000000,
-            0x4200000000000000000000000000000000000006,
-            0,
-            3000
-        );
+    //     uint256 amountOut = arbitrage._swapOnV3(
+    //         currentConfig.uniswapRouter,
+    //         currentConfig.uniswapQuoter,
+    //         currentConfig.usdc,
+    //         2000000,
+    //         0x4200000000000000000000000000000000000006,
+    //         0,
+    //         3000
+    //     );
 
-        console.log("amount swapped", amountOut);
-        vm.stopBroadcast();
-    }
+    //     console.log("amount swapped", amountOut);
+    //     vm.stopBroadcast();
+    // }
 }

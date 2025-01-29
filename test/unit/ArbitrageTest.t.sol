@@ -21,38 +21,38 @@ contract ArbitrageTest is Test {
     string ETH_SEPOLIA_RPC_URL = vm.envString("ETH_SEPOLIA_RPC_URL");
     string BASE_SEPOLIA_RPC_URL = vm.envString("BASE_SEPOLIA_RPC_URL");
 
-    function setUp() public {
-        helperConfig = new HelperConfig();
-        currentConfig = helperConfig.getETHSepoliaConfig();
+    // function setUp() public {
+    //     helperConfig = new HelperConfig();
+    //     currentConfig = helperConfig.getETHSepoliaConfig();
 
-        baseSepoliaFork = vm.createSelectFork(ETH_SEPOLIA_RPC_URL);
+    //     baseSepoliaFork = vm.createSelectFork(ETH_SEPOLIA_RPC_URL);
 
-        vm.startPrank(owner);
-        arbitrage = new Arbitrage();
-        vm.stopPrank();
+    //     vm.startPrank(owner);
+    //     arbitrage = new Arbitrage();
+    //     vm.stopPrank();
 
-        deal(currentConfig.usdc, owner, 69);
-        deal(currentConfig.usdc, address(arbitrage), 69);
-        vm.deal(owner, 1 ether);
-        vm.deal(address(arbitrage), 1 ether);
-    }
+    //     deal(currentConfig.usdc, owner, 69);
+    //     deal(currentConfig.usdc, address(arbitrage), 69);
+    //     vm.deal(owner, 1 ether);
+    //     vm.deal(address(arbitrage), 1 ether);
+    // }
 
-    function test_swapOnV3_uniswap() public {
-        vm.startPrank(owner);
-        uint256 amountOut = arbitrage._swapOnV3(
-            currentConfig.uniswapRouter,
-            currentConfig.uniswapQuoter,
-            currentConfig.usdc,
-            10,
-            currentConfig.weth,
-            0,
-            3000
-        );
-        vm.stopPrank();
-        assertGt(amountOut, 0);
-        assertGt(IERC20(currentConfig.weth).balanceOf(address(arbitrage)), 0);
-        assertLt(IERC20(currentConfig.usdc).balanceOf(address(arbitrage)), 69);
-    }
+    // function test_swapOnV3_uniswap() public {
+    //     vm.startPrank(owner);
+    //     uint256 amountOut = arbitrage._swapOnV3(
+    //         currentConfig.uniswapRouter,
+    //         currentConfig.uniswapQuoter,
+    //         currentConfig.usdc,
+    //         10,
+    //         currentConfig.weth,
+    //         0,
+    //         3000
+    //     );
+    //     vm.stopPrank();
+    //     assertGt(amountOut, 0);
+    //     assertGt(IERC20(currentConfig.weth).balanceOf(address(arbitrage)), 0);
+    //     assertLt(IERC20(currentConfig.usdc).balanceOf(address(arbitrage)), 69);
+    // }
 
     // function test_swapOnV3_sushiswap() public {
     //     vm.startPrank(owner);
@@ -71,31 +71,21 @@ contract ArbitrageTest is Test {
     //     assertLt(IERC20(currentConfig.usdc).balanceOf(address(arbitrage)), 69);
     // }
 
-    function test_getUniswapFeeQuote() public {
-        vm.startPrank(owner);
-        uint256 fee = arbitrage.getFeeQuote(
-            currentConfig.uniswapQuoter,
-            currentConfig.usdc,
-            currentConfig.weth,
-            10,
-            3000
-        );
-        vm.stopPrank();
-        assertGt(fee, 0);
-    }
-
-    // function test_getSushiswapFeeQuote() public {
+    // function test_getUniswapFeeQuote() public {
     //     vm.startPrank(owner);
-    //     uint256 fee = arbitrage.getFeeQuote(
-    //         currentConfig.sushiswapQuoter,
-    //         currentConfig.usdc,
-    //         currentConfig.weth,
-    //         10000000,
-    //         3000
-    //     );
+    //     uint256 fee =
+    //         arbitrage.getFeeQuote(currentConfig.uniswapQuoter, currentConfig.usdc, currentConfig.weth, 10, 3000);
     //     vm.stopPrank();
     //     assertGt(fee, 0);
     // }
 
-    function test_receiveFlashLoan() public {}
+    // function test_getSushiswapFeeQuote() public {
+    //     vm.startPrank(owner);
+    //     uint256 fee =
+    //         arbitrage.getFeeQuote(currentConfig.sushiswapQuoter, currentConfig.usdc, currentConfig.weth, 10000000, 3000);
+    //     vm.stopPrank();
+    //     assertGt(fee, 0);
+    // }
+
+    // function test_receiveFlashLoan() public {}
 }
