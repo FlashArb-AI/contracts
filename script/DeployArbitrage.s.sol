@@ -13,7 +13,7 @@ contract DeployArbitrage is Script {
 
     function setUp() public {
         helperConfig = new HelperConfig();
-        SepoliaConfig = helperConfig.getSepoliaETHConfig();
+        modeConfig = helperConfig.getModeSepoliaConfig();
     }
 
     function run() public returns (Arbitrage) {

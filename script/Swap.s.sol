@@ -16,7 +16,7 @@ contract Swap is Script {
 
     // function setUp() public {
     //     helperConfig = new HelperConfig();
-    //     currentConfig = helperConfig.getBaseSepoliaConfig();
+    //     currentConfig = helperConfig.getModeSepoliaConfig();
     //     arbitrage = Arbitrage(payable(address(0)));
     // }
 

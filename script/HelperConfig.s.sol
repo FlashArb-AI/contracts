@@ -26,12 +26,12 @@ contract HelperConfig is Script {
     struct NetworkConfig {
         address weth; // Mode Network WETH
         address usdc; // Mode Network USDC
-        address velodromeFinanceFactory; // Need To Find Mode Supported DEX
-        address velodromeFinanceRouter; //Need To Find Mode Supported DEX
-        address velodromeFinanceQuoter; // Need To Find Mode Supported DEX
-        address sushiSwapFactory; // Sushiswap V3
-        address sushiSwapRouter; // Sushiswap V3
-        address sushiSwapQuoter; // Sushiswap V3
+        address uniswapFactory; // Uniswap V3
+        address uniswapRouter; //Uniswap V3
+        address uniswapQouter; // Uniswap V3
+        address forkedUniswapFactory; // Forked Uniswap V3
+        address forkedUniswapRouter; // Forked Uniswap V3
+        address forkedUniswapQouter; // Forked Uniswap V3
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -65,16 +65,16 @@ contract HelperConfig is Script {
         return BaseSepoliaConfig;
     }
 
-    function getModeMainnetConfig() public pure returns (NetworkConfig memory) {
+    function getModeSepoliaConfig() public pure returns (NetworkConfig memory) {
         NetworkConfig memory ModeConfig = NetworkConfig({
-            weth: address(0),
-            usdc: 0xd988097fb8612cc24eeC14542bC03424c656005f,
-            velodromeFinanceFactory: 0xCc0bDDB707055e04e497aB22a59c2aF4391cd12F,
-            velodromeFinanceRouter: 0x0792a633F0c19c351081CF4B211F68F79bCc9676,
-            velodromeFinanceQuoter: 0x89D8218ed5fF1e46d8dcd33fb0bbeE3be1621466,
-            sushiSwapFactory: address(0),
-            sushiSwapRouter: 0xf2614A233c7C3e7f08b1F887Ba133a13f1eb2c55,
-            sushiSwapQuoter: address(0)
+            weth: 0x4200000000000000000000000000000000000006,
+            usdc: 0x448A7D1dA6C7a9027caAC6f05309fa42361487E0,
+            uniswapFactory: 0x879A0F1E8402E37ECC56C53C55B6E02EB704eDD4,
+            uniswapRouter: 0x9eE1289c21321E212994B23Bf0b4Cdc453C17EEE,
+            uniswapQouter: 0xb18D334d3c1e1F3D21B8cAeCBFc705B03373E2F8,
+            forkedUniswapFactory: 0x89F7868a9D66962906D29350C5957c1Ca5d8843b,
+            forkedUniswapRouter: 0x9eE1289c21321E212994B23Bf0b4Cdc453C17EEE,
+            forkedUniswapQouter: 0x095781EF06536DE360E9fb6218656d6845b0A3bC
         });
         return ModeConfig;
     }
