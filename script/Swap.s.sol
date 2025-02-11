@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {Arbitrage} from "../src/Arbitrage.sol";
+import {FlashArbitrage} from "../src/FlashArbitrage.sol";
 import {DeployArbitrage} from "../script/DeployArbitrage.s.sol";
 import {HelperConfig} from "../script/HelperConfig.s.sol";
 import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
@@ -10,7 +10,7 @@ import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.so
 import {IERC20} from "@openzeppelin/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract Swap is Script {
-    Arbitrage public arbitrage;
+    FlashArbitrage public arbitrage;
     HelperConfig public helperConfig;
     HelperConfig.NetworkConfig currentConfig;
 
