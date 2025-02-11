@@ -3,13 +3,13 @@ pragma solidity 0.8.18;
 
 import {Test, console} from "forge-std/Test.sol";
 import {StdUtils} from "forge-std/StdUtils.sol";
-import {Arbitrage} from "../../src/Arbitrage.sol";
+import {FlashArbitrage} from "../../src/FlashArbitrage.sol";
 import {HelperConfig} from "../../script/HelperConfig.s.sol";
 import {IERC20} from "@openzeppelin/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 
 contract ArbitrageTest is Test {
-    Arbitrage public arbitrage;
+    FlashArbitrage public arbitrage;
     HelperConfig public helperConfig;
     HelperConfig.ForkNetworkConfig public networkConfig;
 
@@ -28,7 +28,7 @@ contract ArbitrageTest is Test {
         baseSepoliaFork = vm.createSelectFork(ETH_SEPOLIA_RPC_URL);
 
         vm.startPrank(owner);
-        arbitrage = new Arbitrage();
+        arbitrage = new FlashArbitrage();
         vm.stopPrank();
 
         deal(networkConfig.usdc, owner, 69);
