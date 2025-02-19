@@ -4,7 +4,7 @@
 
 FlashArbAI is a decentralized finance (DeFi) arbitrage bot that leverages Balancer V2 flash loans to identify and execute arbitrage opportunities across decentralized exchanges (DEXs). The project integrates with the Goat Framework and utilizes the Eliza AI agent plugin to provide a conversational interface for users. Users can interact with the AI agent to discover supported token pairs, monitor arbitrage opportunities, and execute trades when profitable opportunities arise.
 
-The core of the project is the `Arbitrage` smart contract, which handles flash loans, token swaps, and profit calculations. The contract is deployed on the Mode Sepolia Testnet and supports DEXs that share the same interface as Uniswap V3.
+The core of the project is the `Arbitrage` smart contract, which handles flash loans, token swaps, and profit calculations. The contract is deployed and supports DEXs that share the same interface as Uniswap V3.
 
 ## Features
 
@@ -46,16 +46,6 @@ The `Arbitrage` contract is the core of the FlashArbAI project. It implements th
      - `_amountOut`: Minimum amount of output tokens expected.
      - `_fee`: Pool fee for the swap.
 
-#### Events
-
-- **`TokensSwapped`**:
-  - Emitted when a token swap is executed.
-  - Parameters:
-    - `tokenIn`: Address of the input token.
-    - `tokenOut`: Address of the output token.
-    - `amountIn`: Amount of input tokens swapped.
-    - `minAmountOut`: Minimum amount of output tokens received.
-
 ## Setup Instructions
 
 ### Prerequisites
@@ -84,50 +74,28 @@ The `Arbitrage` contract is the core of the FlashArbAI project. It implements th
     forge build
     ```
 
-4. Deploy the contract to the Mode Sepolia Testnet:
+4. Deploy the contract, here is an example for Sepolia Testnet:
     ```bash
-    forge script script/DeployArbitrage.s.sol:DeployArbitrage <MODE_SEPOLIA_RPC_URL> --private-key <PRIVATE_KEY> --broadcast --verify --verifier blockscout --verifier-url https://sepolia.explorer.mode.network/api/
+    forge script script/DeployArbitrage.s.sol:DeployArbitrage <SEPOLIA_RPC_URL> --private-key <PRIVATE_KEY> --broadcast --verify --verifier blockscout --verifier-url https://sepolia.explorer.network/api/
     ```
 
 ### Configuration
 
-1. Update the foundry.toml file with your Mode Sepolia Testnet RPC URL and private key.
-
-2. Configure the Eliza AI agent plugin in the Goat Framework to interact with the Arbitrage contract.
+1. Update the foundry.toml file with your network RPC URL.
 
 ## Usage
-### Interacting with the AI Agent
-1. Start the Goat Framework with the Eliza AI agent plugin.
-2. Use the conversational interface to query supported token pairs:
-```
-User: What token pairs are supported for arbitrage?
-Eliza: Supported token pairs are: ETH/USDC, USDC/DAI, WBTC/ETH.
-```
-
-3. Monitor arbitrage opportunities:
-```
-User: Are there any arbitrage opportunities for ETH/USDC?
-Eliza: Yes, there is an arbitrage opportunity for ETH/USDC. Would you like to execute the trade?
-```
-
-4. Execute the trade:
-```
-User: Execute the trade.
-Eliza: Executing trade... Trade completed successfully. Profit: 0.5 ETH.
-```
-
 ### Executing Trades Programmatically
 1. Call the `executeTrade` function on the Arbitrage contract using Foundry:
     ```bash
     cast send <CONTRACT_ADDRESS> "executeTrade(address[],address[],address[],uint24,uint256)" \
     "[<ROUTER1>, <ROUTER2>]" "[<QUOTER1>, <QUOTER2>]" "[<TOKEN1>, <TOKEN2>]" <FEE> <FLASH_AMOUNT> \
-    --rpc-url <MODE_SEPOLIA_RPC_URL> --private-key <PRIVATE_KEY>
+    --rpc-url <SEPOLIA_RPC_URL> --private-key <PRIVATE_KEY>
     ```
 
 2. Monitor the TokensSwapped event to track trade execution and profits:
     ```bash
     cast logs --from-block <START_BLOCK> --to-block <END_BLOCK> --address <CONTRACT_ADDRESS> \
-    --topic "TokensSwapped(address,address,uint256,uint256)" --rpc-url <MODE_SEPOLIA_RPC_URL>
+    --topic "TokensSwapped(address,address,uint256,uint256)" --rpc-url <SEPOLIA_RPC_URL>
     ```
 
 ## Testing
@@ -156,4 +124,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ## Acknowledgments
 - Balancer Labs for the Balancer V2 flash loan functionality.
 - Uniswap Labs for the Uniswap V3 integration.
-- Goat Framework and Eliza AI agent for the conversational interface.
