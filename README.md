@@ -74,9 +74,9 @@ The `Arbitrage` contract is the core of the FlashArbAI project. It implements th
     forge build
     ```
 
-4. Deploy the contract, here is an example for Sepolia Testnet:
+4. Deploy the contract, here is an example for Any Testnet:
     ```bash
-    forge script script/DeployArbitrage.s.sol:DeployArbitrage <SEPOLIA_RPC_URL> --private-key <PRIVATE_KEY> --broadcast --verify --verifier blockscout --verifier-url https://sepolia.explorer.network/api/
+    forge script script/DeployArbitrage.s.sol:DeployArbitrage <ANYTESTNET_RPC_URL> --private-key <PRIVATE_KEY> --broadcast --verify --verifier blockscout --verifier-url $VERIFIER_URL
     ```
 
 ### Configuration
