@@ -14,6 +14,23 @@ The core of the project is the `Arbitrage` smart contract, which handles flash l
 - **Customizable Token Pairs**: Users can select from a list of supported token pairs for arbitrage.
 - **Profit Distribution**: Profits from arbitrage trades are transferred to the contract owner.
 
+## System Architecture
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Eliza AI      │────│  FlashArbAI     │────│   Balancer V2   │
+│   Agent         │    │  Arbitrage      │    │   Flash Loans   │
+│                 │    │  Contract       │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│    User         │    │   Uniswap V3    │    │   Other DEXs    │
+│  Interface      │    │   Compatible    │    │   (SushiSwap,   │
+│                 │    │     DEXs        │    │   PancakeSwap)  │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
 ## Smart Contract Details
 
 ### Contract: `Arbitrage.sol`
