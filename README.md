@@ -31,6 +31,14 @@ The core of the project is the `Arbitrage` smart contract, which handles flash l
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
+## Workflow
+
+1. **Opportunity Detection:** AI agent monitors price differences across supported DEXs
+2. **Flash Loan Initiation:** Contract requests flash loan from Balancer V2
+3. **Arbitrage Execution:** Execute swaps across different DEXs to capture price differences
+4. **Profit Calculation:** Calculate net profit after fees and gas costs
+5. **Loan Repayment:** Repay flash loan and transfer profits to contract owner
+
 ## Smart Contract Details
 
 ### Contract: `Arbitrage.sol`
