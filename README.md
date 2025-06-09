@@ -31,6 +31,8 @@ The core of the project is the `Arbitrage` smart contract, which handles flash l
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
+
+
 ## Workflow
 
 1. **Opportunity Detection:** AI agent monitors price differences across supported DEXs
@@ -149,3 +151,8 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ## Acknowledgments
 - Balancer Labs for the Balancer V2 flash loan functionality.
 - Uniswap Labs for the Uniswap V3 integration.
+
+## Disclaimer
+This software is provided "as is" without warranty. Users are responsible for understanding the risks associated with DeFi trading and flash loans. Always test thoroughly on testnets before using with real funds.
+
+⚠️ Warning: Flash loan arbitrage involves significant financial risk. Only use funds you can afford to lose and ensure you understand the technology before deployment.
