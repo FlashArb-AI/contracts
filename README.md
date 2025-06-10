@@ -73,6 +73,23 @@ The `Arbitrage` contract is the core of the FlashArbAI project. It implements th
      - `_amountOut`: Minimum amount of output tokens expected.
      - `_fee`: Pool fee for the swap.
 
+### Events
+```solidity
+event TokensSwapped(
+    address indexed tokenIn,
+    address indexed tokenOut,
+    uint256 amountIn,
+    uint256 amountOut
+);
+
+event ArbitrageExecuted(
+    address indexed tokenA,
+    address indexed tokenB,
+    uint256 profit,
+    uint256 gasUsed
+);
+```
+
 ## Setup Instructions
 
 ### Prerequisites
