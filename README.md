@@ -123,6 +123,26 @@ event ArbitrageExecuted(
     forge script script/DeployArbitrage.s.sol:DeployArbitrage <ANYTESTNET_RPC_URL> --private-key <PRIVATE_KEY> --broadcast --verify --verifier blockscout --verifier-url $VERIFIER_URL
     ```
 
+### Environment Variables
+Create `.env` file in the root directory:
+
+```bash
+# Network Configuration
+SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_PROJECT_ID
+MAINNET_RPC_URL=https://mainnet.infura.io/v3/YOUR_PROJECT_ID
+
+# Private Keys
+PRIVATE_KEY=your_private_key_here
+
+# Contract Addresses
+BALANCER_VAULT=0xBA12222222228d8Ba445958a75a0704d566BF2C8
+UNISWAP_V3_ROUTER=0xE592427A0AEce92De3Edee1F18E0157C05861564
+
+# API Keys
+ETHERSCAN_API_KEY=your_etherscan_api_key
+COINGECKO_API_KEY=your_coingecko_api_key
+```
+
 ### Configuration
 
 1. Update the foundry.toml file with your network RPC URL.
