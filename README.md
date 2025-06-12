@@ -146,6 +146,19 @@ COINGECKO_API_KEY=your_coingecko_api_key
 ### Configuration
 
 1. Update the foundry.toml file with your network RPC URL.
+2. Configure supported token pairs in `config/tokens.json`:
+```json
+{
+  "supportedPairs": [
+    {
+      "tokenA": "0xA0b86a33E6441a1e60b5C5B5B5B1b5B5B5B5B5B5",
+      "tokenB": "0xB0b86a33E6441a1e60b5C5B5B5B1b5B5B5B5B5B5",
+      "name": "WETH/USDC",
+      "minProfitThreshold": "0.01"
+    }
+  ]
+}
+```
 
 ## Usage
 ### Executing Trades Programmatically
