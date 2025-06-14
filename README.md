@@ -175,6 +175,12 @@ COINGECKO_API_KEY=your_coingecko_api_key
     --topic "TokensSwapped(address,address,uint256,uint256)" --rpc-url <SEPOLIA_RPC_URL>
     ```
 
+### Using the AI Agent Interface
+1. Start the Eliza AI agent:
+```bash
+pnpm run start:agent
+```
+
 ## Testing
 Foundry is used for testing the Arbitrage contract. To run the tests:
 
