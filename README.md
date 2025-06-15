@@ -181,6 +181,11 @@ COINGECKO_API_KEY=your_coingecko_api_key
 pnpm run start:agent
 ```
 
+2. Interact with the agent using natural language:
+   - "Show me profitable arbitrage opportunities"
+   - "Execute arbitrage for WETH/USDC pair"
+   - "What's the current profit potential for ETH/DAI?"
+
 ## Testing
 Foundry is used for testing the Arbitrage contract. To run the tests:
 
