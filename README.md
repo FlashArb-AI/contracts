@@ -196,6 +196,12 @@ Foundry is used for testing the Arbitrage contract. To run the tests:
     forge test
     ```
 
+### Test Coverage
+Generage test coverage reports:
+```bash
+forge coverage
+```
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
