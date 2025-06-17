@@ -202,6 +202,14 @@ Generage test coverage reports:
 forge coverage
 ```
 
+## Security Considerations
+### Known Risks
+
+- **MEV (Maximal Extractable Value):** Arbitrage transactions may be front-run by MEV bots
+- **Flash Loan Attacks:** Ensure proper validation of flash loan repayment
+- **Slippage:** Market conditions can change between opportunity detection and execution
+- **Smart Contract Risk:** Potential bugs in contract logic or external dependencies
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
