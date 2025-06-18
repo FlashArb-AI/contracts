@@ -210,6 +210,13 @@ forge coverage
 - **Slippage:** Market conditions can change between opportunity detection and execution
 - **Smart Contract Risk:** Potential bugs in contract logic or external dependencies
 
+### Security Measures
+
+- Reentrancy guards on critical functions
+- Slippage protection with configurable thresholds
+- Access control for sensitive operations
+- Regular security audits (planned)
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
