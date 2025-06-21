@@ -224,6 +224,14 @@ forge coverage
 - Optimized storage patterns
 - Efficient event emission
 
+## Monitoring & Analytics
+### Track key metrics:
+
+- Arbitrage success rate
+- Average profit per trade
+- Gas costs vs. profits
+- Network congestion impact
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
