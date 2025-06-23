@@ -234,12 +234,14 @@ forge coverage
 
 ## Troubleshooting
 ### Common Issues
-Issue: Flash loan execution fails
-Solution: Check token balances and ensure sufficient liquidity
-Issue: High gas costs eating into profits
-Solution: Adjust minimum profit thresholds and monitor network conditions
-Issue: Slippage too high
-Solution: Increase slippage tolerance or reduce trade size
+**Issue:** Flash loan execution fails
+  - **Solution:** Check token balances and ensure sufficient liquidity
+
+**Issue:** High gas costs eating into profits
+  - **Solution:** Adjust minimum profit thresholds and monitor network conditions
+
+**Issue:** Slippage too high
+  - **Solution:** Increase slippage tolerance or reduce trade size
 
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
