@@ -243,6 +243,12 @@ forge coverage
 **Issue:** Slippage too high
   - **Solution:** Increase slippage tolerance or reduce trade size
 
+## API Reference
+### Contract Methods
+`executeTrade`
+
+Executes an arbitrage trade using flash loans.
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
