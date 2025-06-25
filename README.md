@@ -249,6 +249,14 @@ forge coverage
 
 Executes an arbitrage trade using flash loans.
 
+### Parameters:
+
+- `_routerPath`(address[]): Array of router addresses
+- `_quoterPath`(address[]): Array of quoter addresses
+- `_tokenPath`(address[]): Array of token addresses
+- `_fee (uint24)`: Pool fee
+- `_flashAmount`(uint256): Flash loan amount
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
