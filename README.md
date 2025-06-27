@@ -257,6 +257,11 @@ Executes an arbitrage trade using flash loans.
 - `_fee (uint24)`: Pool fee
 - `_flashAmount`(uint256): Flash loan amount
 
+### Returns: Transaction hash
+`getProfit`
+
+Calculates potential profit for a given arbitrage opportunity.
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
