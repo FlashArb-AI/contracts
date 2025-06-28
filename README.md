@@ -262,6 +262,14 @@ Executes an arbitrage trade using flash loans.
 
 Calculates potential profit for a given arbitrage opportunity.
 
+### Parameters:
+
+- `tokenA (address)`: First token address
+- `tokenB (address)`: Second token address
+- `amount (uint256)`: Trade amount
+
+**Returns:** Estimated profit (uint256)
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
