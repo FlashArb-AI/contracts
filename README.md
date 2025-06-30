@@ -270,6 +270,14 @@ Calculates potential profit for a given arbitrage opportunity.
 
 **Returns:** Estimated profit (uint256)
 
+## Roadmap
+### Phase 1 (Current)
+
+✅ Core arbitrage contract development
+✅ Balancer V2 flash loan integration
+✅ Uniswap V3 compatibility
+🚧 AI agent integration
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
