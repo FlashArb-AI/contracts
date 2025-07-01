@@ -278,6 +278,13 @@ Calculates potential profit for a given arbitrage opportunity.
 ✅ Uniswap V3 compatibility
 🚧 AI agent integration
 
+Phase 2 (Planned)
+
+🔄 Multi-DEX support expansion
+🔄 Advanced profit optimization algorithms
+🔄 Web dashboard for monitoring
+🔄 Mobile app development
+
 ## Contributing
 Contributions to the FlashArbAI project are welcome! Please follow these steps:
 
