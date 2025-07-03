@@ -1,5 +1,51 @@
 # FlashArbAI Project
 
+## Table of Contents
+
+- [FlashArbAI Project](#flasharbai-project)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [System Architecture](#system-architecture)
+  - [Workflow](#workflow)
+  - [Smart Contract Details](#smart-contract-details)
+    - [Contract: `Arbitrage.sol`](#contract-arbitragesol)
+      - [Key Functions](#key-functions)
+    - [Events](#events)
+  - [Setup Instructions](#setup-instructions)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Environment Variables](#environment-variables)
+    - [Configuration](#configuration)
+  - [Usage](#usage)
+    - [Executing Trades Programmatically](#executing-trades-programmatically)
+    - [Using the AI Agent Interface](#using-the-ai-agent-interface)
+  - [Testing](#testing)
+    - [Test Coverage](#test-coverage)
+  - [Security Considerations](#security-considerations)
+    - [Known Risks](#known-risks)
+    - [Security Measures](#security-measures)
+  - [Performance Optimization](#performance-optimization)
+    - [Gas Optimization](#gas-optimization)
+  - [Monitoring \& Analytics](#monitoring--analytics)
+    - [Track key metrics:](#track-key-metrics)
+  - [Troubleshooting](#troubleshooting)
+    - [Common Issues](#common-issues)
+  - [API Reference](#api-reference)
+    - [Contract Methods](#contract-methods)
+    - [Parameters:](#parameters)
+    - [Returns: Transaction hash](#returns-transaction-hash)
+    - [Parameters:](#parameters-1)
+  - [Roadmap](#roadmap)
+    - [Phase 1 (Current)](#phase-1-current)
+    - [Phase 2 (Planned)](#phase-2-planned)
+    - [Phase 3 (Planned)](#phase-3-planned)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Acknowledgments](#acknowledgments)
+  - [Disclaimer](#disclaimer)
+
+
 ## Overview
 
 FlashArbAI is a decentralized finance (DeFi) arbitrage bot that leverages Balancer V2 flash loans to identify and execute arbitrage opportunities across decentralized exchanges (DEXs). The project integrates with the Goat Framework and utilizes the Eliza AI agent plugin to provide a conversational interface for users. Users can interact with the AI agent to discover supported token pairs, monitor arbitrage opportunities, and execute trades when profitable opportunities arise.
