@@ -47,6 +47,7 @@
   - [Contributing](#contributing)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
+  - [Known Issues](#known-issues)
   - [Disclaimer](#disclaimer)
 
 
@@ -358,6 +359,13 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ## Acknowledgments
 - Balancer Labs for the Balancer V2 flash loan functionality.
 - Uniswap Labs for the Uniswap V3 integration.
+
+## Known Issues
+
+- Only works with Uniswap V3 forks (for now)
+- Needs more slippage protection
+- Might fail if liquidity is too low
+
 
 ## Disclaimer
 This software is provided "as is" without warranty. Users are responsible for understanding the risks associated with DeFi trading and flash loans. Always test thoroughly on testnets before using with real funds.
