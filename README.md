@@ -48,6 +48,7 @@
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
   - [Known Issues](#known-issues)
+  - [Common questions:](#common-questions)
   - [Disclaimer](#disclaimer)
 
 
@@ -365,6 +366,13 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - Only works with Uniswap V3 forks (for now)
 - Needs more slippage protection
 - Might fail if liquidity is too low
+
+## Common questions:
+
+- What tokens are supported?
+- Which networks?
+- How much gas does it usually cost?
+- How do I add a new DEX?
 
 
 ## Disclaimer
