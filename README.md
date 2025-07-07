@@ -4,6 +4,10 @@
 
 # FlashArbAI Project
 
+FlashArbAI is a decentralized finance (DeFi) arbitrage bot that leverages Balancer V2 flash loans to identify and execute profitable arbitrage opportunities across decentralized exchanges (DEXs). It integrates with the Goat Framework and utilizes the Eliza AI agent plugin to provide a conversational interface for interacting with trades and opportunities.
+
+---
+
 ## Table of Contents
 
 - [FlashArbAI Project](#flasharbai-project)
@@ -51,6 +55,7 @@
   - [Common questions:](#common-questions)
   - [Disclaimer](#disclaimer)
 
+---
 
 ## Overview
 
