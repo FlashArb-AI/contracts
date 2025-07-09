@@ -71,11 +71,11 @@ The core of the project is the `Arbitrage` smart contract, responsible for flash
 
 ## Features
 
-- **Balancer V2 Flash Loans**: Borrow tokens without collateral to execute arbitrage trades.
-- **Uniswap V3 Integration**: Swap tokens on Uniswap V3-compatible DEXs.
-- **AI-Powered Interface**: Interact with the Eliza AI agent to discover and monitor arbitrage opportunities.
-- **Customizable Token Pairs**: Users can select from a list of supported token pairs for arbitrage.
-- **Profit Distribution**: Profits from arbitrage trades are transferred to the contract owner.
+- **Balancer V2 Flash Loans**: Borrow tokens without collateral to execute trades.
+- **Uniswap V3 Integration**: Perform token swaps across Uniswap V3-compatible DEXs.
+- **AI-Powered Interface**: Use Eliza AI for opportunity discovery and execution.
+- **Customizable Token Pairs**: Define and adjust arbitrage token pairs.
+- **Profit Distribution**: Profits are automatically transferred to the contract owner.
 
 ## System Architecture
 ```
