@@ -244,6 +244,12 @@ COINGECKO_API_KEY=your_coingecko_api_key
 pnpm run start:agent
 ```
 
+**Sample queries:**
+
+- "Show me profitable arbitrage opportunities"
+- "Execute arbitrage for WETH/USDC"
+- "What's the profit potential for ETH/DAI?"
+
 2. Interact with the agent using natural language:
    - "Show me profitable arbitrage opportunities"
    - "Execute arbitrage for WETH/USDC pair"
