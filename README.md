@@ -52,7 +52,7 @@ FlashArbAI is a decentralized finance (DeFi) arbitrage bot that leverages Balanc
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
   - [Known Issues](#known-issues)
-  - [Common questions:](#common-questions)
+  - [FAQ](#faq)
   - [Disclaimer](#disclaimer)
 
 ---
@@ -384,12 +384,12 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - Needs more slippage protection
 - Might fail if liquidity is too low
 
-## Common questions:
+## FAQ
 
-- What tokens are supported?
-- Which networks?
-- How much gas does it usually cost?
-- How do I add a new DEX?
+- What tokens are supported? Check config/tokens.json.
+- Which networks are supported? Currently Sepolia and Mainnet.
+- Average gas cost per trade? Depends on network congestion.
+- How to add a new DEX? Update integration logic and configurations accordingly.
 
 
 ## Disclaimer
