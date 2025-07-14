@@ -8,8 +8,17 @@ import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRoute
 /**
  * @title FlashArbitrage
  * @author FlashArbAI
- * @notice Advanced DEX arbitrage executor leveraging Balancer flash loans
- * @dev Implements cross-DEX arbitrage strategies using flash loans and optimized swap paths
+ * @notice Advanced decentralized arbitrage contract leveraging Balancer V2 flash loans to execute profitable cross-DEX trades
+ * @dev Implements flash loan-based arbitrage strategies with optimized swap execution paths using Uniswap V3-compatible routers.
+ *
+ * Features:
+ * - Uses Balancer V2 Vault for flash loan liquidity.
+ * - Executes two sequential swaps to capture arbitrage profit between token pairs.
+ * - Transfers net profit to the contract owner after repaying the flash loan.
+ *
+ * Security considerations:
+ * - Ensure proper slippage controls are implemented externally.
+ * - Flash loan repayment is enforced by Balancer V2 Vault; transaction reverts otherwise.
  */
 contract Arbitrage is IFlashLoanRecipient {
     IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
