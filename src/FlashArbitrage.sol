@@ -21,10 +21,16 @@ import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRoute
  * - Flash loan repayment is enforced by Balancer V2 Vault; transaction reverts otherwise.
  */
 contract Arbitrage is IFlashLoanRecipient {
+    /// @notice Reference to Balancer V2 Vault for flash loan execution
     IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
 
+    /// @notice Owner of the contract, receives all profits
     address public owner;
 
+    /// @notice Struct representing trade parameters for an arbitrage opportunity
+    /// @param routerPath Array of swap router addresses for executing trades
+    /// @param tokenPath Array of token addresses representing the swap path
+    /// @param fee Uniswap V3 pool fee (e.g., 3000 = 0.3%)
     struct Trade {
         address[] routerPath;
         address[] tokenPath;
