@@ -12,13 +12,18 @@ import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRoute
  * @dev Implements flash loan-based arbitrage strategies with optimized swap execution paths using Uniswap V3-compatible routers.
  *
  * Features:
- * - Uses Balancer V2 Vault for flash loan liquidity.
- * - Executes two sequential swaps to capture arbitrage profit between token pairs.
- * - Transfers net profit to the contract owner after repaying the flash loan.
+ * - Uses Balancer V2 Vault for flash loan liquidity with zero fees
+ * - Executes two sequential swaps to capture arbitrage profit between token pairs
+ * - Transfers net profit to the contract owner after repaying the flash loan
+ * - Comprehensive error handling and safety checks
+ * - Emergency functions for stuck tokens
+ * - Profit tracking and analytics
  *
  * Security considerations:
- * - Ensure proper slippage controls are implemented externally.
- * - Flash loan repayment is enforced by Balancer V2 Vault; transaction reverts otherwise.
+ * - Implements ReentrancyGuard to prevent reentrancy attacks
+ * - Proper slippage controls via minimum output amounts
+ * - Flash loan repayment is enforced by Balancer V2 Vault; transaction reverts otherwise
+ * - Owner-only functions for emergency scenarios
  */
 contract Arbitrage is IFlashLoanRecipient {
     /// @notice Reference to Balancer V2 Vault for flash loan execution
