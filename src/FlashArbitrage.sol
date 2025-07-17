@@ -44,6 +44,8 @@ contract Arbitrage is IFlashLoanRecipient {
         uint24 fee;
     }
 
+    /// @notice Initializes the contract and sets the deployer as owner
+    /// @dev Sets msg.sender as the initial owner
     constructor() {
         owner = msg.sender;
     }
