@@ -27,9 +27,11 @@ import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRoute
  */
 contract Arbitrage is IFlashLoanRecipient {
     /// @notice Reference to Balancer V2 Vault for flash loan execution
+    /// @dev Mainnet address: 0xBA12222222228d8Ba445958a75a0704d566BF2C8
     IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
 
     /// @notice Owner of the contract, receives all profits
+    /// @dev Set during contract deployment, can be changed via ownership transfer
     address public owner;
 
     /// @notice Struct representing trade parameters for an arbitrage opportunity
@@ -42,6 +44,8 @@ contract Arbitrage is IFlashLoanRecipient {
         uint24 fee;
     }
 
+    /// @notice Initializes the contract and sets the deployer as owner
+    /// @dev Sets msg.sender as the initial owner
     constructor() {
         owner = msg.sender;
     }
