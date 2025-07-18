@@ -50,6 +50,19 @@ contract Arbitrage is IFlashLoanRecipient {
         owner = msg.sender;
     }
 
+    /// @notice Executes an arbitrage trade using Balancer V2 flash loan
+    /// @dev Initiates a flash loan and executes two sequential swaps to capture arbitrage profit
+    /// @param _routerPath Array of router addresses [router1, router2] for the two swaps
+    /// @param _tokenPath Array of token addresses [tokenA, tokenB] representing the arbitrage pair
+    /// @param _fee Uniswap V3 pool fee tier (500 = 0.05%, 3000 = 0.3%, 10000 = 1%)
+    /// @param _flashAmount Amount of tokens to flash loan for the arbitrage
+    /// @custom:requirements
+    /// - _routerPath must contain exactly 2 router addresses
+    /// - _tokenPath must contain exactly 2 token addresses
+    /// - _flashAmount must be greater than 0
+    /// - Both tokens must have sufficient liquidity on both DEXs
+    /// @custom:security Flash loan must be profitable or transaction will revert
+
     function executeTrade(address[] memory _routerPath, address[] memory _tokenPath, uint24 _fee, uint256 _flashAmount)
         external
     {
