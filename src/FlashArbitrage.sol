@@ -50,6 +50,19 @@ contract Arbitrage is IFlashLoanRecipient {
         owner = msg.sender;
     }
 
+    /// @notice Executes an arbitrage trade using Balancer V2 flash loan
+    /// @dev Initiates a flash loan and executes two sequential swaps to capture arbitrage profit
+    /// @param _routerPath Array of router addresses [router1, router2] for the two swaps
+    /// @param _tokenPath Array of token addresses [tokenA, tokenB] representing the arbitrage pair
+    /// @param _fee Uniswap V3 pool fee tier (500 = 0.05%, 3000 = 0.3%, 10000 = 1%)
+    /// @param _flashAmount Amount of tokens to flash loan for the arbitrage
+    /// @custom:requirements
+    /// - _routerPath must contain exactly 2 router addresses
+    /// - _tokenPath must contain exactly 2 token addresses
+    /// - _flashAmount must be greater than 0
+    /// - Both tokens must have sufficient liquidity on both DEXs
+    /// @custom:security Flash loan must be profitable or transaction will revert
+
     function executeTrade(address[] memory _routerPath, address[] memory _tokenPath, uint24 _fee, uint256 _flashAmount)
         external
     {
@@ -66,6 +79,19 @@ contract Arbitrage is IFlashLoanRecipient {
         VAULT.flashLoan(this, tokens, amounts, data);
     }
 
+    /// @notice Callback function executed by Balancer V2 Vault during flash loan
+    /// @dev This function is called automatically by the Vault and executes the arbitrage logic
+    /// @param tokens Array of ERC20 tokens that were flash loaned
+    /// @param amounts Array of amounts that were flash loaned
+    /// @param feeAmounts Array of fee amounts (always 0 for Balancer V2)
+    /// @param userData Encoded trade parameters passed from executeTrade
+    /// @custom:security Only callable by Balancer V2 Vault
+    /// @custom:logic
+    /// 1. Decodes trade parameters from userData
+    /// 2. Executes first swap (tokenA -> tokenB on DEX1)
+    /// 3. Executes second swap (tokenB -> tokenA on DEX2)
+    /// 4. Repays flash loan
+    /// 5. Transfers profit to owner
     function receiveFlashLoan(
         IERC20[] memory tokens,
         uint256[] memory amounts,
