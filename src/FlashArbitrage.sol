@@ -79,6 +79,19 @@ contract Arbitrage is IFlashLoanRecipient {
         VAULT.flashLoan(this, tokens, amounts, data);
     }
 
+    /// @notice Callback function executed by Balancer V2 Vault during flash loan
+    /// @dev This function is called automatically by the Vault and executes the arbitrage logic
+    /// @param tokens Array of ERC20 tokens that were flash loaned
+    /// @param amounts Array of amounts that were flash loaned
+    /// @param feeAmounts Array of fee amounts (always 0 for Balancer V2)
+    /// @param userData Encoded trade parameters passed from executeTrade
+    /// @custom:security Only callable by Balancer V2 Vault
+    /// @custom:logic
+    /// 1. Decodes trade parameters from userData
+    /// 2. Executes first swap (tokenA -> tokenB on DEX1)
+    /// 3. Executes second swap (tokenB -> tokenA on DEX2)
+    /// 4. Repays flash loan
+    /// 5. Transfers profit to owner
     function receiveFlashLoan(
         IERC20[] memory tokens,
         uint256[] memory amounts,
