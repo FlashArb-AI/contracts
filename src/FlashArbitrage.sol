@@ -131,6 +131,18 @@ contract Arbitrage is IFlashLoanRecipient {
 
     // -- INTERNAL FUNCTIONS -- //
 
+    /// @notice Executes a single token swap on Uniswap V3 compatible router
+    /// @dev Internal function that handles the swap logic with proper token approvals
+    /// @param _router Address of the Uniswap V3 compatible router
+    /// @param _tokenIn Address of the input token
+    /// @param _amountIn Amount of input tokens to swap
+    /// @param _tokenOut Address of the output token
+    /// @param _amountOut Minimum amount of output tokens expected (slippage protection)
+    /// @param _fee Uniswap V3 pool fee tier
+    /// @custom:security
+    /// - Approves exact amount needed for swap
+    /// - Uses deadline of current block timestamp
+    /// - Includes slippage protection via _amountOut
     function _swapOnV3(
         address _router,
         address _tokenIn,
