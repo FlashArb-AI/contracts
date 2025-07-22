@@ -14,7 +14,14 @@ import {HelperConfig} from "../script/HelperConfig.s.sol";
  *      with proper broadcasting for mainnet/testnet deployment
  */
 contract DeployArbitrage is Script {
+    //////////////////////////////////////////////////////////////
+    //                        STATE VARIABLES                  //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Instance of HelperConfig contract for network configuration management
+    /// @dev Used to retrieve network-specific configuration parameters
     HelperConfig public helperConfig;
+
     HelperConfig.NetworkConfig modeConfig;
     HelperConfig.ForkNetworkConfig SepoliaConfig;
     FlashArbitrage public flashArbitrage;
