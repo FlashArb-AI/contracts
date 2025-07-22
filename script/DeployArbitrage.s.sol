@@ -22,7 +22,10 @@ contract DeployArbitrage is Script {
     /// @dev Used to retrieve network-specific configuration parameters
     HelperConfig public helperConfig;
 
+    /// @notice Configuration struct for Mode network settings
+    /// @dev Contains network-specific parameters like addresses and configuration values
     HelperConfig.NetworkConfig modeConfig;
+
     HelperConfig.ForkNetworkConfig SepoliaConfig;
     FlashArbitrage public flashArbitrage;
 
