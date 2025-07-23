@@ -26,7 +26,10 @@ contract DeployArbitrage is Script {
     /// @dev Contains network-specific parameters like addresses and configuration values
     HelperConfig.NetworkConfig modeConfig;
 
+    /// @notice Configuration struct for Sepolia testnet settings
+    /// @dev Contains fork-specific parameters for testing on Sepolia network
     HelperConfig.ForkNetworkConfig SepoliaConfig;
+
     FlashArbitrage public flashArbitrage;
 
     function setUp() public {
