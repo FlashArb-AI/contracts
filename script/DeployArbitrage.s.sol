@@ -34,6 +34,16 @@ contract DeployArbitrage is Script {
     /// @dev Main arbitrage contract that will be deployed and configured
     FlashArbitrage public flashArbitrage;
 
+    //////////////////////////////////////////////////////////////
+    //                        FUNCTIONS                        //
+    //////////////////////////////////////////////////////////////
+
+    /**
+     * @notice Initializes the deployment script by setting up network configuration
+     * @dev Creates a new HelperConfig instance and retrieves Sepolia ETH configuration
+     *      This function is called automatically by Foundry before running the main deployment
+     * @custom:security This function should only be called once during script initialization
+     */
     function setUp() public {
         helperConfig = new HelperConfig();
         modeConfig = helperConfig.getSepoliaETHConfig();
