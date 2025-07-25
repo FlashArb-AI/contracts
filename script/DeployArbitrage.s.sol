@@ -49,6 +49,15 @@ contract DeployArbitrage is Script {
         modeConfig = helperConfig.getSepoliaETHConfig();
     }
 
+    /**
+     * @notice Main deployment function that deploys the FlashArbitrage contract
+     * @dev Uses vm.startBroadcast() and vm.stopBroadcast() to handle transaction broadcasting
+     *      The deployment is wrapped in broadcast calls to ensure proper transaction handling
+     * @return flashArbitrage The deployed FlashArbitrage contract instance
+     * @custom:security Ensure proper private key management when broadcasting transactions
+     * @custom:gas Consider gas optimization and limit settings for mainnet deployment
+     * @custom:network Verify network configuration before deployment to avoid wrong network deployment
+     */
     function run() public returns (FlashArbitrage) {
         vm.startBroadcast();
         flashArbitrage = new FlashArbitrage();
