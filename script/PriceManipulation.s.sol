@@ -7,6 +7,16 @@ import {IERC20} from "@openzeppelin/openzeppelin-contracts/contracts/token/ERC20
 import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.sol";
 
+/**
+ * @title PriceManipulation
+ * @author FlashArb-AI
+ * @notice This script demonstrates price manipulation through large swaps on PancakeSwap V3
+ * @dev A Foundry script that simulates price impact by executing large token swaps
+ *      Uses vm.startPrank to impersonate a whale account with sufficient token balance
+ *      WARNING: This is for educational/testing purposes only - price manipulation is illegal in many jurisdictions
+ * @custom:security This script is for testing and educational purposes only
+ * @custom:warning Price manipulation can be illegal and unethical in real markets
+ */
 contract PriceManipulation is Script {
     // Configuration
     HelperConfig.ForkNetworkConfig public networkConfig;
