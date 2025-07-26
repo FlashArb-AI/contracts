@@ -59,11 +59,18 @@ contract DeployArbitrage is Script {
      * @custom:network Verify network configuration before deployment to avoid wrong network deployment
      */
     function run() public returns (FlashArbitrage) {
+        // Start broadcasting transactions - required for actual deployment
         vm.startBroadcast();
+
+        // Deploy the FlashArbitrage contract with default constructor parameters
         flashArbitrage = new FlashArbitrage();
+
+        // Stop broadcasting transactions
         vm.stopBroadcast();
 
+        // Log the deployed contract address for verification and future reference
         console2.log("Arbitrage contract deployed to:", address(flashArbitrage));
+
         return flashArbitrage;
     }
 }
