@@ -18,14 +18,35 @@ import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.so
  * @custom:warning Price manipulation can be illegal and unethical in real markets
  */
 contract PriceManipulation is Script {
-    // Configuration
+    //////////////////////////////////////////////////////////////
+    //                        STATE VARIABLES                  //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Network configuration struct containing addresses and parameters
+    /// @dev Loaded from HelperConfig to get network-specific contract addresses
     HelperConfig.ForkNetworkConfig public networkConfig;
+
+    /// @notice Helper configuration contract instance
+    /// @dev Used to retrieve network-specific configuration parameters
     HelperConfig public helperConfig;
 
-    // Constants
+    //////////////////////////////////////////////////////////////
+    //                        CONSTANTS                        //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Pool fee tier for PancakeSwap V3 operations (0.05%)
+    /// @dev 500 represents 0.05% fee tier in basis points
     uint24 constant POOL_FEE = 500;
-    uint256 constant MANIPULATION_AMOUNT = 1000 ether; // Large swap to create price impact
-    address constant UNLOCKED_ACCOUNT = 0xb2cc224c1c9feE385f8ad6a55b4d94E92359DC59; // EOS address
+
+    /// @notice Amount of tokens to swap for price manipulation
+    /// @dev Large amount (1000 ETH) designed to create significant price impact
+    /// @custom:warning This large amount is intentionally chosen to demonstrate price impact
+    uint256 constant MANIPULATION_AMOUNT = 1000 ether;
+
+    /// @notice Address of the whale account to impersonate
+    /// @dev EOS address with substantial WETH balance for manipulation testing
+    /// @custom:impersonation This address will be impersonated using vm.startPrank
+    address constant UNLOCKED_ACCOUNT = 0xb2cc224c1c9feE385f8ad6a55b4d94E92359DC59;
 
     function setUp() public {
         console.log("Starting setup...");
