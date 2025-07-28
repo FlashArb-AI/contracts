@@ -48,6 +48,16 @@ contract PriceManipulation is Script {
     /// @custom:impersonation This address will be impersonated using vm.startPrank
     address constant UNLOCKED_ACCOUNT = 0xb2cc224c1c9feE385f8ad6a55b4d94E92359DC59;
 
+    //////////////////////////////////////////////////////////////
+    //                        FUNCTIONS                        //
+    //////////////////////////////////////////////////////////////
+
+    /**
+     * @notice Initializes the script by setting up network configuration
+     * @dev Creates HelperConfig instance and loads Sepolia ETH configuration
+     *      Logs initial setup information for debugging purposes
+     * @custom:setup Called automatically by Foundry before script execution
+     */
     function setUp() public {
         console.log("Starting setup...");
         helperConfig = new HelperConfig();
