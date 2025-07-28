@@ -18,8 +18,16 @@ import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.so
  * @custom:warning Price manipulation can be illegal and unethical in real markets
  */
 contract PriceManipulation is Script {
-    // Configuration
+    //////////////////////////////////////////////////////////////
+    //                        STATE VARIABLES                  //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Network configuration struct containing addresses and parameters
+    /// @dev Loaded from HelperConfig to get network-specific contract addresses
     HelperConfig.ForkNetworkConfig public networkConfig;
+
+    /// @notice Helper configuration contract instance
+    /// @dev Used to retrieve network-specific configuration parameters
     HelperConfig public helperConfig;
 
     // Constants
