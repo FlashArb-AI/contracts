@@ -60,8 +60,11 @@ contract PriceManipulation is Script {
      */
     function setUp() public {
         console.log("Starting setup...");
+
+        // Initialize helper config to get network-specific addresses
         helperConfig = new HelperConfig();
         networkConfig = helperConfig.getSepoliaETHConfig();
+
         console.log("Setup complete. Config loaded.");
         console.log("WETH address:", networkConfig.weth);
         console.log("PancakeSwap Router:", networkConfig.pancakeSwapRouter);
