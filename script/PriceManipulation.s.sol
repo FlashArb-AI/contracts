@@ -60,24 +60,32 @@ contract PriceManipulation is Script {
      */
     function setUp() public {
         console.log("Starting setup...");
+
+        // Initialize helper config to get network-specific addresses
         helperConfig = new HelperConfig();
         networkConfig = helperConfig.getSepoliaETHConfig();
+
         console.log("Setup complete. Config loaded.");
         console.log("WETH address:", networkConfig.weth);
         console.log("PancakeSwap Router:", networkConfig.pancakeSwapRouter);
     }
 
     function getPriceQuote(address tokenIn, address tokenOut) internal returns (uint256) {
+        // Get the quoter contract instance from network config
         IQuoterV2 quoter = IQuoterV2(networkConfig.pancakeSwapQuoter);
 
+        // Prepare parameters for exact input single quote
+        // We quote for 1 ETH to get a standardized price reference
         IQuoterV2.QuoteExactInputSingleParams memory params = IQuoterV2.QuoteExactInputSingleParams({
             tokenIn: tokenIn,
             tokenOut: tokenOut,
-            amountIn: 1 ether, // Quote for 1 WETH
+            amountIn: 1 ether, // Quote for 1 WETH to standardize price comparison
             fee: POOL_FEE,
-            sqrtPriceLimitX96: 0
+            sqrtPriceLimitX96: 0 // No price limit for quote
         });
 
+        // Execute the quote and return only the amount out
+        // We ignore sqrtPriceX96After, initializedTicksCrossed, and gasEstimate
         (uint256 amountOut,,,) = quoter.quoteExactInputSingle(params);
         return amountOut;
     }
