@@ -70,6 +70,15 @@ contract PriceManipulation is Script {
         console.log("PancakeSwap Router:", networkConfig.pancakeSwapRouter);
     }
 
+    /**
+     * @notice Gets a price quote for swapping tokens using PancakeSwap V3 Quoter
+     * @dev Uses QuoteExactInputSingle to simulate a 1 ETH swap without executing
+     * @param tokenIn The input token address (token being sold)
+     * @param tokenOut The output token address (token being bought)
+     * @return amountOut The amount of output tokens that would be received for 1 ETH input
+     * @custom:gas This function makes an external call to the quoter contract
+     * @custom:precision Returns amount in output token's decimal precision
+     */
     function getPriceQuote(address tokenIn, address tokenOut) internal returns (uint256) {
         // Get the quoter contract instance from network config
         IQuoterV2 quoter = IQuoterV2(networkConfig.pancakeSwapQuoter);
