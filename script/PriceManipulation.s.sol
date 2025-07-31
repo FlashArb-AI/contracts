@@ -99,6 +99,19 @@ contract PriceManipulation is Script {
         return amountOut;
     }
 
+    /**
+     * @notice Main execution function that performs the price manipulation demonstration
+     * @dev Executes the following steps:
+     *      1. Set up whale account with ETH for gas
+     *      2. Record initial token balances and price
+     *      3. Impersonate whale account
+     *      4. Approve tokens for swap
+     *      5. Execute large swap to impact price
+     *      6. Record final balances and calculate price impact
+     * @custom:impersonation Uses vm.startPrank to impersonate whale account
+     * @custom:gas Provides 1 ETH to impersonated account for transaction gas
+     * @custom:slippage Sets amountOutMinimum to 0 for maximum slippage tolerance
+     */
     function run() public {
         console.log("Starting script execution...");
 
