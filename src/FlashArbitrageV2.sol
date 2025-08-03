@@ -31,4 +31,6 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
  * @custom:security Multiple security layers including reentrancy protection and access controls
  * @custom:optimization Gas-optimized storage layout and execution paths
  */
-contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {}
+contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {
+using SafeERC20 for IERC20;
+}
