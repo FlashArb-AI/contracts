@@ -11,4 +11,24 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
+/**
+ * @title ImprovedFlashArbitrage
+ * @author FlashArbAI
+ * @notice Advanced decentralized arbitrage contract with enhanced security, profitability checks, and multi-DEX support
+ * @dev Implements flash loan-based arbitrage with comprehensive safety measures and optimized execution paths
+ * 
+ * Key Improvements:
+ * - Pre-execution profitability simulation using quoters
+ * - Multi-token flash loan support for complex arbitrage strategies
+ * - Enhanced security with ReentrancyGuard, Ownable, and Pausable
+ * - Comprehensive event logging for analytics and monitoring
+ * - Emergency functions with time-locked withdrawals
+ * - Gas optimization through struct packing and efficient storage
+ * - Support for multiple fee tiers and custom slippage tolerance
+ * - Profit tracking and statistics
+ * - Whitelist system for authorized callers
+ * 
+ * @custom:security Multiple security layers including reentrancy protection and access controls
+ * @custom:optimization Gas-optimized storage layout and execution paths
+ */
 contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {}
