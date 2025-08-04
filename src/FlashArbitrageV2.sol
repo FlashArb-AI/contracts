@@ -33,4 +33,13 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
  */
 contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {
 using SafeERC20 for IERC20;
+
+    //////////////////////////////////////////////////////////////
+    //                        CONSTANTS                        //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Balancer V2 Vault address for flash loans
+    /// @dev Immutable reference to reduce gas costs on calls
+    IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
+    
 }
