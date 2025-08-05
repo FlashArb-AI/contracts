@@ -53,4 +53,6 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @notice Maximum allowed slippage in basis points (5%)
     /// @dev Safety limit to prevent excessive slippage
     uint256 private constant MAX_SLIPPAGE_BPS = 500;
+
+    uint256 private constant MIN_PROFIT_BPS = 10;
 }
