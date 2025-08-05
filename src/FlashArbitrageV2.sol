@@ -16,7 +16,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
  * @author FlashArbAI
  * @notice Advanced decentralized arbitrage contract with enhanced security, profitability checks, and multi-DEX support
  * @dev Implements flash loan-based arbitrage with comprehensive safety measures and optimized execution paths
- * 
+ *
  * Key Improvements:
  * - Pre-execution profitability simulation using quoters
  * - Multi-token flash loan support for complex arbitrage strategies
@@ -27,12 +27,12 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
  * - Support for multiple fee tiers and custom slippage tolerance
  * - Profit tracking and statistics
  * - Whitelist system for authorized callers
- * 
+ *
  * @custom:security Multiple security layers including reentrancy protection and access controls
  * @custom:optimization Gas-optimized storage layout and execution paths
  */
 contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {
-using SafeERC20 for IERC20;
+    using SafeERC20 for IERC20;
 
     //////////////////////////////////////////////////////////////
     //                        CONSTANTS                        //
@@ -41,7 +41,8 @@ using SafeERC20 for IERC20;
     /// @notice Balancer V2 Vault address for flash loans
     /// @dev Immutable reference to reduce gas costs on calls
     IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
-    gi
-    uint256 private constant MAX_BPS = 10000;
 
+    /// @notice Maximum basis points (100%)
+    /// @dev Used for percentage calculations and validations
+    uint256 private constant MAX_BPS = 10000;
 }
