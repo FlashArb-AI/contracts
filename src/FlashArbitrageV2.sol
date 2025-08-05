@@ -41,5 +41,7 @@ using SafeERC20 for IERC20;
     /// @notice Balancer V2 Vault address for flash loans
     /// @dev Immutable reference to reduce gas costs on calls
     IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
-    
+    gi
+    uint256 private constant MAX_BPS = 10000;
+
 }
