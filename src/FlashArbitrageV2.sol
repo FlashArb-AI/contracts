@@ -57,4 +57,16 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @notice Minimum profit threshold in basis points (0.1%)
     /// @dev Minimum profit required to execute arbitrage
     uint256 private constant MIN_PROFIT_BPS = 10;
+
+    struct ArbitrageParams {
+        address tokenIn;
+        address tokenOut;
+        uint256 flashAmount;
+        address router1;
+        address router2;
+        uint24 fee1;
+        uint24 fee2;
+        uint256 slippageBps;
+        uint256 deadline;
+    }
 }
