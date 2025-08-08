@@ -107,4 +107,8 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @notice Mapping of authorized addresses that can execute arbitrage
     /// @dev Prevents unauthorized access while allowing trusted bots/contracts
     mapping(address => bool) public authorizedCallers;
+
+    /// @notice Emergency withdrawal timelock timestamp
+    /// @dev Prevents immediate emergency withdrawals, adds security delay
+    uint256 public emergencyUnlockTime;
 }
