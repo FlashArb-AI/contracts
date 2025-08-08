@@ -96,5 +96,11 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         uint256 lastTradeTimestamp;
     }
 
+    //////////////////////////////////////////////////////////////
+    //                        STATE VARIABLES                 //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Contract performance statistics
+    /// @dev Updated after each successful arbitrage execution
     Statistics public stats;
 }
