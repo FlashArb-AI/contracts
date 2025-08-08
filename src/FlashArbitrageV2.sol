@@ -83,4 +83,11 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         uint256 slippageBps;
         uint256 deadline;
     }
+
+    struct Statistics {
+        uint256 totalTrades;
+        uint256 totalProfit;
+        uint256 totalVolume;
+        uint256 lastTradeTimestamp;
+    }
 }
