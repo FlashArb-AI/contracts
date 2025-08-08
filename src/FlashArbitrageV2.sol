@@ -84,6 +84,11 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         uint256 deadline;
     }
 
+    /// @notice Statistics tracking for contract performance
+    /// @param totalTrades Total number of successful arbitrage trades
+    /// @param totalProfit Cumulative profit in ETH equivalent
+    /// @param totalVolume Total volume traded across all arbitrages
+    /// @param lastTradeTimestamp Timestamp of the most recent trade
     struct Statistics {
         uint256 totalTrades;
         uint256 totalProfit;
