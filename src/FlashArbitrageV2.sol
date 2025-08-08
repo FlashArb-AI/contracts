@@ -104,5 +104,7 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @dev Updated after each successful arbitrage execution
     Statistics public stats;
 
+    /// @notice Mapping of authorized addresses that can execute arbitrage
+    /// @dev Prevents unauthorized access while allowing trusted bots/contracts
     mapping(address => bool) public authorizedCallers;
 }
