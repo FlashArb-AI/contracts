@@ -58,6 +58,20 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @dev Minimum profit required to execute arbitrage
     uint256 private constant MIN_PROFIT_BPS = 10;
 
+    //////////////////////////////////////////////////////////////
+    //                        STRUCTS                         //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Comprehensive trade parameters for arbitrage execution
+    /// @param tokenIn Input token address for the arbitrage
+    /// @param tokenOut Intermediate/output token address
+    /// @param flashAmount Amount to flash loan
+    /// @param router1 First DEX router address
+    /// @param router2 Second DEX router address
+    /// @param fee1 Fee tier for first swap (Uniswap V3 format)
+    /// @param fee2 Fee tier for second swap (Uniswap V3 format)
+    /// @param slippageBps Custom slippage tolerance in basis points
+    /// @param deadline Maximum execution time (timestamp)
     struct ArbitrageParams {
         address tokenIn;
         address tokenOut;
