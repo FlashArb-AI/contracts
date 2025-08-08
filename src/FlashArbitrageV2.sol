@@ -58,6 +58,20 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @dev Minimum profit required to execute arbitrage
     uint256 private constant MIN_PROFIT_BPS = 10;
 
+    //////////////////////////////////////////////////////////////
+    //                        STRUCTS                         //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Comprehensive trade parameters for arbitrage execution
+    /// @param tokenIn Input token address for the arbitrage
+    /// @param tokenOut Intermediate/output token address
+    /// @param flashAmount Amount to flash loan
+    /// @param router1 First DEX router address
+    /// @param router2 Second DEX router address
+    /// @param fee1 Fee tier for first swap (Uniswap V3 format)
+    /// @param fee2 Fee tier for second swap (Uniswap V3 format)
+    /// @param slippageBps Custom slippage tolerance in basis points
+    /// @param deadline Maximum execution time (timestamp)
     struct ArbitrageParams {
         address tokenIn;
         address tokenOut;
@@ -69,4 +83,28 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         uint256 slippageBps;
         uint256 deadline;
     }
+
+    /// @notice Statistics tracking for contract performance
+    /// @param totalTrades Total number of successful arbitrage trades
+    /// @param totalProfit Cumulative profit in ETH equivalent
+    /// @param totalVolume Total volume traded across all arbitrages
+    /// @param lastTradeTimestamp Timestamp of the most recent trade
+    struct Statistics {
+        uint256 totalTrades;
+        uint256 totalProfit;
+        uint256 totalVolume;
+        uint256 lastTradeTimestamp;
+    }
+
+    //////////////////////////////////////////////////////////////
+    //                        STATE VARIABLES                 //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Contract performance statistics
+    /// @dev Updated after each successful arbitrage execution
+    Statistics public stats;
+
+    /// @notice Mapping of authorized addresses that can execute arbitrage
+    /// @dev Prevents unauthorized access while allowing trusted bots/contracts
+    mapping(address => bool) public authorizedCallers;
 }
