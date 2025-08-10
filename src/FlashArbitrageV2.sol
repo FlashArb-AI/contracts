@@ -158,4 +158,13 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         require(authorizedCallers[msg.sender] || msg.sender == owner(), "Not authorized");
         _;
     }
+
+    modifier validTradeParams(ArbitrageParams memory params) {
+        require(params.tokenIn != address(0) && params.tokenOut != address(0), "Invalid token addresses");
+        require(params.router1 != address(0) && params.router2 != address(0), "Invalid router addresses");
+        require(params.flashAmount > 0, "Flash amount must be > 0");
+        require(params.slippageBps <= MAX_SLIPPAGE_BPS, "Slippage too high");
+        require(params.deadline >= block.timestamp, "Trade deadline passed");
+        _;
+    }
 }
