@@ -133,4 +133,6 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     event ArbitrageExecuted(
         address indexed tokenIn, address indexed tokenOut, uint256 flashAmount, uint256 profit, uint256 gasUsed
     );
+
+    event CallerAuthorizationChanged(address indexed caller, bool authorized);
 }
