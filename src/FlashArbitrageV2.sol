@@ -147,4 +147,9 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @notice Emitted when emergency withdrawal is initiated
     /// @param unlockTime Timestamp when withdrawal becomes available
     event EmergencyWithdrawalInitiated(uint256 unlockTime);
+
+    modifier onlyAuthorized() {
+        require(authorizedCallers[msg.sender] || msg.sender == owner(), "Not authorized");
+        _;
+    }
 }
