@@ -159,6 +159,8 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         _;
     }
 
+    /// @notice Validates trade parameters before execution
+    /// @param params Arbitrage parameters to validate
     modifier validTradeParams(ArbitrageParams memory params) {
         require(params.tokenIn != address(0) && params.tokenOut != address(0), "Invalid token addresses");
         require(params.router1 != address(0) && params.router2 != address(0), "Invalid router addresses");
