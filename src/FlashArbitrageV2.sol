@@ -134,5 +134,8 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         address indexed tokenIn, address indexed tokenOut, uint256 flashAmount, uint256 profit, uint256 gasUsed
     );
 
+    /// @notice Emitted when an address is authorized or deauthorized
+    /// @param caller Address being authorized/deauthorized
+    /// @param authorized New authorization status
     event CallerAuthorizationChanged(address indexed caller, bool authorized);
 }
