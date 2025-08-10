@@ -148,6 +148,12 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @param unlockTime Timestamp when withdrawal becomes available
     event EmergencyWithdrawalInitiated(uint256 unlockTime);
 
+    //////////////////////////////////////////////////////////////
+    //                        MODIFIERS                       //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Restricts function access to authorized callers only
+    /// @dev Prevents unauthorized arbitrage execution
     modifier onlyAuthorized() {
         require(authorizedCallers[msg.sender] || msg.sender == owner(), "Not authorized");
         _;
