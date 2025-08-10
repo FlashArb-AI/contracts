@@ -115,4 +115,58 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @notice Duration of emergency timelock in seconds (24 hours)
     /// @dev Time delay before emergency withdrawals become available
     uint256 public constant EMERGENCY_TIMELOCK = 24 hours;
+
+    /// @notice Address to receive profits (can be different from owner)
+    /// @dev Allows profit distribution to a separate address
+    address public profitRecipient;
+
+    //////////////////////////////////////////////////////////////
+    //                        EVENTS                          //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Emitted when a successful arbitrage trade is executed
+    /// @param tokenIn Address of the input token
+    /// @param tokenOut Address of the output token
+    /// @param flashAmount Amount of tokens flash loaned
+    /// @param profit Net profit from the arbitrage trade
+    /// @param gasUsed Gas consumed by the transaction
+    event ArbitrageExecuted(
+        address indexed tokenIn, address indexed tokenOut, uint256 flashAmount, uint256 profit, uint256 gasUsed
+    );
+
+    /// @notice Emitted when an address is authorized or deauthorized
+    /// @param caller Address being authorized/deauthorized
+    /// @param authorized New authorization status
+    event CallerAuthorizationChanged(address indexed caller, bool authorized);
+
+    /// @notice Emitted when profit recipient is changed
+    /// @param oldRecipient Previous profit recipient address
+    /// @param newRecipient New profit recipient address
+    event ProfitRecipientChanged(address indexed oldRecipient, address indexed newRecipient);
+
+    /// @notice Emitted when emergency withdrawal is initiated
+    /// @param unlockTime Timestamp when withdrawal becomes available
+    event EmergencyWithdrawalInitiated(uint256 unlockTime);
+
+    //////////////////////////////////////////////////////////////
+    //                        MODIFIERS                       //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Restricts function access to authorized callers only
+    /// @dev Prevents unauthorized arbitrage execution
+    modifier onlyAuthorized() {
+        require(authorizedCallers[msg.sender] || msg.sender == owner(), "Not authorized");
+        _;
+    }
+
+    /// @notice Validates trade parameters before execution
+    /// @param params Arbitrage parameters to validate
+    modifier validTradeParams(ArbitrageParams memory params) {
+        require(params.tokenIn != address(0) && params.tokenOut != address(0), "Invalid token addresses");
+        require(params.router1 != address(0) && params.router2 != address(0), "Invalid router addresses");
+        require(params.flashAmount > 0, "Flash amount must be > 0");
+        require(params.slippageBps <= MAX_SLIPPAGE_BPS, "Slippage too high");
+        require(params.deadline >= block.timestamp, "Trade deadline passed");
+        _;
+    }
 }
