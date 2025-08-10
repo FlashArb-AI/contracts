@@ -143,4 +143,6 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @param oldRecipient Previous profit recipient address
     /// @param newRecipient New profit recipient address
     event ProfitRecipientChanged(address indexed oldRecipient, address indexed newRecipient);
+
+    event EmergencyWithdrawalInitiated(uint256 unlockTime);
 }
