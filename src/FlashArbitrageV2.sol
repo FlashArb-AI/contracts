@@ -115,4 +115,6 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @notice Duration of emergency timelock in seconds (24 hours)
     /// @dev Time delay before emergency withdrawals become available
     uint256 public constant EMERGENCY_TIMELOCK = 24 hours;
+
+    address public profitRecipient;
 }
