@@ -120,6 +120,16 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @dev Allows profit distribution to a separate address
     address public profitRecipient;
 
+    //////////////////////////////////////////////////////////////
+    //                        EVENTS                          //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Emitted when a successful arbitrage trade is executed
+    /// @param tokenIn Address of the input token
+    /// @param tokenOut Address of the output token
+    /// @param flashAmount Amount of tokens flash loaned
+    /// @param profit Net profit from the arbitrage trade
+    /// @param gasUsed Gas consumed by the transaction
     event ArbitrageExecuted(
         address indexed tokenIn, address indexed tokenOut, uint256 flashAmount, uint256 profit, uint256 gasUsed
     );
