@@ -138,4 +138,6 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @param caller Address being authorized/deauthorized
     /// @param authorized New authorization status
     event CallerAuthorizationChanged(address indexed caller, bool authorized);
+
+    event ProfitRecipientChanged(address indexed oldRecipient, address indexed newRecipient);
 }
