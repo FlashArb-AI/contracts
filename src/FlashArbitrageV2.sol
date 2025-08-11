@@ -169,4 +169,21 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         require(params.deadline >= block.timestamp, "Trade deadline passed");
         _;
     }
+
+    //////////////////////////////////////////////////////////////
+    //                        CONSTRUCTOR                     //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Initializes the contract with enhanced security features
+    /// @dev Sets up ownership, authorizes deployer, and initializes profit recipient
+    constructor() {
+        // Authorize the deployer for initial testing
+        authorizedCallers[msg.sender] = true;
+
+        // Set deployer as initial profit recipient
+        profitRecipient = msg.sender;
+
+        emit CallerAuthorizationChanged(msg.sender, true);
+        emit ProfitRecipientChanged(address(0), msg.sender);
+    }
 }
