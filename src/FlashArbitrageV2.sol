@@ -186,4 +186,38 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         emit CallerAuthorizationChanged(msg.sender, true);
         emit ProfitRecipientChanged(address(0), msg.sender);
     }
+
+    function executeArbitrage(ArbitrageParams calldata params)
+        external
+        nonReentrant
+        whenNotPaused
+        onlyAuthorized
+        validTradeParams(params)
+    {
+        uint256 gasStart = gasleft();
+
+        // Pre-execution profitability check to avoid wasting gas
+        uint256 estimatedProfit = _estimateProfit(params);
+        uint256 minProfit = (params.flashAmount * MIN_PROFIT_BPS) / MAX_BPS;
+        require(estimatedProfit > minProfit, "Insufficient profit potential");
+
+        // Prepare flash loan data
+        bytes memory data = abi.encode(params);
+
+        // Setup flash loan arrays
+        IERC20[] memory tokens = new IERC20[](1);
+        tokens[0] = IERC20(params.tokenIn);
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = params.flashAmount;
+
+        // Execute flash loan
+        VAULT.flashLoan(this, tokens, amounts, data);
+
+        // Calculate and log gas usage
+        uint256 gasUsed = gasStart - gasleft();
+
+        // Update statistics
+        _updateStatistics(params.flashAmount, estimatedProfit, gasUsed);
+    }
 }
