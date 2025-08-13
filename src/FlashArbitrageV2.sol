@@ -187,6 +187,15 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         emit ProfitRecipientChanged(address(0), msg.sender);
     }
 
+    //////////////////////////////////////////////////////////////
+    //                        MAIN FUNCTIONS                  //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Executes arbitrage with profitability pre-check and enhanced security
+    /// @dev Validates profitability before executing flash loan to save gas on unprofitable trades
+    /// @param params Comprehensive arbitrage parameters
+    /// @custom:security Protected by multiple modifiers and profitability checks
+    /// @custom:gas Includes gas tracking for analytics
     function executeArbitrage(ArbitrageParams calldata params)
         external
         nonReentrant
