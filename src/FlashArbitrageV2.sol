@@ -229,4 +229,46 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         // Update statistics
         _updateStatistics(params.flashAmount, estimatedProfit, gasUsed);
     }
+
+    function receiveFlashLoan(
+        IERC20[] memory tokens,
+        uint256[] memory amounts,
+        uint256[] memory feeAmounts,
+        bytes memory userData
+    ) external override {
+        require(msg.sender == address(VAULT), "Only Vault can call");
+
+        // Decode arbitrage parameters
+        ArbitrageParams memory params = abi.decode(userData, (ArbitrageParams));
+        uint256 flashAmount = amounts[0];
+
+        // Record initial balance for profit calculation
+        uint256 initialBalance = tokens[0].balanceOf(address(this));
+
+        // Execute first swap: tokenIn -> tokenOut on DEX1
+        uint256 intermediateAmount =
+            _executeSwap(params.router1, params.tokenIn, params.tokenOut, flashAmount, params.fee1, params.slippageBps);
+
+        // Execute second swap: tokenOut -> tokenIn on DEX2
+        uint256 expectedMinOut = flashAmount + ((flashAmount * MIN_PROFIT_BPS) / MAX_BPS);
+        _executeSwap(
+            params.router2, params.tokenOut, params.tokenIn, intermediateAmount, params.fee2, params.slippageBps
+        );
+
+        // Validate profitability after execution
+        uint256 finalBalance = tokens[0].balanceOf(address(this));
+        require(finalBalance >= initialBalance + expectedMinOut, "Insufficient profit realized");
+
+        // Repay flash loan
+        tokens[0].safeTransfer(address(VAULT), flashAmount);
+
+        // Calculate and transfer profit
+        uint256 profit = finalBalance - initialBalance - flashAmount;
+        if (profit > 0) {
+            tokens[0].safeTransfer(profitRecipient, profit);
+        }
+
+        // Emit success event
+        emit ArbitrageExecuted(params.tokenIn, params.tokenOut, flashAmount, profit, 0);
+    }
 }
