@@ -230,6 +230,13 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         _updateStatistics(params.flashAmount, estimatedProfit, gasUsed);
     }
 
+    /// @notice Flash loan callback with enhanced error handling and profit validation
+    /// @dev Called by Balancer V2 Vault, executes the arbitrage strategy
+    /// @param tokens Array of tokens flash loaned
+    /// @param amounts Array of amounts flash loaned
+    /// @param feeAmounts Flash loan fees (0 for Balancer V2)
+    /// @param userData Encoded arbitrage parameters
+    /// @custom:security Restricted to Vault calls only with comprehensive validation
     function receiveFlashLoan(
         IERC20[] memory tokens,
         uint256[] memory amounts,
