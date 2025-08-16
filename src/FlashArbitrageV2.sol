@@ -278,4 +278,10 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         // Emit success event
         emit ArbitrageExecuted(params.tokenIn, params.tokenOut, flashAmount, profit, 0);
     }
+
+    function setAuthorizedCaller(address caller, bool authorized) external onlyOwner {
+        require(caller != address(0), "Invalid caller address");
+        authorizedCallers[caller] = authorized;
+        emit CallerAuthorizationChanged(caller, authorized);
+    }
 }
