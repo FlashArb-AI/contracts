@@ -424,4 +424,11 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         // Reset approval for security
         tokenInContract.safeApprove(router, 0);
     }
+
+    function _updateStatistics(uint256 volume, uint256 profit, uint256 gasUsed) internal {
+        stats.totalTrades++;
+        stats.totalProfit += profit;
+        stats.totalVolume += volume;
+        stats.lastTradeTimestamp = block.timestamp;
+    }
 }
