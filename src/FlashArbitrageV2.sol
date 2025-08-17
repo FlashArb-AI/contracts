@@ -303,4 +303,8 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         profitRecipient = newRecipient;
         emit ProfitRecipientChanged(oldRecipient, newRecipient);
     }
+
+    function pause() external onlyOwner {
+        _pause();
+    }
 }
