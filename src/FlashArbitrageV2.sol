@@ -353,6 +353,11 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         return _estimateProfit(params);
     }
 
+    /// @notice Returns current contract statistics
+    /// @return totalTrades Total successful arbitrage executions
+    /// @return totalProfit Cumulative profit generated
+    /// @return totalVolume Total trading volume processed
+    /// @return lastTradeTimestamp Most recent trade timestamp
     function getStatistics()
         external
         view
