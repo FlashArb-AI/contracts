@@ -381,6 +381,15 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         return (params.flashAmount * MIN_PROFIT_BPS) / MAX_BPS;
     }
 
+    /// @notice Executes a single swap with enhanced error handling and slippage protection
+    /// @param router Router address for the swap
+    /// @param tokenIn Input token address
+    /// @param tokenOut Output token address
+    /// @param amountIn Amount of input tokens
+    /// @param fee Pool fee tier
+    /// @param slippageBps Slippage tolerance in basis points
+    /// @return amountOut Amount of tokens received from swap
+
     function _executeSwap(
         address router,
         address tokenIn,
