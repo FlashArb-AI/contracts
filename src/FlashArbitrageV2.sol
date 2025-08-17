@@ -425,6 +425,11 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         tokenInContract.safeApprove(router, 0);
     }
 
+    /// @notice Updates contract statistics after successful arbitrage
+    /// @param volume Trade volume to add
+    /// @param profit Profit to add
+    /// @param gasUsed Gas consumed by the trade
+    /// @dev Internal function to maintain performance metrics
     function _updateStatistics(uint256 volume, uint256 profit, uint256 gasUsed) internal {
         stats.totalTrades++;
         stats.totalProfit += profit;
