@@ -340,6 +340,15 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         emit EmergencyWithdrawal(token, withdrawAmount, profitRecipient);
     }
 
+    //////////////////////////////////////////////////////////////
+    //                        VIEW FUNCTIONS                  //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Estimates potential profit for an arbitrage opportunity
+    /// @param params Arbitrage parameters to analyze
+    /// @return estimatedProfit Expected profit in input token units
+    /// @dev Uses quoters to simulate trades without execution
+
     function estimateProfit(ArbitrageParams calldata params) external returns (uint256 estimatedProfit) {
         return _estimateProfit(params);
     }
