@@ -315,4 +315,9 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     function unpause() external onlyOwner {
         _unpause();
     }
+
+    function initiateEmergencyWithdrawal() external onlyOwner {
+        emergencyUnlockTime = block.timestamp + EMERGENCY_TIMELOCK;
+        emit EmergencyWithdrawalInitiated(emergencyUnlockTime);
+    }
 }
