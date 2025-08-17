@@ -352,4 +352,12 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     function estimateProfit(ArbitrageParams calldata params) external returns (uint256 estimatedProfit) {
         return _estimateProfit(params);
     }
+
+    function getStatistics()
+        external
+        view
+        returns (uint256 totalTrades, uint256 totalProfit, uint256 totalVolume, uint256 lastTradeTimestamp)
+    {
+        return (stats.totalTrades, stats.totalProfit, stats.totalVolume, stats.lastTradeTimestamp);
+    }
 }
