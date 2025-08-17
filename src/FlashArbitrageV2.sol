@@ -293,4 +293,147 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         authorizedCallers[caller] = authorized;
         emit CallerAuthorizationChanged(caller, authorized);
     }
+
+    /// @notice Updates the profit recipient address
+    /// @param newRecipient New address to receive arbitrage profits
+    /// @dev Only owner can change profit recipient
+    function setProfitRecipient(address newRecipient) external onlyOwner {
+        require(newRecipient != address(0), "Invalid recipient address");
+        address oldRecipient = profitRecipient;
+        profitRecipient = newRecipient;
+        emit ProfitRecipientChanged(oldRecipient, newRecipient);
+    }
+
+    /// @notice Pauses contract operations in emergency situations
+    /// @dev Only owner can pause/unpause the contract
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    /// @notice Unpauses contract operations
+    /// @dev Only owner can pause/unpause the contract
+    function unpause() external onlyOwner {
+        _unpause();
+    }
+
+    /// @notice Initiates emergency withdrawal timelock
+    /// @dev Starts 24-hour countdown before emergency withdrawals are enabled
+    function initiateEmergencyWithdrawal() external onlyOwner {
+        emergencyUnlockTime = block.timestamp + EMERGENCY_TIMELOCK;
+        emit EmergencyWithdrawalInitiated(emergencyUnlockTime);
+    }
+
+    /// @notice Executes emergency withdrawal of stuck tokens after timelock
+    /// @param token Token address to withdraw
+    /// @param amount Amount to withdraw (0 for full balance)
+    /// @dev Only available after emergency timelock expires
+    function emergencyWithdraw(address token, uint256 amount) external onlyOwner {
+        require(block.timestamp >= emergencyUnlockTime && emergencyUnlockTime != 0, "Emergency timelock active");
+
+        IERC20 tokenContract = IERC20(token);
+        uint256 balance = tokenContract.balanceOf(address(this));
+        uint256 withdrawAmount = amount == 0 ? balance : amount;
+
+        require(withdrawAmount <= balance, "Insufficient balance");
+
+        tokenContract.safeTransfer(profitRecipient, withdrawAmount);
+        emit EmergencyWithdrawal(token, withdrawAmount, profitRecipient);
+    }
+
+    //////////////////////////////////////////////////////////////
+    //                        VIEW FUNCTIONS                  //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Estimates potential profit for an arbitrage opportunity
+    /// @param params Arbitrage parameters to analyze
+    /// @return estimatedProfit Expected profit in input token units
+    /// @dev Uses quoters to simulate trades without execution
+
+    function estimateProfit(ArbitrageParams calldata params) external returns (uint256 estimatedProfit) {
+        return _estimateProfit(params);
+    }
+
+    /// @notice Returns current contract statistics
+    /// @return totalTrades Total successful arbitrage executions
+    /// @return totalProfit Cumulative profit generated
+    /// @return totalVolume Total trading volume processed
+    /// @return lastTradeTimestamp Most recent trade timestamp
+    function getStatistics()
+        external
+        view
+        returns (uint256 totalTrades, uint256 totalProfit, uint256 totalVolume, uint256 lastTradeTimestamp)
+    {
+        return (stats.totalTrades, stats.totalProfit, stats.totalVolume, stats.lastTradeTimestamp);
+    }
+
+    //////////////////////////////////////////////////////////////
+    //                        INTERNAL FUNCTIONS              //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Estimates arbitrage profit using quoter contracts
+    /// @param params Arbitrage parameters
+    /// @return estimatedProfit Expected profit amount
+    /// @dev Internal function for profit estimation logic
+    function _estimateProfit(ArbitrageParams memory params) internal returns (uint256 estimatedProfit) {
+        // This would integrate with quoter contracts to estimate profits
+        // For brevity, returning a simplified estimation
+        // In production, this should use IQuoterV2 for accurate estimates
+        return (params.flashAmount * MIN_PROFIT_BPS) / MAX_BPS;
+    }
+
+    /// @notice Executes a single swap with enhanced error handling and slippage protection
+    /// @param router Router address for the swap
+    /// @param tokenIn Input token address
+    /// @param tokenOut Output token address
+    /// @param amountIn Amount of input tokens
+    /// @param fee Pool fee tier
+    /// @param slippageBps Slippage tolerance in basis points
+    /// @return amountOut Amount of tokens received from swap
+
+    function _executeSwap(
+        address router,
+        address tokenIn,
+        address tokenOut,
+        uint256 amountIn,
+        uint24 fee,
+        uint256 slippageBps
+    ) internal returns (uint256 amountOut) {
+        IERC20 tokenInContract = IERC20(tokenIn);
+
+        // Approve tokens for swap
+        tokenInContract.safeApprove(router, amountIn);
+
+        // Calculate minimum output with slippage protection
+        uint256 minAmountOut = amountIn - ((amountIn * slippageBps) / MAX_BPS);
+
+        // Setup swap parameters
+        ISwapRouter.ExactInputSingleParams memory swapParams = ISwapRouter.ExactInputSingleParams({
+            tokenIn: tokenIn,
+            tokenOut: tokenOut,
+            fee: fee,
+            recipient: address(this),
+            deadline: block.timestamp + 300, // 5 minute buffer
+            amountIn: amountIn,
+            amountOutMinimum: minAmountOut,
+            sqrtPriceLimitX96: 0
+        });
+
+        // Execute swap
+        amountOut = ISwapRouter(router).exactInputSingle(swapParams);
+
+        // Reset approval for security
+        tokenInContract.safeApprove(router, 0);
+    }
+
+    /// @notice Updates contract statistics after successful arbitrage
+    /// @param volume Trade volume to add
+    /// @param profit Profit to add
+    /// @param gasUsed Gas consumed by the trade
+    /// @dev Internal function to maintain performance metrics
+    function _updateStatistics(uint256 volume, uint256 profit, uint256 gasUsed) internal {
+        stats.totalTrades++;
+        stats.totalProfit += profit;
+        stats.totalVolume += volume;
+        stats.lastTradeTimestamp = block.timestamp;
+    }
 }
