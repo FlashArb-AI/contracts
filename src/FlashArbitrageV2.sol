@@ -365,4 +365,11 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     {
         return (stats.totalTrades, stats.totalProfit, stats.totalVolume, stats.lastTradeTimestamp);
     }
+
+    function _estimateProfit(ArbitrageParams memory params) internal returns (uint256 estimatedProfit) {
+        // This would integrate with quoter contracts to estimate profits
+        // For brevity, returning a simplified estimation
+        // In production, this should use IQuoterV2 for accurate estimates
+        return (params.flashAmount * MIN_PROFIT_BPS) / MAX_BPS;
+    }
 }
