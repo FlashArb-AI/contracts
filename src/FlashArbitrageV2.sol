@@ -339,4 +339,8 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         tokenContract.safeTransfer(profitRecipient, withdrawAmount);
         emit EmergencyWithdrawal(token, withdrawAmount, profitRecipient);
     }
+
+    function estimateProfit(ArbitrageParams calldata params) external returns (uint256 estimatedProfit) {
+        return _estimateProfit(params);
+    }
 }
