@@ -316,6 +316,8 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         _unpause();
     }
 
+    /// @notice Initiates emergency withdrawal timelock
+    /// @dev Starts 24-hour countdown before emergency withdrawals are enabled
     function initiateEmergencyWithdrawal() external onlyOwner {
         emergencyUnlockTime = block.timestamp + EMERGENCY_TIMELOCK;
         emit EmergencyWithdrawalInitiated(emergencyUnlockTime);
