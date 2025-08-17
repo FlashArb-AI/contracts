@@ -310,6 +310,8 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         _pause();
     }
 
+    /// @notice Unpauses contract operations
+    /// @dev Only owner can pause/unpause the contract
     function unpause() external onlyOwner {
         _unpause();
     }
