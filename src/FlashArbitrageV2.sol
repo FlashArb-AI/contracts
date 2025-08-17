@@ -323,6 +323,10 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         emit EmergencyWithdrawalInitiated(emergencyUnlockTime);
     }
 
+    /// @notice Executes emergency withdrawal of stuck tokens after timelock
+    /// @param token Token address to withdraw
+    /// @param amount Amount to withdraw (0 for full balance)
+    /// @dev Only available after emergency timelock expires
     function emergencyWithdraw(address token, uint256 amount) external onlyOwner {
         require(block.timestamp >= emergencyUnlockTime && emergencyUnlockTime != 0, "Emergency timelock active");
 
