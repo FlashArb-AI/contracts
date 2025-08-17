@@ -294,6 +294,9 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         emit CallerAuthorizationChanged(caller, authorized);
     }
 
+    /// @notice Updates the profit recipient address
+    /// @param newRecipient New address to receive arbitrage profits
+    /// @dev Only owner can change profit recipient
     function setProfitRecipient(address newRecipient) external onlyOwner {
         require(newRecipient != address(0), "Invalid recipient address");
         address oldRecipient = profitRecipient;
