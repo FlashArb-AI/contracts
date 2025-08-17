@@ -380,4 +380,39 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         // In production, this should use IQuoterV2 for accurate estimates
         return (params.flashAmount * MIN_PROFIT_BPS) / MAX_BPS;
     }
+
+    function _executeSwap(
+        address router,
+        address tokenIn,
+        address tokenOut,
+        uint256 amountIn,
+        uint24 fee,
+        uint256 slippageBps
+    ) internal returns (uint256 amountOut) {
+        IERC20 tokenInContract = IERC20(tokenIn);
+
+        // Approve tokens for swap
+        tokenInContract.safeApprove(router, amountIn);
+
+        // Calculate minimum output with slippage protection
+        uint256 minAmountOut = amountIn - ((amountIn * slippageBps) / MAX_BPS);
+
+        // Setup swap parameters
+        ISwapRouter.ExactInputSingleParams memory swapParams = ISwapRouter.ExactInputSingleParams({
+            tokenIn: tokenIn,
+            tokenOut: tokenOut,
+            fee: fee,
+            recipient: address(this),
+            deadline: block.timestamp + 300, // 5 minute buffer
+            amountIn: amountIn,
+            amountOutMinimum: minAmountOut,
+            sqrtPriceLimitX96: 0
+        });
+
+        // Execute swap
+        amountOut = ISwapRouter(router).exactInputSingle(swapParams);
+
+        // Reset approval for security
+        tokenInContract.safeApprove(router, 0);
+    }
 }
