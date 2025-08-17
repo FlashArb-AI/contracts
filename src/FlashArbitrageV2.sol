@@ -322,4 +322,17 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         emergencyUnlockTime = block.timestamp + EMERGENCY_TIMELOCK;
         emit EmergencyWithdrawalInitiated(emergencyUnlockTime);
     }
+
+    function emergencyWithdraw(address token, uint256 amount) external onlyOwner {
+        require(block.timestamp >= emergencyUnlockTime && emergencyUnlockTime != 0, "Emergency timelock active");
+
+        IERC20 tokenContract = IERC20(token);
+        uint256 balance = tokenContract.balanceOf(address(this));
+        uint256 withdrawAmount = amount == 0 ? balance : amount;
+
+        require(withdrawAmount <= balance, "Insufficient balance");
+
+        tokenContract.safeTransfer(profitRecipient, withdrawAmount);
+        emit EmergencyWithdrawal(token, withdrawAmount, profitRecipient);
+    }
 }
