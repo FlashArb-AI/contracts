@@ -293,4 +293,11 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         authorizedCallers[caller] = authorized;
         emit CallerAuthorizationChanged(caller, authorized);
     }
+
+    function setProfitRecipient(address newRecipient) external onlyOwner {
+        require(newRecipient != address(0), "Invalid recipient address");
+        address oldRecipient = profitRecipient;
+        profitRecipient = newRecipient;
+        emit ProfitRecipientChanged(oldRecipient, newRecipient);
+    }
 }
