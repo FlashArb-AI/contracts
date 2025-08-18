@@ -46,5 +46,6 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Maximum basis points (100%)
     uint256 private constant MAX_BPS = 10000;
 
+    /// @notice Default slippage tolerance in basis points (1%)
     uint256 private constant DEFAULT_SLIPPAGE_BPS = 100;
 }
