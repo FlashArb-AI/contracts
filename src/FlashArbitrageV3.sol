@@ -35,4 +35,6 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
  */
 contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {
     using SafeERC20 for IERC20;
+
+    IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
 }
