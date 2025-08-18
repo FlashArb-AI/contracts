@@ -43,5 +43,6 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Balancer V2 Vault address for flash loans
     IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
 
+    /// @notice Maximum basis points (100%)
     uint256 private constant MAX_BPS = 10000;
 }
