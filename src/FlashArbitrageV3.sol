@@ -63,4 +63,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
     /// @notice Circuit breaker threshold (10% of total volume)
     uint256 private constant CIRCUIT_BREAKER_THRESHOLD_BPS = 1000;
+
+    /// @notice MEV protection minimum delay in blocks
+    uint256 private constant MEV_PROTECTION_BLOCKS = 2;
 }
