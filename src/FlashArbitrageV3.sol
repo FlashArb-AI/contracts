@@ -57,4 +57,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
     /// @notice Maximum number of tokens in a single flash loan
     uint256 private constant MAX_FLASH_TOKENS = 5;
+
+    /// @notice Maximum number of hops in a trading route
+    uint256 private constant MAX_ROUTE_HOPS = 4;
 }
