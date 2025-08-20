@@ -54,4 +54,16 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
     /// @notice Base minimum profit threshold in basis points (0.05%)
     uint256 private constant BASE_MIN_PROFIT_BPS = 5;
+
+    /// @notice Maximum number of tokens in a single flash loan
+    uint256 private constant MAX_FLASH_TOKENS = 5;
+
+    /// @notice Maximum number of hops in a trading route
+    uint256 private constant MAX_ROUTE_HOPS = 4;
+
+    /// @notice Circuit breaker threshold (10% of total volume)
+    uint256 private constant CIRCUIT_BREAKER_THRESHOLD_BPS = 1000;
+
+    /// @notice MEV protection minimum delay in blocks
+    uint256 private constant MEV_PROTECTION_BLOCKS = 2;
 }
