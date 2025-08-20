@@ -66,4 +66,12 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
     /// @notice MEV protection minimum delay in blocks
     uint256 private constant MEV_PROTECTION_BLOCKS = 2;
+
+    enum DexProtocol {
+        UNISWAP_V3,
+        SUSHISWAP,
+        CURVE,
+        BALANCER_V2,
+        BANCOR_V3
+    }
 }
