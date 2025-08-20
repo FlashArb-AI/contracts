@@ -60,4 +60,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
     /// @notice Maximum number of hops in a trading route
     uint256 private constant MAX_ROUTE_HOPS = 4;
+
+    /// @notice Circuit breaker threshold (10% of total volume)
+    uint256 private constant CIRCUIT_BREAKER_THRESHOLD_BPS = 1000;
 }
