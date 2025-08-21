@@ -79,4 +79,11 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         BALANCER_V2,
         BANCOR_V3
     }
+
+    /// @notice Circuit breaker states
+    enum CircuitBreakerState {
+        NORMAL,
+        WARNING,
+        EMERGENCY
+    }
 }
