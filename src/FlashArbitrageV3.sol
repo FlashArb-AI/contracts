@@ -86,4 +86,13 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         WARNING,
         EMERGENCY
     }
+
+    struct MultiFlashParams {
+        address[] tokens;
+        uint256[] amounts;
+        bytes32 strategyId;
+        uint256 deadline;
+        uint256 maxGasPrice;
+        bool mevProtection;
+    }
 }
