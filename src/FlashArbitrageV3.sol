@@ -87,6 +87,11 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         EMERGENCY
     }
 
+    //////////////////////////////////////////////////////////////
+    //                        STRUCTS                         //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Multi-token flash loan parameters
     struct MultiFlashParams {
         address[] tokens;
         uint256[] amounts;
