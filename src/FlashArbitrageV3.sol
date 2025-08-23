@@ -100,4 +100,13 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 maxGasPrice;
         bool mevProtection;
     }
+
+    struct ArbitrageRoute {
+        DexProtocol[] protocols;
+        address[] routers;
+        address[] tokens;
+        uint24[] fees;
+        uint256[] minAmountsOut;
+        bytes[] extraData; // For protocol-specific parameters
+    }
 }
