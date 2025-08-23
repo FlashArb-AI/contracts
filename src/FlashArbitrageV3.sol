@@ -87,6 +87,11 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         EMERGENCY
     }
 
+    //////////////////////////////////////////////////////////////
+    //                        STRUCTS                         //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Multi-token flash loan parameters
     struct MultiFlashParams {
         address[] tokens;
         uint256[] amounts;
@@ -94,5 +99,15 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 deadline;
         uint256 maxGasPrice;
         bool mevProtection;
+    }
+
+    /// @notice Enhanced arbitrage route with multi-hop support
+    struct ArbitrageRoute {
+        DexProtocol[] protocols;
+        address[] routers;
+        address[] tokens;
+        uint24[] fees;
+        uint256[] minAmountsOut;
+        bytes[] extraData; // For protocol-specific parameters
     }
 }
