@@ -101,6 +101,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         bool mevProtection;
     }
 
+    /// @notice Enhanced arbitrage route with multi-hop support
     struct ArbitrageRoute {
         DexProtocol[] protocols;
         address[] routers;
