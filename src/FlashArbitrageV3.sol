@@ -111,6 +111,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         bytes[] extraData; // For protocol-specific parameters
     }
 
+    /// @notice Enhanced statistics with volatility tracking
     struct StatisticsV3 {
         uint256 totalTrades;
         uint256 totalProfit;
