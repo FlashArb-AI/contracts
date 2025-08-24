@@ -123,6 +123,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 circuitBreakerTriggers;
     }
 
+    /// @notice Price feed configuration
     struct PriceFeedConfig {
         AggregatorV3Interface priceFeed;
         uint256 heartbeat;
