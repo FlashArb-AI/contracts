@@ -174,4 +174,12 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //                        EVENTS                          //
     //////////////////////////////////////////////////////////////
 
+   event MultiTokenArbitrageExecuted(
+        bytes32 indexed strategyId,
+        address[] tokens,
+        uint256[] amounts,
+        uint256 totalProfit,
+        uint256 gasUsed,
+        bool mevProtected
+    );
 }
