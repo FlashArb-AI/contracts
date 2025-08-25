@@ -167,4 +167,6 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Failed route tracking for optimization
     mapping(bytes32 => uint256) public failedRoutes;
 
+    uint256 public maxGasPrice = 100 gwei;
+
 }
