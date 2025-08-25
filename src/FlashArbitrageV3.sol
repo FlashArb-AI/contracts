@@ -147,4 +147,9 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 currentTrades;
         CircuitBreakerState state;
     }
+
+    //////////////////////////////////////////////////////////////
+    //                        STATE VARIABLES                 //
+    //////////////////////////////////////////////////////////////
+
 }
