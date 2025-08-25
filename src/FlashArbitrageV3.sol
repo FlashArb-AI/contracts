@@ -152,6 +152,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //                        STATE VARIABLES                 //
     //////////////////////////////////////////////////////////////
 
+    /// @notice Enhanced contract statistics
     StatisticsV3 public stats;
 
 }
