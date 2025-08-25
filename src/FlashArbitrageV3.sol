@@ -131,6 +131,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         bool isActive;
     }
 
+    /// @notice Profit sharing configuration
     struct ProfitSharing {
         address recipient;
         uint256 basisPoints;
