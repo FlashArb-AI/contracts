@@ -191,4 +191,11 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 currentVolume,
         uint256 threshold
     );
+
+    event RouteFailed(
+        bytes32 indexed routeHash,
+        DexProtocol protocol,
+        string reason,
+        uint256 timestamp
+    );
 }
