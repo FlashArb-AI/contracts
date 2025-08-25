@@ -164,4 +164,39 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Supported DEX routers by protocol
     mapping(DexProtocol => address[]) public dexRouters;
 
+    /// @notice Failed route tracking for optimization
+    mapping(bytes32 => uint256) public failedRoutes;
+
+    /// @notice Maximum gas price for execution
+    uint256 public maxGasPrice = 100 gwei;
+
+    //////////////////////////////////////////////////////////////
+    //                        EVENTS                          //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Emitted when a multi-token arbitrage is executed
+   event MultiTokenArbitrageExecuted(
+        bytes32 indexed strategyId,
+        address[] tokens,
+        uint256[] amounts,
+        uint256 totalProfit,
+        uint256 gasUsed,
+        bool mevProtected
+    );
+
+    /// @notice Emitted when circuit breaker state changes
+    event CircuitBreakerStateChanged(
+        CircuitBreakerState oldState,
+        CircuitBreakerState newState,
+        uint256 currentVolume,
+        uint256 threshold
+    );
+
+    /// @notice Emitted when a route fails
+    event RouteFailed(
+        bytes32 indexed routeHash,
+        DexProtocol protocol,
+        string reason,
+        uint256 timestamp
+    );
 }
