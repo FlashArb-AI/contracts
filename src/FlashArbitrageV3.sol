@@ -164,4 +164,6 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Supported DEX routers by protocol
     mapping(DexProtocol => address[]) public dexRouters;
 
+    mapping(bytes32 => uint256) public failedRoutes;
+
 }
