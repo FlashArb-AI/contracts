@@ -137,6 +137,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 basisPoints;
     }
 
+    /// @notice Circuit breaker configuration
     struct CircuitBreaker {
         uint256 maxVolumePerPeriod;
         uint256 maxTradesPerPeriod;
