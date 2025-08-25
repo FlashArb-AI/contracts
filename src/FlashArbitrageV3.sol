@@ -174,6 +174,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //                        EVENTS                          //
     //////////////////////////////////////////////////////////////
 
+    /// @notice Emitted when a multi-token arbitrage is executed
    event MultiTokenArbitrageExecuted(
         bytes32 indexed strategyId,
         address[] tokens,
