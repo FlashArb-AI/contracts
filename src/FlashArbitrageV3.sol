@@ -161,6 +161,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Price feed configurations by token
     mapping(address => PriceFeedConfig) public priceFeeds;
 
+    /// @notice Supported DEX routers by protocol
     mapping(DexProtocol => address[]) public dexRouters;
 
 }
