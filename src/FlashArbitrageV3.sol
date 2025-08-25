@@ -155,6 +155,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Enhanced contract statistics
     StatisticsV3 public stats;
 
+    /// @notice Mapping of authorized addresses
     mapping(address => bool) public authorizedCallers;
 
 }
