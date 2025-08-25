@@ -158,4 +158,6 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Mapping of authorized addresses
     mapping(address => bool) public authorizedCallers;
 
+    mapping(address => PriceFeedConfig) public priceFeeds;
+
 }
