@@ -130,4 +130,9 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 deviation;
         bool isActive;
     }
+
+    struct ProfitSharing {
+        address recipient;
+        uint256 basisPoints;
+    }
 }
