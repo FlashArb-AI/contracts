@@ -184,6 +184,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         bool mevProtected
     );
 
+    /// @notice Emitted when circuit breaker state changes
     event CircuitBreakerStateChanged(
         CircuitBreakerState oldState,
         CircuitBreakerState newState,
