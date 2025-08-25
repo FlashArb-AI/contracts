@@ -183,4 +183,11 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 gasUsed,
         bool mevProtected
     );
+
+    event CircuitBreakerStateChanged(
+        CircuitBreakerState oldState,
+        CircuitBreakerState newState,
+        uint256 currentVolume,
+        uint256 threshold
+    );
 }
