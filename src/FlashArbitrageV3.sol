@@ -136,4 +136,14 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         address recipient;
         uint256 basisPoints;
     }
+
+    struct CircuitBreaker {
+        uint256 maxVolumePerPeriod;
+        uint256 maxTradesPerPeriod;
+        uint256 periodDuration;
+        uint256 currentPeriodStart;
+        uint256 currentVolume;
+        uint256 currentTrades;
+        CircuitBreakerState state;
+    }
 }
