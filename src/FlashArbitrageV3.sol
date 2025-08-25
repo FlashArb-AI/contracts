@@ -130,4 +130,38 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 deviation;
         bool isActive;
     }
+
+    /// @notice Profit sharing configuration
+    struct ProfitSharing {
+        address recipient;
+        uint256 basisPoints;
+    }
+
+    /// @notice Circuit breaker configuration
+    struct CircuitBreaker {
+        uint256 maxVolumePerPeriod;
+        uint256 maxTradesPerPeriod;
+        uint256 periodDuration;
+        uint256 currentPeriodStart;
+        uint256 currentVolume;
+        uint256 currentTrades;
+        CircuitBreakerState state;
+    }
+
+    //////////////////////////////////////////////////////////////
+    //                        STATE VARIABLES                 //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Enhanced contract statistics
+    StatisticsV3 public stats;
+
+    /// @notice Mapping of authorized addresses
+    mapping(address => bool) public authorizedCallers;
+
+    /// @notice Price feed configurations by token
+    mapping(address => PriceFeedConfig) public priceFeeds;
+
+    /// @notice Supported DEX routers by protocol
+    mapping(DexProtocol => address[]) public dexRouters;
+
 }
