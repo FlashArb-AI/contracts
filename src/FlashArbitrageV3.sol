@@ -214,6 +214,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 basisPoints
     );
 
+    /// @notice Emitted when dynamic parameters are updated
     event DynamicParametersUpdated(
         uint256 newProfitMultiplier,
         uint256 volatilityIndex,
