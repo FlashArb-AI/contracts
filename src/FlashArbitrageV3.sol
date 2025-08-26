@@ -199,4 +199,32 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         string reason,
         uint256 timestamp
     );
+
+    /// @notice Emitted when price feed is updated
+    event PriceFeedUpdated(
+        address indexed token,
+        address indexed priceFeed,
+        uint256 heartbeat
+    );
+
+    /// @notice Emitted when profit is shared
+    event ProfitShared(
+        address indexed recipient,
+        uint256 amount,
+        uint256 basisPoints
+    );
+
+    /// @notice Emitted when dynamic parameters are updated
+    event DynamicParametersUpdated(
+        uint256 newProfitMultiplier,
+        uint256 volatilityIndex,
+        uint256 timestamp
+    );
+
+    /// @notice Missing event from V2
+    event EmergencyWithdrawal(
+        address indexed token,
+        uint256 amount,
+        address indexed recipient
+    );
 }
