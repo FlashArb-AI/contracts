@@ -221,6 +221,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 timestamp
     );
 
+    /// @notice Missing event from V2
     event EmergencyWithdrawal(
         address indexed token,
         uint256 amount,
