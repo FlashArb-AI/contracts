@@ -200,6 +200,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 timestamp
     );
 
+    /// @notice Emitted when price feed is updated
     event PriceFeedUpdated(
         address indexed token,
         address indexed priceFeed,
