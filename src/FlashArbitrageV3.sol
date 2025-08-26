@@ -227,4 +227,9 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 amount,
         address indexed recipient
     );
+
+    //////////////////////////////////////////////////////////////
+    //                        MODIFIERS                       //
+    //////////////////////////////////////////////////////////////
+
 }
