@@ -258,4 +258,14 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         require(tx.gasprice <= maxGas, "Gas price too high");
         _;
     }
+
+    modifier validTradeParamsV3(ArbitrageParamsV3 memory params) {
+        require(params.flashParams.tokens.length > 0, "No flash tokens");
+        require(params.flashParams.tokens.length <= MAX_FLASH_TOKENS, "Too many flash tokens");
+        require(params.buyRoute.tokens.length <= MAX_ROUTE_HOPS + 1, "Buy route too long");
+        require(params.sellRoute.tokens.length <= MAX_ROUTE_HOPS + 1, "Sell route too long");
+        require(params.flashParams.deadline >= block.timestamp, "Trade deadline passed");
+        require(params.maxExecutionTime > 0, "Invalid execution time");
+        _;
+    }
 }
