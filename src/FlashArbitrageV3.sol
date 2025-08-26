@@ -274,4 +274,20 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
 
+    constructor() {
+        authorizedCallers[msg.sender] = true;
+        
+        // Initialize circuit breaker
+        circuitBreaker = CircuitBreaker({
+            maxVolumePerPeriod: 1000 ether,
+            maxTradesPerPeriod: 100,
+            periodDuration: 1 hours,
+            currentPeriodStart: block.timestamp,
+            currentVolume: 0,
+            currentTrades: 0,
+            state: CircuitBreakerState.NORMAL
+        });
+
+        emit CallerAuthorizationChanged(msg.sender, true);
+    }
 }
