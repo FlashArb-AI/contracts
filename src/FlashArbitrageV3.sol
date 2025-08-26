@@ -227,4 +227,46 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 amount,
         address indexed recipient
     );
+
+    //////////////////////////////////////////////////////////////
+    //                        MODIFIERS                       //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Enhanced authorization with MEV protection
+    modifier onlyAuthorizedWithMEV(bool mevProtection) {
+        require(authorizedCallers[msg.sender] || msg.sender == owner(), "Not authorized");
+        
+        if (mevProtection) {
+            require(
+                block.number > lastExecutionBlock[msg.sender] + MEV_PROTECTION_BLOCKS,
+                "MEV protection active"
+            );
+            lastExecutionBlock[msg.sender] = block.number;
+        }
+        _;
+    }
+
+    /// @notice Circuit breaker validation
+    modifier circuitBreakerCheck(uint256 volume) {
+        _updateCircuitBreaker(volume);
+        require(circuitBreaker.state != CircuitBreakerState.EMERGENCY, "Circuit breaker: Emergency stop");
+        _;
+    }
+
+    /// @notice Gas price protection
+    modifier gasProtection(uint256 maxGas) {
+        require(tx.gasprice <= maxGas, "Gas price too high");
+        _;
+    }
+
+    /// @notice Enhanced trade parameter validation
+    modifier validTradeParamsV3(ArbitrageParamsV3 memory params) {
+        require(params.flashParams.tokens.length > 0, "No flash tokens");
+        require(params.flashParams.tokens.length <= MAX_FLASH_TOKENS, "Too many flash tokens");
+        require(params.buyRoute.tokens.length <= MAX_ROUTE_HOPS + 1, "Buy route too long");
+        require(params.sellRoute.tokens.length <= MAX_ROUTE_HOPS + 1, "Sell route too long");
+        require(params.flashParams.deadline >= block.timestamp, "Trade deadline passed");
+        require(params.maxExecutionTime > 0, "Invalid execution time");
+        _;
+    }
 }
