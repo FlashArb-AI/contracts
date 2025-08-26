@@ -295,6 +295,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //                        MAIN FUNCTIONS                  //
     //////////////////////////////////////////////////////////////
 
+    /// @notice Execute multi-token arbitrage with enhanced features
     function executeAdvancedArbitrage(ArbitrageParamsV3 calldata params)
         external
         nonReentrant
