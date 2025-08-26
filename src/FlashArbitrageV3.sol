@@ -220,4 +220,10 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 volatilityIndex,
         uint256 timestamp
     );
+
+    event EmergencyWithdrawal(
+        address indexed token,
+        uint256 amount,
+        address indexed recipient
+    );
 }
