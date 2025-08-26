@@ -246,6 +246,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         _;
     }
 
+    /// @notice Circuit breaker validation
     modifier circuitBreakerCheck(uint256 volume) {
         _updateCircuitBreaker(volume);
         require(circuitBreaker.state != CircuitBreakerState.EMERGENCY, "Circuit breaker: Emergency stop");
