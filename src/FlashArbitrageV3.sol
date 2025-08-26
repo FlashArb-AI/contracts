@@ -269,4 +269,9 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         require(params.maxExecutionTime > 0, "Invalid execution time");
         _;
     }
+
+    //////////////////////////////////////////////////////////////
+    //                        CONSTRUCTOR                     //
+    //////////////////////////////////////////////////////////////
+
 }
