@@ -290,4 +290,47 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
         emit CallerAuthorizationChanged(msg.sender, true);
     }
+
+    //////////////////////////////////////////////////////////////
+    //                        MAIN FUNCTIONS                  //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Execute multi-token arbitrage with enhanced features
+    function executeAdvancedArbitrage(ArbitrageParamsV3 calldata params)
+        external
+        nonReentrant
+        whenNotPaused
+        onlyAuthorizedWithMEV(params.flashParams.mevProtection)
+        validTradeParamsV3(params)
+        circuitBreakerCheck(_calculateTotalVolume(params.flashParams.amounts))
+        gasProtection(params.flashParams.maxGasPrice)
+    {
+        uint256 gasStart = gasleft();
+
+        // Enhanced profitability check with price feeds
+        uint256 estimatedProfit = _estimateProfitWithFeeds(params);
+        uint256 dynamicMinProfit = _calculateDynamicMinProfit(
+            _calculateTotalVolume(params.flashParams.amounts)
+        );
+        
+        require(estimatedProfit >= dynamicMinProfit, "Insufficient dynamic profit");
+
+        // Validate routes haven't failed recently
+        _validateRoutes(params);
+
+        // Execute multi-token flash loan
+        bytes memory data = abi.encode(params);
+        
+        IERC20[] memory tokens = new IERC20[](params.flashParams.tokens.length);
+        for (uint i = 0; i < params.flashParams.tokens.length; i++) {
+            tokens[i] = IERC20(params.flashParams.tokens[i]);
+        }
+
+        VAULT.flashLoan(this, tokens, params.flashParams.amounts, data);
+
+        uint256 gasUsed = gasStart - gasleft();
+        
+        // Update enhanced statistics
+        _updateAdvancedStatistics(params, gasUsed);
+    }
 }
