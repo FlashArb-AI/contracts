@@ -290,4 +290,8 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
         emit CallerAuthorizationChanged(msg.sender, true);
     }
+
+    //////////////////////////////////////////////////////////////
+    //                        MAIN FUNCTIONS                  //
+    //////////////////////////////////////////////////////////////
 }
