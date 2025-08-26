@@ -252,4 +252,9 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         require(circuitBreaker.state != CircuitBreakerState.EMERGENCY, "Circuit breaker: Emergency stop");
         _;
     }
+
+    modifier gasProtection(uint256 maxGas) {
+        require(tx.gasprice <= maxGas, "Gas price too high");
+        _;
+    }
 }
