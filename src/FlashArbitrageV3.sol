@@ -253,6 +253,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         _;
     }
 
+    /// @notice Gas price protection
     modifier gasProtection(uint256 maxGas) {
         require(tx.gasprice <= maxGas, "Gas price too high");
         _;
