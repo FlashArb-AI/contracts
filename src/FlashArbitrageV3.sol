@@ -259,6 +259,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         _;
     }
 
+    /// @notice Enhanced trade parameter validation
     modifier validTradeParamsV3(ArbitrageParamsV3 memory params) {
         require(params.flashParams.tokens.length > 0, "No flash tokens");
         require(params.flashParams.tokens.length <= MAX_FLASH_TOKENS, "Too many flash tokens");
