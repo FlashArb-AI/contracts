@@ -232,6 +232,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //                        MODIFIERS                       //
     //////////////////////////////////////////////////////////////
 
+    /// @notice Enhanced authorization with MEV protection
     modifier onlyAuthorizedWithMEV(bool mevProtection) {
         require(authorizedCallers[msg.sender] || msg.sender == owner(), "Not authorized");
         
