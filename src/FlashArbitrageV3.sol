@@ -199,4 +199,10 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         string reason,
         uint256 timestamp
     );
+
+    event PriceFeedUpdated(
+        address indexed token,
+        address indexed priceFeed,
+        uint256 heartbeat
+    );
 }
