@@ -207,6 +207,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 heartbeat
     );
 
+    /// @notice Emitted when profit is shared
     event ProfitShared(
         address indexed recipient,
         uint256 amount,
