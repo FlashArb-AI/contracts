@@ -397,6 +397,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //                        ADMIN FUNCTIONS                 //
     //////////////////////////////////////////////////////////////
 
+    /// @notice Configure price feed for a token
     function setPriceFeed(
         address token,
         address priceFeed,
