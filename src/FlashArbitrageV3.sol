@@ -333,4 +333,62 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         // Update enhanced statistics
         _updateAdvancedStatistics(params, gasUsed);
     }
+
+    function receiveFlashLoan(
+        IERC20[] memory tokens,
+        uint256[] memory amounts,
+        uint256[] memory feeAmounts,
+        bytes memory userData
+    ) external override {
+        require(msg.sender == address(VAULT), "Only Vault can call");
+
+        ArbitrageParamsV3 memory params = abi.decode(userData, (ArbitrageParamsV3));
+        
+        uint256 executionStart = block.timestamp;
+        require(block.timestamp <= params.flashParams.deadline, "Execution deadline exceeded");
+
+        // Track initial balances for all tokens
+        uint256[] memory initialBalances = new uint256[](tokens.length);
+        for (uint i = 0; i < tokens.length; i++) {
+            initialBalances[i] = tokens[i].balanceOf(address(this));
+        }
+
+        // Execute buy route
+        uint256[] memory intermediateAmounts = _executeRouteV3(params.buyRoute, amounts);
+
+        // Execute sell route
+        uint256[] memory finalAmounts = _executeRouteV3(params.sellRoute, intermediateAmounts);
+
+        // Validate execution time
+        require(
+            block.timestamp - executionStart <= params.maxExecutionTime,
+            "Execution time exceeded"
+        );
+
+        // Repay flash loans and calculate profits
+        uint256 totalProfit = 0;
+        for (uint i = 0; i < tokens.length; i++) {
+            tokens[i].safeTransfer(address(VAULT), amounts[i] + feeAmounts[i]);
+            
+            uint256 finalBalance = tokens[i].balanceOf(address(this));
+            if (finalBalance > initialBalances[i]) {
+                uint256 tokenProfit = finalBalance - initialBalances[i];
+                totalProfit += tokenProfit;
+                
+                // Distribute profit according to sharing rules
+                _distributeProfits(address(tokens[i]), tokenProfit);
+            }
+        }
+
+        require(totalProfit >= params.expectedProfit, "Profit below expectation");
+
+        emit MultiTokenArbitrageExecuted(
+            params.flashParams.strategyId,
+            params.flashParams.tokens,
+            amounts,
+            totalProfit,
+            0,
+            params.flashParams.mevProtection
+        );
+    }
 }
