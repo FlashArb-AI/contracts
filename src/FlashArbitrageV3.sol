@@ -334,6 +334,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         _updateAdvancedStatistics(params, gasUsed);
     }
 
+    /// @notice Enhanced flash loan callback with multi-token support
     function receiveFlashLoan(
         IERC20[] memory tokens,
         uint256[] memory amounts,
