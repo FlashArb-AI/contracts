@@ -392,4 +392,9 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
             params.flashParams.mevProtection
         );
     }
+
+    //////////////////////////////////////////////////////////////
+    //                        ADMIN FUNCTIONS                 //
+    //////////////////////////////////////////////////////////////
+
 }
