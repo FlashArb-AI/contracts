@@ -392,4 +392,26 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
             params.flashParams.mevProtection
         );
     }
+
+    //////////////////////////////////////////////////////////////
+    //                        ADMIN FUNCTIONS                 //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Configure price feed for a token
+    function setPriceFeed(
+        address token,
+        address priceFeed,
+        uint256 heartbeat,
+        uint256 deviation
+    ) external onlyOwner {
+        priceFeeds[token] = PriceFeedConfig({
+            priceFeed: AggregatorV3Interface(priceFeed),
+            heartbeat: heartbeat,
+            deviation: deviation,
+            isActive: true
+        });
+        
+        emit PriceFeedUpdated(token, priceFeed, heartbeat);
+    }
+
 }
