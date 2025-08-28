@@ -414,6 +414,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         emit PriceFeedUpdated(token, priceFeed, heartbeat);
     }
 
+    /// @notice Add DEX router for a protocol
     function addDexRouter(DexProtocol protocol, address router, address quoter) external onlyOwner {
         dexRouters[protocol].push(router);
         if (quoter != address(0)) {
