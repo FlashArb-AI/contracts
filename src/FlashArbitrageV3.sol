@@ -422,4 +422,17 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         }
     }
 
+    /// @notice Configure profit sharing
+    function setProfitSharing(ProfitSharing[] calldata newSharings) external onlyOwner {
+        delete profitSharings;
+        
+        uint256 totalBps = 0;
+        for (uint i = 0; i < newSharings.length; i++) {
+            require(newSharings[i].recipient != address(0), "Invalid recipient");
+            profitSharings.push(newSharings[i]);
+            totalBps += newSharings[i].basisPoints;
+        }
+        
+        require(totalBps <= MAX_BPS, "Total sharing exceeds 100%");
+    }
 }
