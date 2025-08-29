@@ -422,6 +422,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         }
     }
 
+    /// @notice Configure profit sharing
     function setProfitSharing(ProfitSharing[] calldata newSharings) external onlyOwner {
         delete profitSharings;
         
