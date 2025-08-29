@@ -436,6 +436,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         require(totalBps <= MAX_BPS, "Total sharing exceeds 100%");
     }
 
+    /// @notice Update circuit breaker parameters
     function updateCircuitBreaker(
         uint256 maxVolumePerPeriod,
         uint256 maxTradesPerPeriod,
