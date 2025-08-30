@@ -446,4 +446,15 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         circuitBreaker.maxTradesPerPeriod = maxTradesPerPeriod;
         circuitBreaker.periodDuration = periodDuration;
     }
+
+    /// @notice Update dynamic profit multiplier based on market conditions
+    function updateDynamicParameters() external onlyOwner {
+        uint256 newVolatility = _calculateVolatilityIndex();
+        uint256 newMultiplier = BASE_MIN_PROFIT_BPS + (newVolatility * 2);
+        
+        dynamicProfitMultiplier = newMultiplier > MAX_BPS ? MAX_BPS : newMultiplier;
+        stats.volatilityIndex = newVolatility;
+        
+        emit DynamicParametersUpdated(dynamicProfitMultiplier, newVolatility, block.timestamp);
+    }
 }
