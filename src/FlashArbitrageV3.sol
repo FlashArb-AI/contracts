@@ -457,4 +457,8 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         
         emit DynamicParametersUpdated(dynamicProfitMultiplier, newVolatility, block.timestamp);
     }
+
+    function resetFailedRoute(bytes32 routeHash) external onlyOwner {
+        failedRoutes[routeHash] = 0;
+    }
 }
