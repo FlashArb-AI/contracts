@@ -462,4 +462,11 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     function resetFailedRoute(bytes32 routeHash) external onlyOwner {
         failedRoutes[routeHash] = 0;
     }
+
+    function emergencyCircuitBreaker(CircuitBreakerState newState) external onlyOwner {
+        CircuitBreakerState oldState = circuitBreaker.state;
+        circuitBreaker.state = newState;
+        
+        emit CircuitBreakerStateChanged(oldState, newState, circuitBreaker.currentVolume, 0);
+    }
 }
