@@ -479,4 +479,17 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     function unpause() external onlyOwner {
         _unpause();
     }
+
+    function setAuthorizedCaller(address caller, bool authorized) external onlyOwner {
+        require(caller != address(0), "Invalid caller address");
+        authorizedCallers[caller] = authorized;
+        emit CallerAuthorizationChanged(caller, authorized);
+    }
+
+    event CallerAuthorizationChanged(address indexed caller, bool authorized);
+
+    //////////////////////////////////////////////////////////////
+    //                        INTERNAL FUNCTIONS              //
+    //////////////////////////////////////////////////////////////
+
 }
