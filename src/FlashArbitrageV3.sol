@@ -462,4 +462,21 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     function resetFailedRoute(bytes32 routeHash) external onlyOwner {
         failedRoutes[routeHash] = 0;
     }
+
+    /// @notice Emergency circuit breaker override
+    function emergencyCircuitBreaker(CircuitBreakerState newState) external onlyOwner {
+        CircuitBreakerState oldState = circuitBreaker.state;
+        circuitBreaker.state = newState;
+        
+        emit CircuitBreakerStateChanged(oldState, newState, circuitBreaker.currentVolume, 0);
+    }
+
+    // Inherit pause/unpause and emergency functions from V2
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    function unpause() external onlyOwner {
+        _unpause();
+    }
 }
