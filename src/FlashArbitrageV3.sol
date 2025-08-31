@@ -474,4 +474,8 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     function pause() external onlyOwner {
         _pause();
     }
+
+    function unpause() external onlyOwner {
+        _unpause();
+    }
 }
