@@ -470,4 +470,8 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         
         emit CircuitBreakerStateChanged(oldState, newState, circuitBreaker.currentVolume, 0);
     }
+
+    function pause() external onlyOwner {
+        _pause();
+    }
 }
