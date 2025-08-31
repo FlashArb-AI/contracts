@@ -463,6 +463,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         failedRoutes[routeHash] = 0;
     }
 
+    /// @notice Emergency circuit breaker override
     function emergencyCircuitBreaker(CircuitBreakerState newState) external onlyOwner {
         CircuitBreakerState oldState = circuitBreaker.state;
         circuitBreaker.state = newState;
