@@ -471,6 +471,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         emit CircuitBreakerStateChanged(oldState, newState, circuitBreaker.currentVolume, 0);
     }
 
+    // Inherit pause/unpause and emergency functions from V2
     function pause() external onlyOwner {
         _pause();
     }
