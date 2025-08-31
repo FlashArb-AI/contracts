@@ -488,4 +488,8 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
     event CallerAuthorizationChanged(address indexed caller, bool authorized);
 
+    //////////////////////////////////////////////////////////////
+    //                        INTERNAL FUNCTIONS              //
+    //////////////////////////////////////////////////////////////
+
 }
