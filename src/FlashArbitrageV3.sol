@@ -500,6 +500,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         return (totalVolume * dynamicProfitMultiplier) / MAX_BPS;
     }
 
+    /// @notice Execute multi-hop route with failover
     function _executeRouteV3(
         ArbitrageRoute memory route,
         uint256[] memory amountsIn
