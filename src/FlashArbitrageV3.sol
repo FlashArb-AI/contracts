@@ -499,4 +499,35 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 totalVolume = _calculateTotalVolume(params.flashParams.amounts);
         return (totalVolume * dynamicProfitMultiplier) / MAX_BPS;
     }
+
+    /// @notice Execute multi-hop route with failover
+    function _executeRouteV3(
+        ArbitrageRoute memory route,
+        uint256[] memory amountsIn
+    ) internal returns (uint256[] memory amountsOut) {
+        amountsOut = new uint256[](route.tokens.length - 1);
+        
+        for (uint i = 0; i < route.protocols.length; i++) {
+            // Execute swap with protocol-specific logic
+            // Implementation would handle each protocol differently
+            uint256 amountIn = i == 0 ? amountsIn[0] : amountsOut[i-1];
+            
+            try this._executeProtocolSwap(
+                route.protocols[i],
+                route.routers[i],
+                route.tokens[i],
+                route.tokens[i+1],
+                amountIn,
+                route.fees[i],
+                route.minAmountsOut[i]
+            ) returns (uint256 amountOut) {
+                amountsOut[i] = amountOut;
+            } catch {
+                // Mark route as failed and revert
+                bytes32 routeHash = keccak256(abi.encode(route));
+                failedRoutes[routeHash] = block.timestamp;
+                revert("Route execution failed");
+            }
+        }
+    }
 }
