@@ -530,4 +530,24 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
             }
         }
     }
+
+    function _executeProtocolSwap(
+        DexProtocol protocol,
+        address router,
+        address tokenIn,
+        address tokenOut,
+        uint256 amountIn,
+        uint24 fee,
+        uint256 minAmountOut
+    ) external returns (uint256 amountOut) {
+        require(msg.sender == address(this), "Internal only");
+        
+        // Implementation would vary by protocol
+        if (protocol == DexProtocol.UNISWAP_V3) {
+            return _executeUniswapV3Swap(router, tokenIn, tokenOut, amountIn, fee, minAmountOut);
+        }
+        // Add other protocol implementations...
+        
+        revert("Protocol not supported");
+    }
 }
