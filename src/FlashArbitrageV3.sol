@@ -531,6 +531,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         }
     }
 
+    /// @notice Protocol-specific swap execution
     function _executeProtocolSwap(
         DexProtocol protocol,
         address router,
