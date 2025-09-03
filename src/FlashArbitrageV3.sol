@@ -552,6 +552,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         revert("Protocol not supported");
     }
 
+    /// @notice Uniswap V3 specific swap logic
     function _executeUniswapV3Swap(
         address router,
         address tokenIn,
