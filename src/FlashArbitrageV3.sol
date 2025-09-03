@@ -551,4 +551,29 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         
         revert("Protocol not supported");
     }
+
+    function _executeUniswapV3Swap(
+        address router,
+        address tokenIn,
+        address tokenOut,
+        uint256 amountIn,
+        uint24 fee,
+        uint256 minAmountOut
+    ) internal returns (uint256 amountOut) {
+        IERC20(tokenIn).safeApprove(router, amountIn);
+        
+        ISwapRouter.ExactInputSingleParams memory swapParams = ISwapRouter.ExactInputSingleParams({
+            tokenIn: tokenIn,
+            tokenOut: tokenOut,
+            fee: fee,
+            recipient: address(this),
+            deadline: block.timestamp + 300,
+            amountIn: amountIn,
+            amountOutMinimum: minAmountOut,
+            sqrtPriceLimitX96: 0
+        });
+
+        amountOut = ISwapRouter(router).exactInputSingle(swapParams);
+        IERC20(tokenIn).safeApprove(router, 0);
+    }
 }
