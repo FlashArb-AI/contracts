@@ -578,6 +578,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         IERC20(tokenIn).safeApprove(router, 0);
     }
 
+    /// @notice Distribute profits according to sharing configuration
     function _distributeProfits(address token, uint256 totalProfit) internal {
         uint256 distributed = 0;
         
