@@ -577,4 +577,24 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         amountOut = ISwapRouter(router).exactInputSingle(swapParams);
         IERC20(tokenIn).safeApprove(router, 0);
     }
+
+    function _distributeProfits(address token, uint256 totalProfit) internal {
+        uint256 distributed = 0;
+        
+        for (uint i = 0; i < profitSharings.length; i++) {
+            uint256 share = (totalProfit * profitSharings[i].basisPoints) / MAX_BPS;
+            if (share > 0) {
+                IERC20(token).safeTransfer(profitSharings[i].recipient, share);
+                distributed += share;
+                
+                emit ProfitShared(profitSharings[i].recipient, share, profitSharings[i].basisPoints);
+            }
+        }
+        
+        // Send remainder to owner
+        uint256 remainder = totalProfit - distributed;
+        if (remainder > 0) {
+            IERC20(token).safeTransfer(owner(), remainder);
+        }
+    }
 }
