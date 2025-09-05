@@ -599,6 +599,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         }
     }
 
+    /// @notice Update circuit breaker state
     function _updateCircuitBreaker(uint256 volume) internal {
         CircuitBreaker storage cb = circuitBreaker;
         
