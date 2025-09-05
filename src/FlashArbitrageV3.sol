@@ -598,4 +598,34 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
             IERC20(token).safeTransfer(owner(), remainder);
         }
     }
+
+    function _updateCircuitBreaker(uint256 volume) internal {
+        CircuitBreaker storage cb = circuitBreaker;
+        
+        // Reset period if needed
+        if (block.timestamp >= cb.currentPeriodStart + cb.periodDuration) {
+            cb.currentPeriodStart = block.timestamp;
+            cb.currentVolume = 0;
+            cb.currentTrades = 0;
+        }
+        
+        cb.currentVolume += volume;
+        cb.currentTrades++;
+        
+        CircuitBreakerState oldState = cb.state;
+        
+        // Determine new state
+        if (cb.currentVolume > cb.maxVolumePerPeriod || cb.currentTrades > cb.maxTradesPerPeriod) {
+            cb.state = CircuitBreakerState.EMERGENCY;
+            stats.circuitBreakerTriggers++;
+        } else if (cb.currentVolume > (cb.maxVolumePerPeriod * 8) / 10) {
+            cb.state = CircuitBreakerState.WARNING;
+        } else {
+            cb.state = CircuitBreakerState.NORMAL;
+        }
+        
+        if (oldState != cb.state) {
+            emit CircuitBreakerStateChanged(oldState, cb.state, cb.currentVolume, cb.maxVolumePerPeriod);
+        }
+    }
 }
