@@ -629,4 +629,13 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
             emit CircuitBreakerStateChanged(oldState, cb.state, cb.currentVolume, cb.maxVolumePerPeriod);
         }
     }
+
+    /// @notice Calculate total volume from amounts array
+    function _calculateTotalVolume(uint256[] memory amounts) internal pure returns (uint256) {
+        uint256 total = 0;
+        for (uint i = 0; i < amounts.length; i++) {
+            total += amounts[i];
+        }
+        return total;
+    }
 }
