@@ -659,6 +659,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         );
     }
 
+    /// @notice Calculate market volatility index
     function _calculateVolatilityIndex() internal view returns (uint256) {
         // Simplified volatility calculation
         // In production, this would analyze price feed data and historical trades
