@@ -643,4 +643,19 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     function _calculateDynamicMinProfit(uint256 volume) internal view returns (uint256) {
         return (volume * dynamicProfitMultiplier) / MAX_BPS;
     }
+
+    /// @notice Validate routes haven't failed recently
+    function _validateRoutes(ArbitrageParamsV3 memory params) internal view {
+        bytes32 buyRouteHash = keccak256(abi.encode(params.buyRoute));
+        bytes32 sellRouteHash = keccak256(abi.encode(params.sellRoute));
+        
+        require(
+            failedRoutes[buyRouteHash] == 0 || block.timestamp > failedRoutes[buyRouteHash] + 1 hours,
+            "Buy route recently failed"
+        );
+        require(
+            failedRoutes[sellRouteHash] == 0 || block.timestamp > failedRoutes[sellRouteHash] + 1 hours,
+            "Sell route recently failed"
+        );
+    }
 }
