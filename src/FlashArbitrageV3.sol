@@ -639,6 +639,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         return total;
     }
 
+    /// @notice Calculate dynamic minimum profit based on market conditions
     function _calculateDynamicMinProfit(uint256 volume) internal view returns (uint256) {
         return (volume * dynamicProfitMultiplier) / MAX_BPS;
     }
