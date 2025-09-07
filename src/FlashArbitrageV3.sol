@@ -658,4 +658,11 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
             "Sell route recently failed"
         );
     }
+
+    /// @notice Calculate market volatility index
+    function _calculateVolatilityIndex() internal view returns (uint256) {
+        // Simplified volatility calculation
+        // In production, this would analyze price feed data and historical trades
+        return (stats.totalTrades * 100) / (block.timestamp - stats.lastTradeTimestamp + 1);
+    }
 }
