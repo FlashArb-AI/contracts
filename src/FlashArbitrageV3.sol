@@ -644,6 +644,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         return (volume * dynamicProfitMultiplier) / MAX_BPS;
     }
 
+    /// @notice Validate routes haven't failed recently
     function _validateRoutes(ArbitrageParamsV3 memory params) internal view {
         bytes32 buyRouteHash = keccak256(abi.encode(params.buyRoute));
         bytes32 sellRouteHash = keccak256(abi.encode(params.sellRoute));
