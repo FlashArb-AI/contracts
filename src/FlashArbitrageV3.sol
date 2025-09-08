@@ -666,6 +666,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         return (stats.totalTrades * 100) / (block.timestamp - stats.lastTradeTimestamp + 1);
     }
 
+    /// @notice Update advanced statistics
     function _updateAdvancedStatistics(ArbitrageParamsV3 memory params, uint256 gasUsed) internal {
         stats.totalTrades++;
         stats.totalVolume += _calculateTotalVolume(params.flashParams.amounts);
