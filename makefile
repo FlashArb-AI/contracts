@@ -22,3 +22,8 @@ ARBITRUM_RPC_URL := https://arb-mainnet.alchemyapi.io/v2/$(ALCHEMY_API_KEY)
 OPTIMISM_RPC_URL := https://opt-mainnet.alchemyapi.io/v2/$(ALCHEMY_API_KEY)
 SEPOLIA_RPC_URL := https://eth-sepolia.alchemyapi.io/v2/$(ALCHEMY_API_KEY)
 GOERLI_RPC_URL := https://eth-goerli.alchemyapi.io/v2/$(ALCHEMY_API_KEY)
+
+# Contract addresses
+BALANCER_VAULT := 0xBA12222222228d8Ba445958a75a0704d566BF2C8
+UNISWAP_V3_ROUTER := 0xE592427A0AEce92De3Edee1F18E0157C05861564
+UNISWAP_V3_QUOTER := 0x61fFE014bA17989E743c5F6cB21bF9697530B21e
