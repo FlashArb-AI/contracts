@@ -5,3 +5,8 @@
 # ================================================================
 # PROJECT CONFIGURATION
 # ================================================================
+
+# Project metadata
+PROJECT_NAME := flash-arbitrage-v3
+VERSION := 3.0.0
+AUTHOR := FlashArbAI
