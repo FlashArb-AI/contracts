@@ -10,3 +10,7 @@
 PROJECT_NAME := flash-arbitrage-v3
 VERSION := 3.0.0
 AUTHOR := FlashArbAI
+
+# Foundry configuration
+FOUNDRY_PROFILE := default
+SOLIDITY_VERSION := 0.8.18
