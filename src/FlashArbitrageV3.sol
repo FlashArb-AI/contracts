@@ -665,4 +665,17 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         // In production, this would analyze price feed data and historical trades
         return (stats.totalTrades * 100) / (block.timestamp - stats.lastTradeTimestamp + 1);
     }
+
+    function _updateAdvancedStatistics(ArbitrageParamsV3 memory params, uint256 gasUsed) internal {
+        stats.totalTrades++;
+        stats.totalVolume += _calculateTotalVolume(params.flashParams.amounts);
+        stats.lastTradeTimestamp = block.timestamp;
+        
+        if (params.flashParams.mevProtection) {
+            stats.mevProtectedTrades++;
+        }
+        
+        // Update average profit (simplified)
+        stats.averageProfit = stats.totalProfit / stats.totalTrades;
+    }
 }
