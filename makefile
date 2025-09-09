@@ -62,3 +62,17 @@ RESET := \033[0m
 
 .DEFAULT_GOAL := help
 .PHONY: help
+
+help: ## Display this help message
+	@echo "$(CYAN)===============================================$(RESET)"
+	@echo "$(CYAN)  Flash Arbitrage V3 - Development Makefile  $(RESET)"
+	@echo "$(CYAN)===============================================$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)📋 Available Commands:$(RESET)"
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  $(GREEN)%-20s$(RESET) %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@echo ""
+	@echo "$(YELLOW)🔧 Configuration:$(RESET)"
+	@echo "  Project: $(MAGENTA)$(PROJECT_NAME)$(RESET) v$(MAGENTA)$(VERSION)$(RESET)"
+	@echo "  Solidity: $(MAGENTA)$(SOLIDITY_VERSION)$(RESET)"
+	@echo "  Profile: $(MAGENTA)$(FOUNDRY_PROFILE)$(RESET)"
+	@echo ""
