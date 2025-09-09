@@ -89,3 +89,8 @@ install: ## Install dependencies and initialize project
 	forge install Uniswap/v3-periphery
 	forge install smartcontractkit/chainlink
 	@echo "$(GREEN)✅ Dependencies installed successfully$(RESET)"
+
+update: ## Update all dependencies to latest versions
+	@echo "$(BLUE)🔄 Updating dependencies...$(RESET)"
+	forge update
+	@echo "$(GREEN)✅ Dependencies updated$(RESET)"
