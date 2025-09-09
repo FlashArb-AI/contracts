@@ -76,3 +76,7 @@ help: ## Display this help message
 	@echo "  Solidity: $(MAGENTA)$(SOLIDITY_VERSION)$(RESET)"
 	@echo "  Profile: $(MAGENTA)$(FOUNDRY_PROFILE)$(RESET)"
 	@echo ""
+
+# ================================================================
+# DEVELOPMENT ENVIRONMENT
+# ================================================================
