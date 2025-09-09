@@ -80,3 +80,12 @@ help: ## Display this help message
 # ================================================================
 # DEVELOPMENT ENVIRONMENT
 # ================================================================
+
+install: ## Install dependencies and initialize project
+	@echo "$(BLUE)🔧 Installing Foundry dependencies...$(RESET)"
+	forge install foundry-rs/forge-std
+	forge install OpenZeppelin/openzeppelin-contracts
+	forge install balancer-labs/v2-interfaces
+	forge install Uniswap/v3-periphery
+	forge install smartcontractkit/chainlink
+	@echo "$(GREEN)✅ Dependencies installed successfully$(RESET)"
