@@ -100,3 +100,6 @@ clean: ## Clean build artifacts and cache
 	forge clean
 	rm -rf $(BUILD_DIR) $(CACHE_DIR) $(ARTIFACTS_DIR) $(COVERAGE_DIR) $(REPORTS_DIR)
 	@echo "$(GREEN)✅ Project cleaned$(RESET)"
+
+reset: clean install ## Reset project (clean + reinstall)
+	@echo "$(GREEN)✅ Project reset complete$(RESET)"
