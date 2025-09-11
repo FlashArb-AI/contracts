@@ -103,3 +103,7 @@ clean: ## Clean build artifacts and cache
 
 reset: clean install ## Reset project (clean + reinstall)
 	@echo "$(GREEN)✅ Project reset complete$(RESET)"
+
+# ================================================================
+# BUILD SYSTEM
+# ================================================================
