@@ -94,3 +94,9 @@ update: ## Update all dependencies to latest versions
 	@echo "$(BLUE)🔄 Updating dependencies...$(RESET)"
 	forge update
 	@echo "$(GREEN)✅ Dependencies updated$(RESET)"
+
+clean: ## Clean build artifacts and cache
+	@echo "$(BLUE)🧹 Cleaning build artifacts...$(RESET)"
+	forge clean
+	rm -rf $(BUILD_DIR) $(CACHE_DIR) $(ARTIFACTS_DIR) $(COVERAGE_DIR) $(REPORTS_DIR)
+	@echo "$(GREEN)✅ Project cleaned$(RESET)"
