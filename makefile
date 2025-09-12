@@ -107,3 +107,8 @@ reset: clean install ## Reset project (clean + reinstall)
 # ================================================================
 # BUILD SYSTEM
 # ================================================================
+
+build: ## Compile all contracts
+	@echo "$(BLUE)🔨 Building contracts...$(RESET)"
+	forge build
+	@echo "$(GREEN)✅ Build completed successfully$(RESET)"
