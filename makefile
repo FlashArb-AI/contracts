@@ -123,3 +123,7 @@ build-optimized: ## Build with gas optimizations enabled
 build-sizes: ## Show contract sizes after build
 	@echo "$(BLUE)📊 Contract sizes:$(RESET)"
 	forge build --sizes
+
+# ================================================================
+# TESTING SUITE
+# ================================================================
