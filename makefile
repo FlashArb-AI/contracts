@@ -114,3 +114,16 @@ build: ## Compile all contracts
 	@echo "$(GREEN)✅ Build completed successfully$(RESET)"
 
 rebuild: clean build ## Clean rebuild of all contracts
+
+build-optimized: ## Build with gas optimizations enabled
+	@echo "$(BLUE)⚡ Building with optimizations...$(RESET)"
+	forge build --optimize --optimize-runs 1000000
+	@echo "$(GREEN)✅ Optimized build completed$(RESET)"
+
+build-sizes: ## Show contract sizes after build
+	@echo "$(BLUE)📊 Contract sizes:$(RESET)"
+	forge build --sizes
+
+# ================================================================
+# TESTING SUITE
+# ================================================================
