@@ -131,3 +131,7 @@ build-sizes: ## Show contract sizes after build
 test: ## Run all tests
 	@echo "$(BLUE)🧪 Running tests...$(RESET)"
 	forge test -vv
+
+test-gas: ## Run tests with gas reporting
+	@echo "$(BLUE)⛽ Running tests with gas reports...$(RESET)"
+	forge test --gas-report
