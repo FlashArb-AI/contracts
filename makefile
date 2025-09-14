@@ -146,3 +146,7 @@ test-coverage: ## Generate test coverage report
 test-unit: ## Run unit tests only
 	@echo "$(BLUE)🔬 Running unit tests...$(RESET)"
 	forge test --match-path "test/unit/*" -vv
+
+test-integration: ## Run integration tests only
+	@echo "$(BLUE)🔗 Running integration tests...$(RESET)"
+	forge test --match-path "test/integration/*" -vv
