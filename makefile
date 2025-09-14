@@ -146,3 +146,19 @@ test-coverage: ## Generate test coverage report
 test-unit: ## Run unit tests only
 	@echo "$(BLUE)🔬 Running unit tests...$(RESET)"
 	forge test --match-path "test/unit/*" -vv
+
+test-integration: ## Run integration tests only
+	@echo "$(BLUE)🔗 Running integration tests...$(RESET)"
+	forge test --match-path "test/integration/*" -vv
+
+test-fork: ## Run fork tests against mainnet
+	@echo "$(BLUE)🍴 Running fork tests...$(RESET)"
+	forge test --fork-url $(MAINNET_RPC_URL) --match-path "test/fork/*" -vv
+
+test-specific: ## Run specific test (usage: make test-specific TEST=TestName)
+	@echo "$(BLUE)🎯 Running specific test: $(TEST)$(RESET)"
+	forge test --match-test $(TEST) -vvvv
+
+test-watch: ## Watch files and run tests on changes
+	@echo "$(BLUE)👀 Watching for changes...$(RESET)"
+	forge test --watch
