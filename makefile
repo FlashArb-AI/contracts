@@ -150,3 +150,8 @@ test-unit: ## Run unit tests only
 test-integration: ## Run integration tests only
 	@echo "$(BLUE)🔗 Running integration tests...$(RESET)"
 	forge test --match-path "test/integration/*" -vv
+
+test-fork: ## Run fork tests against mainnet
+	@echo "$(BLUE)🍴 Running fork tests...$(RESET)"
+	forge test --fork-url $(MAINNET_RPC_URL) --match-path "test/fork/*" -vv
+
