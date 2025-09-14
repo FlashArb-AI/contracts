@@ -127,3 +127,22 @@ build-sizes: ## Show contract sizes after build
 # ================================================================
 # TESTING SUITE
 # ================================================================
+
+test: ## Run all tests
+	@echo "$(BLUE)🧪 Running tests...$(RESET)"
+	forge test -vv
+
+test-gas: ## Run tests with gas reporting
+	@echo "$(BLUE)⛽ Running tests with gas reports...$(RESET)"
+	forge test --gas-report
+
+test-coverage: ## Generate test coverage report
+	@echo "$(BLUE)📊 Generating coverage report...$(RESET)"
+	mkdir -p $(COVERAGE_DIR)
+	forge coverage --report lcov --report-file $(COVERAGE_DIR)/coverage.lcov
+	genhtml $(COVERAGE_DIR)/coverage.lcov -o $(COVERAGE_DIR)/html
+	@echo "$(GREEN)✅ Coverage report generated at $(COVERAGE_DIR)/html/index.html$(RESET)"
+
+test-unit: ## Run unit tests only
+	@echo "$(BLUE)🔬 Running unit tests...$(RESET)"
+	forge test --match-path "test/unit/*" -vv
