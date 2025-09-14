@@ -142,3 +142,7 @@ test-coverage: ## Generate test coverage report
 	forge coverage --report lcov --report-file $(COVERAGE_DIR)/coverage.lcov
 	genhtml $(COVERAGE_DIR)/coverage.lcov -o $(COVERAGE_DIR)/html
 	@echo "$(GREEN)✅ Coverage report generated at $(COVERAGE_DIR)/html/index.html$(RESET)"
+
+test-unit: ## Run unit tests only
+	@echo "$(BLUE)🔬 Running unit tests...$(RESET)"
+	forge test --match-path "test/unit/*" -vv
