@@ -127,3 +127,7 @@ build-sizes: ## Show contract sizes after build
 # ================================================================
 # TESTING SUITE
 # ================================================================
+
+test: ## Run all tests
+	@echo "$(BLUE)🧪 Running tests...$(RESET)"
+	forge test -vv
