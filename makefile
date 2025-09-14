@@ -155,3 +155,6 @@ test-fork: ## Run fork tests against mainnet
 	@echo "$(BLUE)🍴 Running fork tests...$(RESET)"
 	forge test --fork-url $(MAINNET_RPC_URL) --match-path "test/fork/*" -vv
 
+test-specific: ## Run specific test (usage: make test-specific TEST=TestName)
+	@echo "$(BLUE)🎯 Running specific test: $(TEST)$(RESET)"
+	forge test --match-test $(TEST) -vvvv
