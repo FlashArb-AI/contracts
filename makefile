@@ -162,3 +162,7 @@ test-specific: ## Run specific test (usage: make test-specific TEST=TestName)
 test-watch: ## Watch files and run tests on changes
 	@echo "$(BLUE)👀 Watching for changes...$(RESET)"
 	forge test --watch
+
+# ================================================================
+# CODE QUALITY & ANALYSIS
+# ================================================================
