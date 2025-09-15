@@ -174,3 +174,7 @@ fmt: ## Format code using forge fmt
 fmt-check: ## Check code formatting
 	@echo "$(BLUE)🔍 Checking code formatting...$(RESET)"
 	forge fmt --check
+
+lint: ## Run solhint linter
+	@echo "$(BLUE)🔍 Running linter...$(RESET)"
+	npx solhint 'src/**/*.sol' 'test/**/*.sol' 'script/**/*.sol'
