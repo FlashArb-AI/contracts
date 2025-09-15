@@ -166,3 +166,7 @@ test-watch: ## Watch files and run tests on changes
 # ================================================================
 # CODE QUALITY & ANALYSIS
 # ================================================================
+
+fmt: ## Format code using forge fmt
+	@echo "$(BLUE)💅 Formatting code...$(RESET)"
+	forge fmt
