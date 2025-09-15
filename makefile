@@ -170,3 +170,7 @@ test-watch: ## Watch files and run tests on changes
 fmt: ## Format code using forge fmt
 	@echo "$(BLUE)💅 Formatting code...$(RESET)"
 	forge fmt
+
+fmt-check: ## Check code formatting
+	@echo "$(BLUE)🔍 Checking code formatting...$(RESET)"
+	forge fmt --check
