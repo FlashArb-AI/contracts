@@ -162,3 +162,19 @@ test-specific: ## Run specific test (usage: make test-specific TEST=TestName)
 test-watch: ## Watch files and run tests on changes
 	@echo "$(BLUE)👀 Watching for changes...$(RESET)"
 	forge test --watch
+
+# ================================================================
+# CODE QUALITY & ANALYSIS
+# ================================================================
+
+fmt: ## Format code using forge fmt
+	@echo "$(BLUE)💅 Formatting code...$(RESET)"
+	forge fmt
+
+fmt-check: ## Check code formatting
+	@echo "$(BLUE)🔍 Checking code formatting...$(RESET)"
+	forge fmt --check
+
+lint: ## Run solhint linter
+	@echo "$(BLUE)🔍 Running linter...$(RESET)"
+	npx solhint 'src/**/*.sol' 'test/**/*.sol' 'script/**/*.sol'

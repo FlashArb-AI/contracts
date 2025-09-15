@@ -175,7 +175,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //////////////////////////////////////////////////////////////
 
     /// @notice Emitted when a multi-token arbitrage is executed
-   event MultiTokenArbitrageExecuted(
+    event MultiTokenArbitrageExecuted(
         bytes32 indexed strategyId,
         address[] tokens,
         uint256[] amounts,
@@ -186,47 +186,23 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
     /// @notice Emitted when circuit breaker state changes
     event CircuitBreakerStateChanged(
-        CircuitBreakerState oldState,
-        CircuitBreakerState newState,
-        uint256 currentVolume,
-        uint256 threshold
+        CircuitBreakerState oldState, CircuitBreakerState newState, uint256 currentVolume, uint256 threshold
     );
 
     /// @notice Emitted when a route fails
-    event RouteFailed(
-        bytes32 indexed routeHash,
-        DexProtocol protocol,
-        string reason,
-        uint256 timestamp
-    );
+    event RouteFailed(bytes32 indexed routeHash, DexProtocol protocol, string reason, uint256 timestamp);
 
     /// @notice Emitted when price feed is updated
-    event PriceFeedUpdated(
-        address indexed token,
-        address indexed priceFeed,
-        uint256 heartbeat
-    );
+    event PriceFeedUpdated(address indexed token, address indexed priceFeed, uint256 heartbeat);
 
     /// @notice Emitted when profit is shared
-    event ProfitShared(
-        address indexed recipient,
-        uint256 amount,
-        uint256 basisPoints
-    );
+    event ProfitShared(address indexed recipient, uint256 amount, uint256 basisPoints);
 
     /// @notice Emitted when dynamic parameters are updated
-    event DynamicParametersUpdated(
-        uint256 newProfitMultiplier,
-        uint256 volatilityIndex,
-        uint256 timestamp
-    );
+    event DynamicParametersUpdated(uint256 newProfitMultiplier, uint256 volatilityIndex, uint256 timestamp);
 
     /// @notice Missing event from V2
-    event EmergencyWithdrawal(
-        address indexed token,
-        uint256 amount,
-        address indexed recipient
-    );
+    event EmergencyWithdrawal(address indexed token, uint256 amount, address indexed recipient);
 
     //////////////////////////////////////////////////////////////
     //                        MODIFIERS                       //
@@ -235,12 +211,9 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Enhanced authorization with MEV protection
     modifier onlyAuthorizedWithMEV(bool mevProtection) {
         require(authorizedCallers[msg.sender] || msg.sender == owner(), "Not authorized");
-        
+
         if (mevProtection) {
-            require(
-                block.number > lastExecutionBlock[msg.sender] + MEV_PROTECTION_BLOCKS,
-                "MEV protection active"
-            );
+            require(block.number > lastExecutionBlock[msg.sender] + MEV_PROTECTION_BLOCKS, "MEV protection active");
             lastExecutionBlock[msg.sender] = block.number;
         }
         _;
@@ -276,7 +249,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
     constructor() {
         authorizedCallers[msg.sender] = true;
-        
+
         // Initialize circuit breaker
         circuitBreaker = CircuitBreaker({
             maxVolumePerPeriod: 1000 ether,
@@ -309,10 +282,8 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
         // Enhanced profitability check with price feeds
         uint256 estimatedProfit = _estimateProfitWithFeeds(params);
-        uint256 dynamicMinProfit = _calculateDynamicMinProfit(
-            _calculateTotalVolume(params.flashParams.amounts)
-        );
-        
+        uint256 dynamicMinProfit = _calculateDynamicMinProfit(_calculateTotalVolume(params.flashParams.amounts));
+
         require(estimatedProfit >= dynamicMinProfit, "Insufficient dynamic profit");
 
         // Validate routes haven't failed recently
@@ -320,16 +291,16 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
 
         // Execute multi-token flash loan
         bytes memory data = abi.encode(params);
-        
+
         IERC20[] memory tokens = new IERC20[](params.flashParams.tokens.length);
-        for (uint i = 0; i < params.flashParams.tokens.length; i++) {
+        for (uint256 i = 0; i < params.flashParams.tokens.length; i++) {
             tokens[i] = IERC20(params.flashParams.tokens[i]);
         }
 
         VAULT.flashLoan(this, tokens, params.flashParams.amounts, data);
 
         uint256 gasUsed = gasStart - gasleft();
-        
+
         // Update enhanced statistics
         _updateAdvancedStatistics(params, gasUsed);
     }
@@ -344,13 +315,13 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         require(msg.sender == address(VAULT), "Only Vault can call");
 
         ArbitrageParamsV3 memory params = abi.decode(userData, (ArbitrageParamsV3));
-        
+
         uint256 executionStart = block.timestamp;
         require(block.timestamp <= params.flashParams.deadline, "Execution deadline exceeded");
 
         // Track initial balances for all tokens
         uint256[] memory initialBalances = new uint256[](tokens.length);
-        for (uint i = 0; i < tokens.length; i++) {
+        for (uint256 i = 0; i < tokens.length; i++) {
             initialBalances[i] = tokens[i].balanceOf(address(this));
         }
 
@@ -361,21 +332,18 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256[] memory finalAmounts = _executeRouteV3(params.sellRoute, intermediateAmounts);
 
         // Validate execution time
-        require(
-            block.timestamp - executionStart <= params.maxExecutionTime,
-            "Execution time exceeded"
-        );
+        require(block.timestamp - executionStart <= params.maxExecutionTime, "Execution time exceeded");
 
         // Repay flash loans and calculate profits
         uint256 totalProfit = 0;
-        for (uint i = 0; i < tokens.length; i++) {
+        for (uint256 i = 0; i < tokens.length; i++) {
             tokens[i].safeTransfer(address(VAULT), amounts[i] + feeAmounts[i]);
-            
+
             uint256 finalBalance = tokens[i].balanceOf(address(this));
             if (finalBalance > initialBalances[i]) {
                 uint256 tokenProfit = finalBalance - initialBalances[i];
                 totalProfit += tokenProfit;
-                
+
                 // Distribute profit according to sharing rules
                 _distributeProfits(address(tokens[i]), tokenProfit);
             }
@@ -398,19 +366,14 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     //////////////////////////////////////////////////////////////
 
     /// @notice Configure price feed for a token
-    function setPriceFeed(
-        address token,
-        address priceFeed,
-        uint256 heartbeat,
-        uint256 deviation
-    ) external onlyOwner {
+    function setPriceFeed(address token, address priceFeed, uint256 heartbeat, uint256 deviation) external onlyOwner {
         priceFeeds[token] = PriceFeedConfig({
             priceFeed: AggregatorV3Interface(priceFeed),
             heartbeat: heartbeat,
             deviation: deviation,
             isActive: true
         });
-        
+
         emit PriceFeedUpdated(token, priceFeed, heartbeat);
     }
 
@@ -425,23 +388,22 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Configure profit sharing
     function setProfitSharing(ProfitSharing[] calldata newSharings) external onlyOwner {
         delete profitSharings;
-        
+
         uint256 totalBps = 0;
-        for (uint i = 0; i < newSharings.length; i++) {
+        for (uint256 i = 0; i < newSharings.length; i++) {
             require(newSharings[i].recipient != address(0), "Invalid recipient");
             profitSharings.push(newSharings[i]);
             totalBps += newSharings[i].basisPoints;
         }
-        
+
         require(totalBps <= MAX_BPS, "Total sharing exceeds 100%");
     }
 
     /// @notice Update circuit breaker parameters
-    function updateCircuitBreaker(
-        uint256 maxVolumePerPeriod,
-        uint256 maxTradesPerPeriod,
-        uint256 periodDuration
-    ) external onlyOwner {
+    function updateCircuitBreaker(uint256 maxVolumePerPeriod, uint256 maxTradesPerPeriod, uint256 periodDuration)
+        external
+        onlyOwner
+    {
         circuitBreaker.maxVolumePerPeriod = maxVolumePerPeriod;
         circuitBreaker.maxTradesPerPeriod = maxTradesPerPeriod;
         circuitBreaker.periodDuration = periodDuration;
@@ -451,10 +413,10 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     function updateDynamicParameters() external onlyOwner {
         uint256 newVolatility = _calculateVolatilityIndex();
         uint256 newMultiplier = BASE_MIN_PROFIT_BPS + (newVolatility * 2);
-        
+
         dynamicProfitMultiplier = newMultiplier > MAX_BPS ? MAX_BPS : newMultiplier;
         stats.volatilityIndex = newVolatility;
-        
+
         emit DynamicParametersUpdated(dynamicProfitMultiplier, newVolatility, block.timestamp);
     }
 
@@ -467,7 +429,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     function emergencyCircuitBreaker(CircuitBreakerState newState) external onlyOwner {
         CircuitBreakerState oldState = circuitBreaker.state;
         circuitBreaker.state = newState;
-        
+
         emit CircuitBreakerStateChanged(oldState, newState, circuitBreaker.currentVolume, 0);
     }
 
@@ -501,22 +463,22 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     }
 
     /// @notice Execute multi-hop route with failover
-    function _executeRouteV3(
-        ArbitrageRoute memory route,
-        uint256[] memory amountsIn
-    ) internal returns (uint256[] memory amountsOut) {
+    function _executeRouteV3(ArbitrageRoute memory route, uint256[] memory amountsIn)
+        internal
+        returns (uint256[] memory amountsOut)
+    {
         amountsOut = new uint256[](route.tokens.length - 1);
-        
-        for (uint i = 0; i < route.protocols.length; i++) {
+
+        for (uint256 i = 0; i < route.protocols.length; i++) {
             // Execute swap with protocol-specific logic
             // Implementation would handle each protocol differently
-            uint256 amountIn = i == 0 ? amountsIn[0] : amountsOut[i-1];
-            
+            uint256 amountIn = i == 0 ? amountsIn[0] : amountsOut[i - 1];
+
             try this._executeProtocolSwap(
                 route.protocols[i],
                 route.routers[i],
                 route.tokens[i],
-                route.tokens[i+1],
+                route.tokens[i + 1],
                 amountIn,
                 route.fees[i],
                 route.minAmountsOut[i]
@@ -542,13 +504,13 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 minAmountOut
     ) external returns (uint256 amountOut) {
         require(msg.sender == address(this), "Internal only");
-        
+
         // Implementation would vary by protocol
         if (protocol == DexProtocol.UNISWAP_V3) {
             return _executeUniswapV3Swap(router, tokenIn, tokenOut, amountIn, fee, minAmountOut);
         }
         // Add other protocol implementations...
-        
+
         revert("Protocol not supported");
     }
 
@@ -562,7 +524,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint256 minAmountOut
     ) internal returns (uint256 amountOut) {
         IERC20(tokenIn).safeApprove(router, amountIn);
-        
+
         ISwapRouter.ExactInputSingleParams memory swapParams = ISwapRouter.ExactInputSingleParams({
             tokenIn: tokenIn,
             tokenOut: tokenOut,
@@ -581,17 +543,17 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Distribute profits according to sharing configuration
     function _distributeProfits(address token, uint256 totalProfit) internal {
         uint256 distributed = 0;
-        
-        for (uint i = 0; i < profitSharings.length; i++) {
+
+        for (uint256 i = 0; i < profitSharings.length; i++) {
             uint256 share = (totalProfit * profitSharings[i].basisPoints) / MAX_BPS;
             if (share > 0) {
                 IERC20(token).safeTransfer(profitSharings[i].recipient, share);
                 distributed += share;
-                
+
                 emit ProfitShared(profitSharings[i].recipient, share, profitSharings[i].basisPoints);
             }
         }
-        
+
         // Send remainder to owner
         uint256 remainder = totalProfit - distributed;
         if (remainder > 0) {
@@ -602,19 +564,19 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Update circuit breaker state
     function _updateCircuitBreaker(uint256 volume) internal {
         CircuitBreaker storage cb = circuitBreaker;
-        
+
         // Reset period if needed
         if (block.timestamp >= cb.currentPeriodStart + cb.periodDuration) {
             cb.currentPeriodStart = block.timestamp;
             cb.currentVolume = 0;
             cb.currentTrades = 0;
         }
-        
+
         cb.currentVolume += volume;
         cb.currentTrades++;
-        
+
         CircuitBreakerState oldState = cb.state;
-        
+
         // Determine new state
         if (cb.currentVolume > cb.maxVolumePerPeriod || cb.currentTrades > cb.maxTradesPerPeriod) {
             cb.state = CircuitBreakerState.EMERGENCY;
@@ -624,7 +586,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         } else {
             cb.state = CircuitBreakerState.NORMAL;
         }
-        
+
         if (oldState != cb.state) {
             emit CircuitBreakerStateChanged(oldState, cb.state, cb.currentVolume, cb.maxVolumePerPeriod);
         }
@@ -633,7 +595,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Calculate total volume from amounts array
     function _calculateTotalVolume(uint256[] memory amounts) internal pure returns (uint256) {
         uint256 total = 0;
-        for (uint i = 0; i < amounts.length; i++) {
+        for (uint256 i = 0; i < amounts.length; i++) {
             total += amounts[i];
         }
         return total;
@@ -648,7 +610,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     function _validateRoutes(ArbitrageParamsV3 memory params) internal view {
         bytes32 buyRouteHash = keccak256(abi.encode(params.buyRoute));
         bytes32 sellRouteHash = keccak256(abi.encode(params.sellRoute));
-        
+
         require(
             failedRoutes[buyRouteHash] == 0 || block.timestamp > failedRoutes[buyRouteHash] + 1 hours,
             "Buy route recently failed"
@@ -671,11 +633,11 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         stats.totalTrades++;
         stats.totalVolume += _calculateTotalVolume(params.flashParams.amounts);
         stats.lastTradeTimestamp = block.timestamp;
-        
+
         if (params.flashParams.mevProtection) {
             stats.mevProtectedTrades++;
         }
-        
+
         // Update average profit (simplified)
         stats.averageProfit = stats.totalProfit / stats.totalTrades;
     }
