@@ -100,3 +100,85 @@ clean: ## Clean build artifacts and cache
 	forge clean
 	rm -rf $(BUILD_DIR) $(CACHE_DIR) $(ARTIFACTS_DIR) $(COVERAGE_DIR) $(REPORTS_DIR)
 	@echo "$(GREEN)✅ Project cleaned$(RESET)"
+
+reset: clean install ## Reset project (clean + reinstall)
+	@echo "$(GREEN)✅ Project reset complete$(RESET)"
+
+# ================================================================
+# BUILD SYSTEM
+# ================================================================
+
+build: ## Compile all contracts
+	@echo "$(BLUE)🔨 Building contracts...$(RESET)"
+	forge build
+	@echo "$(GREEN)✅ Build completed successfully$(RESET)"
+
+rebuild: clean build ## Clean rebuild of all contracts
+
+build-optimized: ## Build with gas optimizations enabled
+	@echo "$(BLUE)⚡ Building with optimizations...$(RESET)"
+	forge build --optimize --optimize-runs 1000000
+	@echo "$(GREEN)✅ Optimized build completed$(RESET)"
+
+build-sizes: ## Show contract sizes after build
+	@echo "$(BLUE)📊 Contract sizes:$(RESET)"
+	forge build --sizes
+
+# ================================================================
+# TESTING SUITE
+# ================================================================
+
+test: ## Run all tests
+	@echo "$(BLUE)🧪 Running tests...$(RESET)"
+	forge test -vv
+
+test-gas: ## Run tests with gas reporting
+	@echo "$(BLUE)⛽ Running tests with gas reports...$(RESET)"
+	forge test --gas-report
+
+test-coverage: ## Generate test coverage report
+	@echo "$(BLUE)📊 Generating coverage report...$(RESET)"
+	mkdir -p $(COVERAGE_DIR)
+	forge coverage --report lcov --report-file $(COVERAGE_DIR)/coverage.lcov
+	genhtml $(COVERAGE_DIR)/coverage.lcov -o $(COVERAGE_DIR)/html
+	@echo "$(GREEN)✅ Coverage report generated at $(COVERAGE_DIR)/html/index.html$(RESET)"
+
+test-unit: ## Run unit tests only
+	@echo "$(BLUE)🔬 Running unit tests...$(RESET)"
+	forge test --match-path "test/unit/*" -vv
+
+test-integration: ## Run integration tests only
+	@echo "$(BLUE)🔗 Running integration tests...$(RESET)"
+	forge test --match-path "test/integration/*" -vv
+
+test-fork: ## Run fork tests against mainnet
+	@echo "$(BLUE)🍴 Running fork tests...$(RESET)"
+	forge test --fork-url $(MAINNET_RPC_URL) --match-path "test/fork/*" -vv
+
+test-specific: ## Run specific test (usage: make test-specific TEST=TestName)
+	@echo "$(BLUE)🎯 Running specific test: $(TEST)$(RESET)"
+	forge test --match-test $(TEST) -vvvv
+
+test-watch: ## Watch files and run tests on changes
+	@echo "$(BLUE)👀 Watching for changes...$(RESET)"
+	forge test --watch
+
+# ================================================================
+# CODE QUALITY & ANALYSIS
+# ================================================================
+
+fmt: ## Format code using forge fmt
+	@echo "$(BLUE)💅 Formatting code...$(RESET)"
+	forge fmt
+
+fmt-check: ## Check code formatting
+	@echo "$(BLUE)🔍 Checking code formatting...$(RESET)"
+	forge fmt --check
+
+lint: ## Run solhint linter
+	@echo "$(BLUE)🔍 Running linter...$(RESET)"
+	npx solhint 'src/**/*.sol' 'test/**/*.sol' 'script/**/*.sol'
+
+analyze: ## Run slither static analysis
+	@echo "$(BLUE)🔬 Running static analysis...$(RESET)"
+	slither src/
