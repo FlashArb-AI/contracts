@@ -186,3 +186,5 @@ analyze: ## Run slither static analysis
 mythril: ## Run mythril security analysis
 	@echo "$(BLUE)🛡️ Running security analysis...$(RESET)"
 	myth analyze src/ImprovedFlashArbitrageV3.sol
+
+audit-prep: fmt build analyze ## Prepare for security audit
