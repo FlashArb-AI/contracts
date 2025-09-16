@@ -178,3 +178,7 @@ fmt-check: ## Check code formatting
 lint: ## Run solhint linter
 	@echo "$(BLUE)🔍 Running linter...$(RESET)"
 	npx solhint 'src/**/*.sol' 'test/**/*.sol' 'script/**/*.sol'
+
+analyze: ## Run slither static analysis
+	@echo "$(BLUE)🔬 Running static analysis...$(RESET)"
+	slither src/
