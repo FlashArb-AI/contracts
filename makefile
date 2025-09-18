@@ -192,3 +192,8 @@ audit-prep: fmt build analyze ## Prepare for security audit
 # ================================================================
 # DEPLOYMENT SCRIPTS
 # ================================================================
+
+# Local deployment
+deploy-local: ## Deploy to local anvil network
+	@echo "$(BLUE)🚀 Deploying to local network...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript --rpc-url http://localhost:8545 --broadcast
