@@ -197,3 +197,14 @@ audit-prep: fmt build analyze ## Prepare for security audit
 deploy-local: ## Deploy to local anvil network
 	@echo "$(BLUE)🚀 Deploying to local network...$(RESET)"
 	forge script script/Deploy.s.sol:DeployScript --rpc-url http://localhost:8545 --broadcast
+
+# Testnet deployments
+deploy-sepolia: ## Deploy to Sepolia testnet
+	@echo "$(BLUE)🚀 Deploying to Sepolia...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(SEPOLIA_RPC_URL) \
+		--broadcast \
+		--verify \
+		--etherscan-api-key $(ETHERSCAN_API_KEY) \
+		--gas-limit $(GAS_LIMIT) \
+		--gas-price $(GAS_PRICE)
