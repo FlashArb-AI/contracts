@@ -228,3 +228,13 @@ deploy-mainnet: ## Deploy to Ethereum mainnet (requires confirmation)
 		--etherscan-api-key $(ETHERSCAN_API_KEY) \
 		--gas-limit $(GAS_LIMIT) \
 		--priority-gas-price $(PRIORITY_GAS_PRICE)
+
+deploy-polygon: ## Deploy to Polygon mainnet
+	@echo "$(RED)⚠️  POLYGON DEPLOYMENT - Are you sure? (y/N)$(RESET)" && read ans && [ $${ans:-N} = y ]
+	@echo "$(BLUE)🚀 Deploying to Polygon...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(POLYGON_RPC_URL) \
+		--broadcast \
+		--verify \
+		--verifier-url https://api.polygonscan.com/api \
+		--etherscan-api-key $(POLYGONSCAN_API_KEY)
