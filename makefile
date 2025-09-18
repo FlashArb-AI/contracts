@@ -188,3 +188,31 @@ mythril: ## Run mythril security analysis
 	myth analyze src/ImprovedFlashArbitrageV3.sol
 
 audit-prep: fmt build analyze ## Prepare for security audit
+
+# ================================================================
+# DEPLOYMENT SCRIPTS
+# ================================================================
+
+# Local deployment
+deploy-local: ## Deploy to local anvil network
+	@echo "$(BLUE)🚀 Deploying to local network...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript --rpc-url http://localhost:8545 --broadcast
+
+# Testnet deployments
+deploy-sepolia: ## Deploy to Sepolia testnet
+	@echo "$(BLUE)🚀 Deploying to Sepolia...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(SEPOLIA_RPC_URL) \
+		--broadcast \
+		--verify \
+		--etherscan-api-key $(ETHERSCAN_API_KEY) \
+		--gas-limit $(GAS_LIMIT) \
+		--gas-price $(GAS_PRICE)
+
+deploy-goerli: ## Deploy to Goerli testnet
+	@echo "$(BLUE)🚀 Deploying to Goerli...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(GOERLI_RPC_URL) \
+		--broadcast \
+		--verify \
+		--etherscan-api-key $(ETHERSCAN_API_KEY)
