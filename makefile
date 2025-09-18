@@ -248,3 +248,10 @@ deploy-arbitrum: ## Deploy to Arbitrum One
 		--verify \
 		--verifier-url https://api.arbiscan.io/api \
 		--etherscan-api-key $(ARBISCAN_API_KEY)
+
+deploy-optimism: ## Deploy to Optimism
+	@echo "$(RED)⚠️  OPTIMISM DEPLOYMENT - Are you sure? (y/N)$(RESET)" && read ans && [ $${ans:-N} = y ]
+	@echo "$(BLUE)🚀 Deploying to Optimism...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(OPTIMISM_RPC_URL) \
+		--broadcast
