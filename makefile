@@ -238,3 +238,13 @@ deploy-polygon: ## Deploy to Polygon mainnet
 		--verify \
 		--verifier-url https://api.polygonscan.com/api \
 		--etherscan-api-key $(POLYGONSCAN_API_KEY)
+
+deploy-arbitrum: ## Deploy to Arbitrum One
+	@echo "$(RED)⚠️  ARBITRUM DEPLOYMENT - Are you sure? (y/N)$(RESET)" && read ans && [ $${ans:-N} = y ]
+	@echo "$(BLUE)🚀 Deploying to Arbitrum...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(ARBITRUM_RPC_URL) \
+		--broadcast \
+		--verify \
+		--verifier-url https://api.arbiscan.io/api \
+		--etherscan-api-key $(ARBISCAN_API_KEY)
