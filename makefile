@@ -208,3 +208,11 @@ deploy-sepolia: ## Deploy to Sepolia testnet
 		--etherscan-api-key $(ETHERSCAN_API_KEY) \
 		--gas-limit $(GAS_LIMIT) \
 		--gas-price $(GAS_PRICE)
+
+deploy-goerli: ## Deploy to Goerli testnet
+	@echo "$(BLUE)🚀 Deploying to Goerli...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(GOERLI_RPC_URL) \
+		--broadcast \
+		--verify \
+		--etherscan-api-key $(ETHERSCAN_API_KEY)
