@@ -1,0 +1,17 @@
+{
+  "lib/balancer-v2-monorepo": {
+    "rev": "36d282374b457dddea828be7884ee0d185db06ba"
+  },
+  "lib/forge-std": {
+    "rev": "b93cf4bc34ff214c099dc970b153f85ade8c9f66"
+  },
+  "lib/openzeppelin-contracts": {
+    "rev": "281550b71c3df9a83e6b80ceefc700852c287570"
+  },
+  "lib/v3-core": {
+    "rev": "e3589b192d0be27e100cd0daaf6c97204fdb1899"
+  },
+  "lib/v3-periphery": {
+    "rev": "80f26c86c57b8a5e4b913f42844d4c8bd274d058"
+  }
+}
