@@ -216,3 +216,42 @@ deploy-goerli: ## Deploy to Goerli testnet
 		--broadcast \
 		--verify \
 		--etherscan-api-key $(ETHERSCAN_API_KEY)
+
+# Mainnet deployments
+deploy-mainnet: ## Deploy to Ethereum mainnet (requires confirmation)
+	@echo "$(RED)⚠️  MAINNET DEPLOYMENT - Are you sure? (y/N)$(RESET)" && read ans && [ $${ans:-N} = y ]
+	@echo "$(BLUE)🚀 Deploying to Ethereum mainnet...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(MAINNET_RPC_URL) \
+		--broadcast \
+		--verify \
+		--etherscan-api-key $(ETHERSCAN_API_KEY) \
+		--gas-limit $(GAS_LIMIT) \
+		--priority-gas-price $(PRIORITY_GAS_PRICE)
+
+deploy-polygon: ## Deploy to Polygon mainnet
+	@echo "$(RED)⚠️  POLYGON DEPLOYMENT - Are you sure? (y/N)$(RESET)" && read ans && [ $${ans:-N} = y ]
+	@echo "$(BLUE)🚀 Deploying to Polygon...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(POLYGON_RPC_URL) \
+		--broadcast \
+		--verify \
+		--verifier-url https://api.polygonscan.com/api \
+		--etherscan-api-key $(POLYGONSCAN_API_KEY)
+
+deploy-arbitrum: ## Deploy to Arbitrum One
+	@echo "$(RED)⚠️  ARBITRUM DEPLOYMENT - Are you sure? (y/N)$(RESET)" && read ans && [ $${ans:-N} = y ]
+	@echo "$(BLUE)🚀 Deploying to Arbitrum...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(ARBITRUM_RPC_URL) \
+		--broadcast \
+		--verify \
+		--verifier-url https://api.arbiscan.io/api \
+		--etherscan-api-key $(ARBISCAN_API_KEY)
+
+deploy-optimism: ## Deploy to Optimism
+	@echo "$(RED)⚠️  OPTIMISM DEPLOYMENT - Are you sure? (y/N)$(RESET)" && read ans && [ $${ans:-N} = y ]
+	@echo "$(BLUE)🚀 Deploying to Optimism...$(RESET)"
+	forge script script/Deploy.s.sol:DeployScript \
+		--rpc-url $(OPTIMISM_RPC_URL) \
+		--broadcast
