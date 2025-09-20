@@ -265,3 +265,8 @@ verify-mainnet: ## Verify contract on Etherscan
 	forge verify-contract $(CONTRACT_ADDRESS) src/ImprovedFlashArbitrageV3.sol:ImprovedFlashArbitrageV3 \
 		--chain-id 1 \
 		--etherscan-api-key $(ETHERSCAN_API_KEY)
+
+# Contract interaction scripts
+interact-local: ## Run interaction script on local network
+	@echo "$(BLUE)🔄 Running interaction script locally...$(RESET)"
+	forge script script/Interact.s.sol:InteractionScript --rpc-url http://localhost:8545
