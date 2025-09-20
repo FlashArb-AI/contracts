@@ -270,3 +270,8 @@ verify-mainnet: ## Verify contract on Etherscan
 interact-local: ## Run interaction script on local network
 	@echo "$(BLUE)🔄 Running interaction script locally...$(RESET)"
 	forge script script/Interact.s.sol:InteractionScript --rpc-url http://localhost:8545
+
+interact-testnet: ## Run interaction script on testnet
+	@echo "$(BLUE)🔄 Running interaction script on testnet...$(RESET)"
+	forge script script/Interact.s.sol:InteractionScript --rpc-url $(SEPOLIA_RPC_URL)
+
