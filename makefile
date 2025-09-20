@@ -259,3 +259,9 @@ deploy-optimism: ## Deploy to Optimism
 # ================================================================
 # VERIFICATION & INTERACTION
 # ================================================================
+
+verify-mainnet: ## Verify contract on Etherscan
+	@echo "$(BLUE)✅ Verifying contract on Etherscan...$(RESET)"
+	forge verify-contract $(CONTRACT_ADDRESS) src/ImprovedFlashArbitrageV3.sol:ImprovedFlashArbitrageV3 \
+		--chain-id 1 \
+		--etherscan-api-key $(ETHERSCAN_API_KEY)
