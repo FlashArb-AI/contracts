@@ -255,3 +255,23 @@ deploy-optimism: ## Deploy to Optimism
 	forge script script/Deploy.s.sol:DeployScript \
 		--rpc-url $(OPTIMISM_RPC_URL) \
 		--broadcast
+
+# ================================================================
+# VERIFICATION & INTERACTION
+# ================================================================
+
+verify-mainnet: ## Verify contract on Etherscan
+	@echo "$(BLUE)✅ Verifying contract on Etherscan...$(RESET)"
+	forge verify-contract $(CONTRACT_ADDRESS) src/ImprovedFlashArbitrageV3.sol:ImprovedFlashArbitrageV3 \
+		--chain-id 1 \
+		--etherscan-api-key $(ETHERSCAN_API_KEY)
+
+# Contract interaction scripts
+interact-local: ## Run interaction script on local network
+	@echo "$(BLUE)🔄 Running interaction script locally...$(RESET)"
+	forge script script/Interact.s.sol:InteractionScript --rpc-url http://localhost:8545
+
+interact-testnet: ## Run interaction script on testnet
+	@echo "$(BLUE)🔄 Running interaction script on testnet...$(RESET)"
+	forge script script/Interact.s.sol:InteractionScript --rpc-url $(SEPOLIA_RPC_URL)
+
