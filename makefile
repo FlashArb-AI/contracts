@@ -275,3 +275,18 @@ interact-testnet: ## Run interaction script on testnet
 	@echo "$(BLUE)🔄 Running interaction script on testnet...$(RESET)"
 	forge script script/Interact.s.sol:InteractionScript --rpc-url $(SEPOLIA_RPC_URL)
 
+# ================================================================
+# LOCAL DEVELOPMENT
+# ================================================================
+
+anvil: ## Start local Anvil node
+	@echo "$(BLUE)⚒️  Starting Anvil local node...$(RESET)"
+	anvil --host 0.0.0.0 --port 8545 --chain-id 31337
+
+anvil-fork: ## Start Anvil forked from mainnet
+	@echo "$(BLUE)🍴 Starting Anvil forked from mainnet...$(RESET)"
+	anvil --fork-url $(MAINNET_RPC_URL) --host 0.0.0.0 --port 8545
+
+anvil-polygon: ## Start Anvil forked from Polygon
+	@echo "$(BLUE)🍴 Starting Anvil forked from Polygon...$(RESET)"
+	anvil --fork-url $(POLYGON_RPC_URL) --host 0.0.0.0 --port 8545
