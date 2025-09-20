@@ -278,3 +278,7 @@ interact-testnet: ## Run interaction script on testnet
 # ================================================================
 # LOCAL DEVELOPMENT
 # ================================================================
+
+anvil: ## Start local Anvil node
+	@echo "$(BLUE)⚒️  Starting Anvil local node...$(RESET)"
+	anvil --host 0.0.0.0 --port 8545 --chain-id 31337
