@@ -275,3 +275,6 @@ interact-testnet: ## Run interaction script on testnet
 	@echo "$(BLUE)🔄 Running interaction script on testnet...$(RESET)"
 	forge script script/Interact.s.sol:InteractionScript --rpc-url $(SEPOLIA_RPC_URL)
 
+# ================================================================
+# LOCAL DEVELOPMENT
+# ================================================================
