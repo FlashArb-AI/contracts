@@ -255,3 +255,7 @@ deploy-optimism: ## Deploy to Optimism
 	forge script script/Deploy.s.sol:DeployScript \
 		--rpc-url $(OPTIMISM_RPC_URL) \
 		--broadcast
+
+# ================================================================
+# VERIFICATION & INTERACTION
+# ================================================================
