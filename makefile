@@ -312,3 +312,7 @@ docs-serve: docs ## Serve documentation locally
 gas-snapshot: ## Create gas usage snapshot
 	@echo "$(BLUE)📊 Creating gas snapshot...$(RESET)"
 	forge snapshot
+
+gas-diff: ## Compare gas usage with snapshot
+	@echo "$(BLUE)📊 Comparing gas usage...$(RESET)"
+	forge snapshot --diff
