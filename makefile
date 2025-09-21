@@ -322,3 +322,7 @@ gas-report: ## Generate detailed gas report
 	mkdir -p $(REPORTS_DIR)
 	forge test --gas-report > $(REPORTS_DIR)/gas-report.txt
 	@echo "$(GREEN)✅ Gas report saved to $(REPORTS_DIR)/gas-report.txt$(RESET)"
+
+# ================================================================
+# MAINTENANCE & UTILITIES
+# ================================================================
