@@ -308,3 +308,7 @@ docs-serve: docs ## Serve documentation locally
 # ================================================================
 # GAS OPTIMIZATION
 # ================================================================
+
+gas-snapshot: ## Create gas usage snapshot
+	@echo "$(BLUE)📊 Creating gas snapshot...$(RESET)"
+	forge snapshot
