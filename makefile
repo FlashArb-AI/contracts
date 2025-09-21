@@ -304,3 +304,21 @@ docs: ## Generate documentation
 docs-serve: docs ## Serve documentation locally
 	@echo "$(BLUE)🌐 Serving documentation at http://localhost:3000$(RESET)"
 	forge doc --serve --port 3000
+
+# ================================================================
+# GAS OPTIMIZATION
+# ================================================================
+
+gas-snapshot: ## Create gas usage snapshot
+	@echo "$(BLUE)📊 Creating gas snapshot...$(RESET)"
+	forge snapshot
+
+gas-diff: ## Compare gas usage with snapshot
+	@echo "$(BLUE)📊 Comparing gas usage...$(RESET)"
+	forge snapshot --diff
+
+gas-report: ## Generate detailed gas report
+	@echo "$(BLUE)⛽ Generating gas report...$(RESET)"
+	mkdir -p $(REPORTS_DIR)
+	forge test --gas-report > $(REPORTS_DIR)/gas-report.txt
+	@echo "$(GREEN)✅ Gas report saved to $(REPORTS_DIR)/gas-report.txt$(RESET)"
