@@ -304,3 +304,7 @@ docs: ## Generate documentation
 docs-serve: docs ## Serve documentation locally
 	@echo "$(BLUE)🌐 Serving documentation at http://localhost:3000$(RESET)"
 	forge doc --serve --port 3000
+
+# ================================================================
+# GAS OPTIMIZATION
+# ================================================================
