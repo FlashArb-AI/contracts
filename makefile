@@ -290,3 +290,7 @@ anvil-fork: ## Start Anvil forked from mainnet
 anvil-polygon: ## Start Anvil forked from Polygon
 	@echo "$(BLUE)🍴 Starting Anvil forked from Polygon...$(RESET)"
 	anvil --fork-url $(POLYGON_RPC_URL) --host 0.0.0.0 --port 8545
+
+# ================================================================
+# DOCUMENTATION
+# ================================================================
