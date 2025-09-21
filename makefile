@@ -300,3 +300,7 @@ docs: ## Generate documentation
 	mkdir -p $(DOCS_DIR)
 	forge doc --build --out $(DOCS_DIR)
 	@echo "$(GREEN)✅ Documentation generated at $(DOCS_DIR)$(RESET)"
+
+docs-serve: docs ## Serve documentation locally
+	@echo "$(BLUE)🌐 Serving documentation at http://localhost:3000$(RESET)"
+	forge doc --serve --port 3000
