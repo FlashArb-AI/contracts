@@ -294,3 +294,9 @@ anvil-polygon: ## Start Anvil forked from Polygon
 # ================================================================
 # DOCUMENTATION
 # ================================================================
+
+docs: ## Generate documentation
+	@echo "$(BLUE)📚 Generating documentation...$(RESET)"
+	mkdir -p $(DOCS_DIR)
+	forge doc --build --out $(DOCS_DIR)
+	@echo "$(GREEN)✅ Documentation generated at $(DOCS_DIR)$(RESET)"
