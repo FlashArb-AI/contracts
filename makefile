@@ -290,3 +290,17 @@ anvil-fork: ## Start Anvil forked from mainnet
 anvil-polygon: ## Start Anvil forked from Polygon
 	@echo "$(BLUE)🍴 Starting Anvil forked from Polygon...$(RESET)"
 	anvil --fork-url $(POLYGON_RPC_URL) --host 0.0.0.0 --port 8545
+
+# ================================================================
+# DOCUMENTATION
+# ================================================================
+
+docs: ## Generate documentation
+	@echo "$(BLUE)📚 Generating documentation...$(RESET)"
+	mkdir -p $(DOCS_DIR)
+	forge doc --build --out $(DOCS_DIR)
+	@echo "$(GREEN)✅ Documentation generated at $(DOCS_DIR)$(RESET)"
+
+docs-serve: docs ## Serve documentation locally
+	@echo "$(BLUE)🌐 Serving documentation at http://localhost:3000$(RESET)"
+	forge doc --serve --port 3000
