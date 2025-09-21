@@ -322,3 +322,15 @@ gas-report: ## Generate detailed gas report
 	mkdir -p $(REPORTS_DIR)
 	forge test --gas-report > $(REPORTS_DIR)/gas-report.txt
 	@echo "$(GREEN)✅ Gas report saved to $(REPORTS_DIR)/gas-report.txt$(RESET)"
+
+# ================================================================
+# MAINTENANCE & UTILITIES
+# ================================================================
+
+check-updates: ## Check for Foundry updates
+	@echo "$(BLUE)🔍 Checking for Foundry updates...$(RESET)"
+	foundryup --version
+
+update-foundry: ## Update Foundry to latest version
+	@echo "$(BLUE)🔄 Updating Foundry...$(RESET)"
+	foundryup
