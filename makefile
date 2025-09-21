@@ -330,3 +330,7 @@ gas-report: ## Generate detailed gas report
 check-updates: ## Check for Foundry updates
 	@echo "$(BLUE)🔍 Checking for Foundry updates...$(RESET)"
 	foundryup --version
+
+update-foundry: ## Update Foundry to latest version
+	@echo "$(BLUE)🔄 Updating Foundry...$(RESET)"
+	foundryup
