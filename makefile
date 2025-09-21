@@ -326,3 +326,7 @@ gas-report: ## Generate detailed gas report
 # ================================================================
 # MAINTENANCE & UTILITIES
 # ================================================================
+
+check-updates: ## Check for Foundry updates
+	@echo "$(BLUE)🔍 Checking for Foundry updates...$(RESET)"
+	foundryup --version
