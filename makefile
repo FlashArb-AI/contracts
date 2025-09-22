@@ -344,3 +344,15 @@ env-check: ## Check environment variables
 	@echo "ALCHEMY_API_KEY: $(if $(ALCHEMY_API_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
 	@echo "ETHERSCAN_API_KEY: $(if $(ETHERSCAN_API_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
 	@echo "PRIVATE_KEY: $(if $(PRIVATE_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
+
+# ================================================================
+# CI/CD TARGETS
+# ================================================================
+
+ci-test: ## Run tests in CI environment
+	@echo "$(BLUE)🤖 Running CI tests...$(RESET)"
+	forge test --no-match-path "test/fork/*"
+
+ci-coverage: ## Generate coverage in CI
+	@echo "$(BLUE)🤖 Generating CI coverage...$(RESET)"
+	forge coverage --report summary
