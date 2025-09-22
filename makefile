@@ -360,3 +360,5 @@ ci-coverage: ## Generate coverage in CI
 ci-build: ## Build in CI environment
 	@echo "$(BLUE)🤖 Building for CI...$(RESET)"
 	forge build --optimize
+
+ci-full: ci-build ci-test ci-coverage fmt-check ## Full CI pipeline
