@@ -344,3 +344,7 @@ env-check: ## Check environment variables
 	@echo "ALCHEMY_API_KEY: $(if $(ALCHEMY_API_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
 	@echo "ETHERSCAN_API_KEY: $(if $(ETHERSCAN_API_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
 	@echo "PRIVATE_KEY: $(if $(PRIVATE_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
+
+# ================================================================
+# CI/CD TARGETS
+# ================================================================
