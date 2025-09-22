@@ -348,3 +348,7 @@ env-check: ## Check environment variables
 # ================================================================
 # CI/CD TARGETS
 # ================================================================
+
+ci-test: ## Run tests in CI environment
+	@echo "$(BLUE)🤖 Running CI tests...$(RESET)"
+	forge test --no-match-path "test/fork/*"
