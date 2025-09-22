@@ -334,3 +334,13 @@ check-updates: ## Check for Foundry updates
 update-foundry: ## Update Foundry to latest version
 	@echo "$(BLUE)🔄 Updating Foundry...$(RESET)"
 	foundryup
+
+node-modules: ## Install Node.js dependencies for tooling
+	@echo "$(BLUE)📦 Installing Node.js dependencies...$(RESET)"
+	npm install --save-dev solhint prettier prettier-plugin-solidity
+
+env-check: ## Check environment variables
+	@echo "$(BLUE)🔍 Checking environment variables...$(RESET)"
+	@echo "ALCHEMY_API_KEY: $(if $(ALCHEMY_API_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
+	@echo "ETHERSCAN_API_KEY: $(if $(ETHERSCAN_API_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
+	@echo "PRIVATE_KEY: $(if $(PRIVATE_KEY),$(GREEN)✅ Set$(RESET),$(RED)❌ Missing$(RESET))"
