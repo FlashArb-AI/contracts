@@ -352,3 +352,7 @@ env-check: ## Check environment variables
 ci-test: ## Run tests in CI environment
 	@echo "$(BLUE)🤖 Running CI tests...$(RESET)"
 	forge test --no-match-path "test/fork/*"
+
+ci-coverage: ## Generate coverage in CI
+	@echo "$(BLUE)🤖 Generating CI coverage...$(RESET)"
+	forge coverage --report summary
