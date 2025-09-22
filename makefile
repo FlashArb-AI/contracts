@@ -334,3 +334,7 @@ check-updates: ## Check for Foundry updates
 update-foundry: ## Update Foundry to latest version
 	@echo "$(BLUE)🔄 Updating Foundry...$(RESET)"
 	foundryup
+
+node-modules: ## Install Node.js dependencies for tooling
+	@echo "$(BLUE)📦 Installing Node.js dependencies...$(RESET)"
+	npm install --save-dev solhint prettier prettier-plugin-solidity
