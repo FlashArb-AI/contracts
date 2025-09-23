@@ -382,3 +382,6 @@ balance: ## Check contract balance
 # ================================================================
 # DEVELOPER WORKFLOW SHORTCUTS
 # ================================================================
+
+dev: install build test ## Quick development setup
+	@echo "$(GREEN)🚀 Development environment ready!$(RESET)"
