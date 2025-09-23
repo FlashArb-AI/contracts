@@ -362,3 +362,7 @@ ci-build: ## Build in CI environment
 	forge build --optimize
 
 ci-full: ci-build ci-test ci-coverage fmt-check ## Full CI pipeline
+
+# ================================================================
+# ADVANCED FEATURES
+# ================================================================
