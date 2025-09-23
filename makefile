@@ -366,3 +366,7 @@ ci-full: ci-build ci-test ci-coverage fmt-check ## Full CI pipeline
 # ================================================================
 # ADVANCED FEATURES
 # ================================================================
+
+simulate: ## Simulate arbitrage opportunities
+	@echo "$(BLUE)🔮 Simulating arbitrage opportunities...$(RESET)"
+	forge script script/Simulate.s.sol:SimulationScript --rpc-url $(MAINNET_RPC_URL)
