@@ -385,3 +385,5 @@ balance: ## Check contract balance
 
 dev: install build test ## Quick development setup
 	@echo "$(GREEN)🚀 Development environment ready!$(RESET)"
+
+quick-test: build test-unit ## Quick test cycle
