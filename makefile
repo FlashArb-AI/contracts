@@ -375,3 +375,6 @@ monitor: ## Monitor contract events
 	@echo "$(BLUE)👁️ Monitoring contract events...$(RESET)"
 	cast logs --rpc-url $(MAINNET_RPC_URL) --address $(CONTRACT_ADDRESS)
 
+balance: ## Check contract balance
+	@echo "$(BLUE)💰 Checking contract balance...$(RESET)"
+	cast balance $(CONTRACT_ADDRESS) --rpc-url $(MAINNET_RPC_URL)
