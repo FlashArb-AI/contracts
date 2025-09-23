@@ -370,3 +370,8 @@ ci-full: ci-build ci-test ci-coverage fmt-check ## Full CI pipeline
 simulate: ## Simulate arbitrage opportunities
 	@echo "$(BLUE)🔮 Simulating arbitrage opportunities...$(RESET)"
 	forge script script/Simulate.s.sol:SimulationScript --rpc-url $(MAINNET_RPC_URL)
+
+monitor: ## Monitor contract events
+	@echo "$(BLUE)👁️ Monitoring contract events...$(RESET)"
+	cast logs --rpc-url $(MAINNET_RPC_URL) --address $(CONTRACT_ADDRESS)
+
