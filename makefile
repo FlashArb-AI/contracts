@@ -378,3 +378,16 @@ monitor: ## Monitor contract events
 balance: ## Check contract balance
 	@echo "$(BLUE)💰 Checking contract balance...$(RESET)"
 	cast balance $(CONTRACT_ADDRESS) --rpc-url $(MAINNET_RPC_URL)
+
+# ================================================================
+# DEVELOPER WORKFLOW SHORTCUTS
+# ================================================================
+
+dev: install build test ## Quick development setup
+	@echo "$(GREEN)🚀 Development environment ready!$(RESET)"
+
+quick-test: build test-unit ## Quick test cycle
+
+deploy-test: deploy-sepolia interact-testnet ## Deploy and test on testnet
+
+full-check: fmt build test-coverage gas-snapshot analyze ## Complete code quality check
