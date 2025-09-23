@@ -378,3 +378,7 @@ monitor: ## Monitor contract events
 balance: ## Check contract balance
 	@echo "$(BLUE)💰 Checking contract balance...$(RESET)"
 	cast balance $(CONTRACT_ADDRESS) --rpc-url $(MAINNET_RPC_URL)
+
+# ================================================================
+# DEVELOPER WORKFLOW SHORTCUTS
+# ================================================================
