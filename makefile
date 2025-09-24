@@ -399,3 +399,7 @@ full-check: fmt build test-coverage gas-snapshot analyze ## Complete code qualit
 emergency-pause: ## Emergency pause contract (requires CONTRACT_ADDRESS)
 	@echo "$(RED)🚨 EMERGENCY PAUSE$(RESET)"
 	cast send $(CONTRACT_ADDRESS) "pause()" --rpc-url $(MAINNET_RPC_URL) --private-key $(PRIVATE_KEY)
+
+emergency-unpause: ## Emergency unpause contract
+	@echo "$(YELLOW)⚠️ Unpausing contract$(RESET)"
+	cast send $(CONTRACT_ADDRESS) "unpause()" --rpc-url $(MAINNET_RPC_URL) --private-key $(PRIVATE_KEY)
