@@ -408,3 +408,9 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 	@echo "$(RED)🚨 EMERGENCY WITHDRAWAL$(RESET)"
 	cast send $(CONTRACT_ADDRESS) "emergencyWithdraw(address,uint256)" $(EMERGENCY_TOKEN) 0 \
 		--rpc-url $(MAINNET_RPC_URL) --private-key $(PRIVATE_KEY)
+
+# ================================================================
+# MAKEFILE METADATA
+# ================================================================
+
+.PHONY: install update clean reset build rebuild build-optimized build-sizes
