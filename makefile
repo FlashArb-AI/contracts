@@ -412,3 +412,5 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 # ================================================================
 # MAKEFILE METADATA
 # ================================================================
+
+.PHONY: install update clean reset build rebuild build-optimized build-sizes
