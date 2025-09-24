@@ -391,3 +391,7 @@ quick-test: build test-unit ## Quick test cycle
 deploy-test: deploy-sepolia interact-testnet ## Deploy and test on testnet
 
 full-check: fmt build test-coverage gas-snapshot analyze ## Complete code quality check
+
+# ================================================================
+# EMERGENCY COMMANDS
+# ================================================================
