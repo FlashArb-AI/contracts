@@ -414,3 +414,4 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 # ================================================================
 
 .PHONY: install update clean reset build rebuild build-optimized build-sizes
+.PHONY: test test-verbose test-gas test-coverage test-unit test-integration test-fork test-specific test-watch
