@@ -418,3 +418,5 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 .PHONY: fmt fmt-check lint analyze mythril audit-prep
 .PHONY: deploy-local deploy-sepolia deploy-goerli deploy-mainnet deploy-polygon deploy-arbitrum deploy-optimism
 .PHONY: verify-mainnet interact-local interact-testnet
+.PHONY: anvil anvil-fork anvil-polygon
+.PHONY: docs docs-serve
