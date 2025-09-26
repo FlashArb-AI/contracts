@@ -420,3 +420,5 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 .PHONY: verify-mainnet interact-local interact-testnet
 .PHONY: anvil anvil-fork anvil-polygon
 .PHONY: docs docs-serve
+.PHONY: gas-snapshot gas-diff gas-report
+
