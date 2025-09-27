@@ -427,3 +427,4 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 .PHONY: dev quick-test deploy-test full-check
 .PHONY: emergency-pause emergency-unpause emergency-withdraw
 
+# Print makefile info
