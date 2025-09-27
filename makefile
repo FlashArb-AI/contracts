@@ -430,3 +430,4 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 # Print makefile info
 info: ## Show makefile information
 	@echo "$(CYAN)Makefile Information:$(RESET)"
+	@echo "  Lines: $(shell wc -l < $(MAKEFILE_LIST))"
