@@ -433,3 +433,4 @@ info: ## Show makefile information
 	@echo "  Lines: $(shell wc -l < $(MAKEFILE_LIST))"
 	@echo "  Targets: $(shell grep -c "^[a-zA-Z_-]*:" $(MAKEFILE_LIST))"
 	@echo "  Version: $(VERSION)"
+	@echo "  Generated: $(shell date)"
