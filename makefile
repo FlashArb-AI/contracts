@@ -425,4 +425,12 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 .PHONY: ci-test ci-coverage ci-build ci-full
 .PHONY: simulate monitor balance
 .PHONY: dev quick-test deploy-test full-check
+.PHONY: emergency-pause emergency-unpause emergency-withdraw
 
+# Print makefile info
+info: ## Show makefile information
+	@echo "$(CYAN)Makefile Information:$(RESET)"
+	@echo "  Lines: $(shell wc -l < $(MAKEFILE_LIST))"
+	@echo "  Targets: $(shell grep -c "^[a-zA-Z_-]*:" $(MAKEFILE_LIST))"
+	@echo "  Version: $(VERSION)"
+	@echo "  Generated: $(shell date)"
