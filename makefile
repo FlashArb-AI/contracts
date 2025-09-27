@@ -425,4 +425,5 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 .PHONY: ci-test ci-coverage ci-build ci-full
 .PHONY: simulate monitor balance
 .PHONY: dev quick-test deploy-test full-check
+.PHONY: emergency-pause emergency-unpause emergency-withdraw
 
