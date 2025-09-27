@@ -428,3 +428,4 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 .PHONY: emergency-pause emergency-unpause emergency-withdraw
 
 # Print makefile info
+info: ## Show makefile information
