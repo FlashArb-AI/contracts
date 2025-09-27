@@ -422,4 +422,5 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 .PHONY: docs docs-serve
 .PHONY: gas-snapshot gas-diff gas-report
 .PHONY: check-updates update-foundry node-modules env-check
+.PHONY: ci-test ci-coverage ci-build ci-full
 
