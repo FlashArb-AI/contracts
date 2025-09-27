@@ -424,4 +424,5 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 .PHONY: check-updates update-foundry node-modules env-check
 .PHONY: ci-test ci-coverage ci-build ci-full
 .PHONY: simulate monitor balance
+.PHONY: dev quick-test deploy-test full-check
 
