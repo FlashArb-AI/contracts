@@ -431,3 +431,4 @@ emergency-withdraw: ## Emergency withdraw (requires EMERGENCY_TOKEN)
 info: ## Show makefile information
 	@echo "$(CYAN)Makefile Information:$(RESET)"
 	@echo "  Lines: $(shell wc -l < $(MAKEFILE_LIST))"
+	@echo "  Targets: $(shell grep -c "^[a-zA-Z_-]*:" $(MAKEFILE_LIST))"
