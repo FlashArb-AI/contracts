@@ -60,6 +60,12 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Used to ensure sufficient gas for complex swaps
     uint256 private constant GAS_BUFFER = 100000;
 
+    //////////////////////////////////////////////////////////////
+    //                        CONSTRUCTOR                     //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Initializes the test arbitrage contract
+    /// @dev Sets up initial configuration and authorizes deployer
     constructor() {
         // Set initial configuration
         profitRecipient = msg.sender;
