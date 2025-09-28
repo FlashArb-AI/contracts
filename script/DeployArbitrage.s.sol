@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {FlashArbitrage} from "../src/FlashArbitrage.sol";
+import {Arbitrage} from "../src/FlashArbitrage.sol";
 import {HelperConfig} from "../script/HelperConfig.s.sol";
 
 /**
@@ -32,7 +32,7 @@ contract DeployArbitrage is Script {
 
     /// @notice The deployed FlashArbitrage contract instance
     /// @dev Main arbitrage contract that will be deployed and configured
-    FlashArbitrage public flashArbitrage;
+    Arbitrage public flashArbitrage;
 
     //////////////////////////////////////////////////////////////
     //                        FUNCTIONS                        //
@@ -46,7 +46,7 @@ contract DeployArbitrage is Script {
      */
     function setUp() public {
         helperConfig = new HelperConfig();
-        modeConfig = helperConfig.getSepoliaETHConfig();
+        SepoliaConfig = helperConfig.getSepoliaETHConfig();
     }
 
     /**
@@ -58,12 +58,12 @@ contract DeployArbitrage is Script {
      * @custom:gas Consider gas optimization and limit settings for mainnet deployment
      * @custom:network Verify network configuration before deployment to avoid wrong network deployment
      */
-    function run() public returns (FlashArbitrage) {
+    function run() public returns (Arbitrage) {
         // Start broadcasting transactions - required for actual deployment
         vm.startBroadcast();
 
         // Deploy the FlashArbitrage contract with default constructor parameters
-        flashArbitrage = new FlashArbitrage();
+        flashArbitrage = new Arbitrage();
 
         // Stop broadcasting transactions
         vm.stopBroadcast();
