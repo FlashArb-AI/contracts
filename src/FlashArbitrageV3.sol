@@ -32,7 +32,6 @@ import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.so
  * @custom:optimization Advanced routing and gas optimization strategies
  */
 contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {
-
     //////////////////////////////////////////////////////////////
     //                        CONSTANTS                        //
     //////////////////////////////////////////////////////////////

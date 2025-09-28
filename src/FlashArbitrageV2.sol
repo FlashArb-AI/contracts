@@ -30,7 +30,6 @@ import "@openzeppelin/contracts/security/Pausable.sol";
  * @custom:optimization Gas-optimized storage layout and execution paths
  */
 contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {
-
     //////////////////////////////////////////////////////////////
     //                        CONSTANTS                        //
     //////////////////////////////////////////////////////////////
