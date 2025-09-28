@@ -2,6 +2,12 @@
   "lib/balancer-v2-monorepo": {
     "rev": "36d282374b457dddea828be7884ee0d185db06ba"
   },
+  "lib/chainlink-brownie-contracts": {
+    "tag": {
+      "name": "1.3.0",
+      "rev": "5cb41fbc9b525338b6098da5ea7dd0b7e92f89e4"
+    }
+  },
   "lib/forge-std": {
     "rev": "b93cf4bc34ff214c099dc970b153f85ade8c9f66"
   },

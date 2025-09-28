@@ -8,8 +8,6 @@ import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.so
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /**
  * @title ImprovedFlashArbitrage
@@ -32,7 +30,6 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
  * @custom:optimization Gas-optimized storage layout and execution paths
  */
 contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {
-    using SafeERC20 for IERC20;
 
     //////////////////////////////////////////////////////////////
     //                        CONSTANTS                        //
@@ -147,6 +144,12 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
     /// @notice Emitted when emergency withdrawal is initiated
     /// @param unlockTime Timestamp when withdrawal becomes available
     event EmergencyWithdrawalInitiated(uint256 unlockTime);
+
+    /// @notice Emitted when emergency withdrawal is executed
+    /// @param token Token address withdrawn
+    /// @param amount Amount withdrawn
+    /// @param recipient Recipient address
+    event EmergencyWithdrawal(address indexed token, uint256 amount, address indexed recipient);
 
     //////////////////////////////////////////////////////////////
     //                        MODIFIERS                       //
@@ -267,12 +270,12 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         require(finalBalance >= initialBalance + expectedMinOut, "Insufficient profit realized");
 
         // Repay flash loan
-        tokens[0].safeTransfer(address(VAULT), flashAmount);
+        tokens[0].transfer(address(VAULT), flashAmount);
 
         // Calculate and transfer profit
         uint256 profit = finalBalance - initialBalance - flashAmount;
         if (profit > 0) {
-            tokens[0].safeTransfer(profitRecipient, profit);
+            tokens[0].transfer(profitRecipient, profit);
         }
 
         // Emit success event
@@ -336,7 +339,7 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
 
         require(withdrawAmount <= balance, "Insufficient balance");
 
-        tokenContract.safeTransfer(profitRecipient, withdrawAmount);
+        tokenContract.transfer(profitRecipient, withdrawAmount);
         emit EmergencyWithdrawal(token, withdrawAmount, profitRecipient);
     }
 
@@ -401,7 +404,7 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         IERC20 tokenInContract = IERC20(tokenIn);
 
         // Approve tokens for swap
-        tokenInContract.safeApprove(router, amountIn);
+        tokenInContract.approve(router, amountIn);
 
         // Calculate minimum output with slippage protection
         uint256 minAmountOut = amountIn - ((amountIn * slippageBps) / MAX_BPS);
@@ -422,7 +425,7 @@ contract ImprovedFlashArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable
         amountOut = ISwapRouter(router).exactInputSingle(swapParams);
 
         // Reset approval for security
-        tokenInContract.safeApprove(router, 0);
+        tokenInContract.approve(router, 0);
     }
 
     /// @notice Updates contract statistics after successful arbitrage
