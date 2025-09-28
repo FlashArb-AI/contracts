@@ -39,9 +39,24 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     //                        CONSTANTS                        //
     //////////////////////////////////////////////////////////////
 
+    /// @notice Balancer V2 Vault address for flash loans
+    /// @dev Mainnet: 0xBA12222222228d8Ba445958a75a0704d566BF2C8
+    /// @dev This is immutable for gas optimization
     IVault private constant VAULT = IVault(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
+
+    /// @notice Maximum basis points (100%) for percentage calculations
+    /// @dev Used for slippage calculations and profit validations
     uint256 private constant MAX_BPS = 10000;
+
+    /// @notice Minimum profit threshold in basis points (0.1%)
+    /// @dev Ensures arbitrage is profitable enough to justify gas costs
     uint256 private constant MIN_PROFIT_BPS = 10;
+
+    /// @notice Maximum slippage tolerance in basis points (5%)
+    /// @dev Safety limit to prevent excessive slippage in volatile conditions
     uint256 private constant MAX_SLIPPAGE_BPS = 500;
+
+    /// @notice Gas limit buffer for swap operations
+    /// @dev Used to ensure sufficient gas for complex swaps
     uint256 private constant GAS_BUFFER = 100000;
 }
