@@ -34,4 +34,4 @@ import "@openzeppelin/contracts/security/Pausable.sol";
  * @custom:testing This contract includes additional features specifically for testing and validation
  * @custom:security Multiple layers of security controls implemented
  */
-contract TestArbitrage {}
+contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {}
