@@ -12,5 +12,5 @@ remappings = [
     "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
     "@uniswap/v3-periphery/contracts/interfaces/=lib/v3-periphery/contracts/interfaces/",
     "@uniswap/v3-core/contracts/interfaces/=lib/v3-core/contracts/interfaces/",
-    "@chainlink/contracts/=lib/chainlink/contracts/",
+    "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
 ]

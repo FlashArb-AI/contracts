@@ -8,9 +8,7 @@ import {IQuoterV2} from "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.so
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 /**
  * @title ImprovedFlashArbitrage V3
@@ -34,7 +32,6 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
  * @custom:optimization Advanced routing and gas optimization strategies
  */
 contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausable {
-    using SafeERC20 for IERC20;
 
     //////////////////////////////////////////////////////////////
     //                        CONSTANTS                        //
@@ -111,6 +108,15 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         bytes[] extraData; // For protocol-specific parameters
     }
 
+    /// @notice Parameters for advanced arbitrage execution
+    struct ArbitrageParamsV3 {
+        MultiFlashParams flashParams;
+        ArbitrageRoute buyRoute;
+        ArbitrageRoute sellRoute;
+        uint256 expectedProfit;
+        uint256 maxExecutionTime;
+    }
+
     /// @notice Enhanced statistics with volatility tracking
     struct StatisticsV3 {
         uint256 totalTrades;
@@ -155,8 +161,14 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Enhanced contract statistics
     StatisticsV3 public stats;
 
+    /// @notice Circuit breaker state
+    CircuitBreaker public circuitBreaker;
+
     /// @notice Mapping of authorized addresses
     mapping(address => bool) public authorizedCallers;
+
+    /// @notice Tracks last execution block for MEV protection
+    mapping(address => uint256) public lastExecutionBlock;
 
     /// @notice Price feed configurations by token
     mapping(address => PriceFeedConfig) public priceFeeds;
@@ -164,11 +176,20 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
     /// @notice Supported DEX routers by protocol
     mapping(DexProtocol => address[]) public dexRouters;
 
+    /// @notice Quoter addresses by protocol
+    mapping(DexProtocol => address) public quoters;
+
     /// @notice Failed route tracking for optimization
     mapping(bytes32 => uint256) public failedRoutes;
 
     /// @notice Maximum gas price for execution
     uint256 public maxGasPrice = 100 gwei;
+
+    /// @notice Dynamic profit multiplier for minimum profit calculation
+    uint256 public dynamicProfitMultiplier = BASE_MIN_PROFIT_BPS;
+
+    /// @notice Profit sharing configuration array
+    ProfitSharing[] public profitSharings;
 
     //////////////////////////////////////////////////////////////
     //                        EVENTS                          //
@@ -337,7 +358,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         // Repay flash loans and calculate profits
         uint256 totalProfit = 0;
         for (uint256 i = 0; i < tokens.length; i++) {
-            tokens[i].safeTransfer(address(VAULT), amounts[i] + feeAmounts[i]);
+            tokens[i].transfer(address(VAULT), amounts[i] + feeAmounts[i]);
 
             uint256 finalBalance = tokens[i].balanceOf(address(this));
             if (finalBalance > initialBalances[i]) {
@@ -523,7 +544,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         uint24 fee,
         uint256 minAmountOut
     ) internal returns (uint256 amountOut) {
-        IERC20(tokenIn).safeApprove(router, amountIn);
+        IERC20(tokenIn).approve(router, amountIn);
 
         ISwapRouter.ExactInputSingleParams memory swapParams = ISwapRouter.ExactInputSingleParams({
             tokenIn: tokenIn,
@@ -537,7 +558,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         });
 
         amountOut = ISwapRouter(router).exactInputSingle(swapParams);
-        IERC20(tokenIn).safeApprove(router, 0);
+        IERC20(tokenIn).approve(router, 0);
     }
 
     /// @notice Distribute profits according to sharing configuration
@@ -547,7 +568,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         for (uint256 i = 0; i < profitSharings.length; i++) {
             uint256 share = (totalProfit * profitSharings[i].basisPoints) / MAX_BPS;
             if (share > 0) {
-                IERC20(token).safeTransfer(profitSharings[i].recipient, share);
+                IERC20(token).transfer(profitSharings[i].recipient, share);
                 distributed += share;
 
                 emit ProfitShared(profitSharings[i].recipient, share, profitSharings[i].basisPoints);
@@ -557,7 +578,7 @@ contract ImprovedFlashArbitrageV3 is IFlashLoanRecipient, ReentrancyGuard, Ownab
         // Send remainder to owner
         uint256 remainder = totalProfit - distributed;
         if (remainder > 0) {
-            IERC20(token).safeTransfer(owner(), remainder);
+            IERC20(token).transfer(owner(), remainder);
         }
     }
 
