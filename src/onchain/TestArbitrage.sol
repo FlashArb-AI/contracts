@@ -61,6 +61,61 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     uint256 private constant GAS_BUFFER = 100000;
 
     //////////////////////////////////////////////////////////////
+    //                        STRUCTS                         //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Comprehensive trade parameters for arbitrage execution
+    /// @dev Extended with additional fields for testing and validation
+    /// @param routerPath Array of router addresses for the two swaps [router1, router2]
+    /// @param tokenPath Array of token addresses [tokenA, tokenB]
+    /// @param fee Uniswap V3 pool fee tier (500, 3000, 10000)
+    /// @param minProfitBps Minimum profit in basis points (for validation)
+    /// @param maxSlippageBps Maximum allowed slippage in basis points
+    /// @param deadline Maximum execution time (timestamp)
+    struct TradeParams {
+        address[] routerPath;
+        address[] tokenPath;
+        uint24 fee;
+        uint256 minProfitBps;
+        uint256 maxSlippageBps;
+        uint256 deadline;
+    }
+
+    /// @notice Detailed execution results for analysis and testing
+    /// @dev Contains all relevant metrics from trade execution
+    /// @param success Whether the trade was successful
+    /// @param flashAmount Amount of tokens flash loaned
+    /// @param profit Net profit from the arbitrage
+    /// @param gasUsed Gas consumed during execution
+    /// @param timestamp When the trade was executed
+    /// @param tokenIn Input token address
+    /// @param tokenOut Output token address
+    struct TradeResult {
+        bool success;
+        uint256 flashAmount;
+        uint256 profit;
+        uint256 gasUsed;
+        uint256 timestamp;
+        address tokenIn;
+        address tokenOut;
+    }
+
+    /// @notice Contract statistics for monitoring and analysis
+    /// @dev Tracks overall contract performance
+    /// @param totalTrades Total number of executed trades
+    /// @param totalProfit Cumulative profit across all trades
+    /// @param totalVolume Total volume traded
+    /// @param averageGasUsed Average gas per trade
+    /// @param lastTradeTimestamp Timestamp of most recent trade
+    struct ContractStats {
+        uint256 totalTrades;
+        uint256 totalProfit;
+        uint256 totalVolume;
+        uint256 averageGasUsed;
+        uint256 lastTradeTimestamp;
+    }
+
+    //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
 
@@ -69,13 +124,13 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     constructor() {
         // Set initial configuration
         profitRecipient = msg.sender;
-        
+
         // Authorize the deployer for initial testing
         authorizedTraders[msg.sender] = true;
-        
+
         // Initialize stats
         stats.lastTradeTimestamp = block.timestamp;
-        
+
         emit ConfigurationUpdated("deployment", 0, block.timestamp, msg.sender);
     }
 }
