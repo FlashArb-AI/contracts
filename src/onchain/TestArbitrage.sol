@@ -100,6 +100,13 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         address tokenOut;
     }
 
+    /// @notice Contract statistics for monitoring and analysis
+    /// @dev Tracks overall contract performance
+    /// @param totalTrades Total number of executed trades
+    /// @param totalProfit Cumulative profit across all trades
+    /// @param totalVolume Total volume traded
+    /// @param averageGasUsed Average gas per trade
+    /// @param lastTradeTimestamp Timestamp of most recent trade
     struct ContractStats {
         uint256 totalTrades;
         uint256 totalProfit;
