@@ -81,6 +81,15 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         uint256 deadline;
     }
 
+    /// @notice Detailed execution results for analysis and testing
+    /// @dev Contains all relevant metrics from trade execution
+    /// @param success Whether the trade was successful
+    /// @param flashAmount Amount of tokens flash loaned
+    /// @param profit Net profit from the arbitrage
+    /// @param gasUsed Gas consumed during execution
+    /// @param timestamp When the trade was executed
+    /// @param tokenIn Input token address
+    /// @param tokenOut Output token address
     struct TradeResult {
         bool success;
         uint256 flashAmount;
