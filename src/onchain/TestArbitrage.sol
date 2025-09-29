@@ -100,6 +100,14 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         address tokenOut;
     }
 
+    struct ContractStats {
+        uint256 totalTrades;
+        uint256 totalProfit;
+        uint256 totalVolume;
+        uint256 averageGasUsed;
+        uint256 lastTradeTimestamp;
+    }
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
