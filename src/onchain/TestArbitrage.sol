@@ -60,6 +60,10 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Used to ensure sufficient gas for complex swaps
     uint256 private constant GAS_BUFFER = 100000;
 
+    //////////////////////////////////////////////////////////////
+    //                        STRUCTS                         //
+    //////////////////////////////////////////////////////////////
+    
     /// @notice Comprehensive trade parameters for arbitrage execution
     /// @dev Extended with additional fields for testing and validation
     /// @param routerPath Array of router addresses for the two swaps [router1, router2]
