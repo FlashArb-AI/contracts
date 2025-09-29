@@ -60,6 +60,15 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Used to ensure sufficient gas for complex swaps
     uint256 private constant GAS_BUFFER = 100000;
 
+    struct TradeParams {
+        address[] routerPath;
+        address[] tokenPath;
+        uint24 fee;
+        uint256 minProfitBps;
+        uint256 maxSlippageBps;
+        uint256 deadline;
+    }
+    
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
@@ -69,13 +78,13 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     constructor() {
         // Set initial configuration
         profitRecipient = msg.sender;
-        
+
         // Authorize the deployer for initial testing
         authorizedTraders[msg.sender] = true;
-        
+
         // Initialize stats
         stats.lastTradeTimestamp = block.timestamp;
-        
+
         emit ConfigurationUpdated("deployment", 0, block.timestamp, msg.sender);
     }
 }
