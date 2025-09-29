@@ -63,7 +63,7 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     //////////////////////////////////////////////////////////////
     //                        STRUCTS                         //
     //////////////////////////////////////////////////////////////
-    
+
     /// @notice Comprehensive trade parameters for arbitrage execution
     /// @dev Extended with additional fields for testing and validation
     /// @param routerPath Array of router addresses for the two swaps [router1, router2]
@@ -79,6 +79,16 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         uint256 minProfitBps;
         uint256 maxSlippageBps;
         uint256 deadline;
+    }
+
+    struct TradeResult {
+        bool success;
+        uint256 flashAmount;
+        uint256 profit;
+        uint256 gasUsed;
+        uint256 timestamp;
+        address tokenIn;
+        address tokenOut;
     }
 
     //////////////////////////////////////////////////////////////
