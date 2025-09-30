@@ -119,6 +119,8 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     //                        STATE VARIABLES                 //
     //////////////////////////////////////////////////////////////
 
+    /// @notice Current contract statistics
+    /// @dev Updated after each successful trade
     ContractStats public stats;
 
     //////////////////////////////////////////////////////////////
