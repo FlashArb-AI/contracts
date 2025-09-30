@@ -123,6 +123,8 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Updated after each successful trade
     ContractStats public stats;
 
+    /// @notice Mapping to track trade history by ID
+    /// @dev Allows retrieval of specific trade details
     mapping(uint256 => TradeResult) public tradeHistory;
 
     //////////////////////////////////////////////////////////////
