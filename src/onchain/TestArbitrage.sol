@@ -135,6 +135,14 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev When true, enables additional testing features
     bool public testMode;
 
+    /// @notice Authorized addresses that can execute trades
+    /// @dev Prevents unauthorized access while allowing testing
+    mapping(address => bool) public authorizedTraders;
+
+    /// @notice Minimum flash loan amount (for testing safety)
+    /// @dev Prevents dust attacks and very small unprofitable trades
+    uint256 public minFlashAmount = 1000; // Adjustable for different tokens
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
