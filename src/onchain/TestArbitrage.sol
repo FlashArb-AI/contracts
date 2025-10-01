@@ -131,6 +131,10 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Incremented for each new trade
     uint256 public tradeCounter;
 
+    /// @notice Test mode flag for simulation purposes
+    /// @dev When true, enables additional testing features
+    bool public testMode;
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
