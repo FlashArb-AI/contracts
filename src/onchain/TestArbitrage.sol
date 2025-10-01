@@ -143,6 +143,10 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Prevents dust attacks and very small unprofitable trades
     uint256 public minFlashAmount = 1000; // Adjustable for different tokens
 
+    /// @notice Emergency withdrawal timelock
+    /// @dev Adds security delay for emergency functions
+    uint256 public emergencyUnlockTime;
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
