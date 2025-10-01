@@ -146,7 +146,7 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @notice Emergency withdrawal timelock
     /// @dev Adds security delay for emergency functions
     uint256 public emergencyUnlockTime;
-    
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
