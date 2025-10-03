@@ -155,6 +155,24 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     //                        EVENTS                          //
     //////////////////////////////////////////////////////////////
 
+    /// @notice Emitted when a trade is initiated
+    /// @param tradeId Unique identifier for this trade
+    /// @param tokenIn Input token address
+    /// @param tokenOut Output token address
+    /// @param flashAmount Amount being flash loaned
+    /// @param router1 First router address
+    /// @param router2 Second router address
+    /// @param initiator Address that initiated the trade
+    event TradeInitiated(
+        uint256 indexed tradeId,
+        address indexed tokenIn,
+        address indexed tokenOut,
+        uint256 flashAmount,
+        address router1,
+        address router2,
+        address initiator
+    );
+
     /// @notice Emitted when contract configuration is updated
     /// @param parameter Name of the parameter changed
     /// @param oldValue Previous value
