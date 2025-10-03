@@ -173,6 +173,13 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         address initiator
     );
 
+    /// @notice Emitted when a trade completes successfully
+    /// @param tradeId Unique identifier for this trade
+    /// @param profit Net profit from the arbitrage
+    /// @param gasUsed Total gas consumed
+    /// @param executionTime Time taken for execution (in seconds)
+    event TradeCompleted(uint256 indexed tradeId, uint256 profit, uint256 gasUsed, uint256 executionTime);
+
     /// @notice Emitted when contract configuration is updated
     /// @param parameter Name of the parameter changed
     /// @param oldValue Previous value
