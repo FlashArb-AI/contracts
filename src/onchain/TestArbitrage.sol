@@ -147,6 +147,10 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Adds security delay for emergency functions
     uint256 public emergencyUnlockTime;
 
+        /// @notice Profit recipient address (can be different from owner)
+    /// @dev Allows profit distribution to different address
+    address public profitRecipient;
+    
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
