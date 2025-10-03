@@ -147,6 +147,21 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Adds security delay for emergency functions
     uint256 public emergencyUnlockTime;
 
+    /// @notice Profit recipient address (can be different from owner)
+    /// @dev Allows profit distribution to different address
+    address public profitRecipient;
+
+    //////////////////////////////////////////////////////////////
+    //                        EVENTS                          //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Emitted when contract configuration is updated
+    /// @param parameter Name of the parameter changed
+    /// @param oldValue Previous value
+    /// @param newValue New value
+    /// @param changedBy Address that made the change
+    event ConfigurationUpdated(string parameter, uint256 oldValue, uint256 newValue, address changedBy);
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
