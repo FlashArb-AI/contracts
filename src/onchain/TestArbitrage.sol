@@ -180,6 +180,8 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @param executionTime Time taken for execution (in seconds)
     event TradeCompleted(uint256 indexed tradeId, uint256 profit, uint256 gasUsed, uint256 executionTime);
 
+    event TradeFailed(uint256 indexed tradeId, string reason, uint8 step, uint256 gasUsed);
+
     /// @notice Emitted when contract configuration is updated
     /// @param parameter Name of the parameter changed
     /// @param oldValue Previous value
