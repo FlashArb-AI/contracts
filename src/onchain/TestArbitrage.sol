@@ -199,6 +199,8 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @param amount Profit amount
     /// @param token Token address
     event ProfitDistributed(address indexed recipient, uint256 amount, address indexed token);
+
+    event EmergencyAction(string action, address token, uint256 amount, address executor);
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
