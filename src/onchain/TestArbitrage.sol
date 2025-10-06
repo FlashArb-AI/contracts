@@ -206,6 +206,7 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @param amount Amount involved (if applicable)
     /// @param executor Address executing the emergency action
     event EmergencyAction(string action, address token, uint256 amount, address executor);
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
@@ -223,5 +224,10 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         stats.lastTradeTimestamp = block.timestamp;
 
         emit ConfigurationUpdated("deployment", 0, block.timestamp, msg.sender);
+    }
+
+    function pause() external onlyOwner {
+        _pause();
+        emit EmergencyAction("contract_paused", address(0), 0, msg.sender);
     }
 }
