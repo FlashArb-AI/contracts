@@ -199,6 +199,14 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @param amount Profit amount
     /// @param token Token address
     event ProfitDistributed(address indexed recipient, uint256 amount, address indexed token);
+
+    /// @notice Emitted during emergency operations
+    /// @param action Type of emergency action
+    /// @param token Token involved (if applicable)
+    /// @param amount Amount involved (if applicable)
+    /// @param executor Address executing the emergency action
+    event EmergencyAction(string action, address token, uint256 amount, address executor);
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
@@ -216,5 +224,19 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         stats.lastTradeTimestamp = block.timestamp;
 
         emit ConfigurationUpdated("deployment", 0, block.timestamp, msg.sender);
+    }
+
+    /// @notice Pauses the contract in emergency situations
+    /// @dev Uses OpenZeppelin Pausable for standardized pause functionality
+    function pause() external onlyOwner {
+        _pause();
+        emit EmergencyAction("contract_paused", address(0), 0, msg.sender);
+    }
+
+    /// @notice Unpauses the contract
+    /// @dev Restores normal contract operations
+    function unpause() external onlyOwner {
+        _unpause();
+        emit EmergencyAction("contract_unpaused", address(0), 0, msg.sender);
     }
 }
