@@ -226,11 +226,15 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         emit ConfigurationUpdated("deployment", 0, block.timestamp, msg.sender);
     }
 
+    /// @notice Pauses the contract in emergency situations
+    /// @dev Uses OpenZeppelin Pausable for standardized pause functionality
     function pause() external onlyOwner {
         _pause();
         emit EmergencyAction("contract_paused", address(0), 0, msg.sender);
     }
 
+    /// @notice Unpauses the contract
+    /// @dev Restores normal contract operations
     function unpause() external onlyOwner {
         _unpause();
         emit EmergencyAction("contract_unpaused", address(0), 0, msg.sender);
