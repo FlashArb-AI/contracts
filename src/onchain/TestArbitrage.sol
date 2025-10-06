@@ -194,7 +194,10 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @param changedBy Address that made the change
     event ConfigurationUpdated(string parameter, uint256 oldValue, uint256 newValue, address changedBy);
 
-
+    /// @notice Emitted when profit is distributed
+    /// @param recipient Address receiving profit
+    /// @param amount Profit amount
+    /// @param token Token address
     event ProfitDistributed(
         address indexed recipient,
         uint256 amount,
