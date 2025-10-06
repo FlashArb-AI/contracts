@@ -230,4 +230,9 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         _pause();
         emit EmergencyAction("contract_paused", address(0), 0, msg.sender);
     }
+
+    function unpause() external onlyOwner {
+        _unpause();
+        emit EmergencyAction("contract_unpaused", address(0), 0, msg.sender);
+    }
 }
