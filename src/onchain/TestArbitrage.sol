@@ -221,6 +221,9 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         _;
     }
 
+    /// @notice Validates trade parameters before execution
+    /// @param params Trade parameters to validate
+    /// @dev Comprehensive validation of all trade inputs
         modifier validTradeParams(TradeParams memory params) {
         require(params.routerPath.length == 2, "TestArbitrage: Must provide exactly 2 routers");
         require(params.tokenPath.length == 2, "TestArbitrage: Must provide exactly 2 tokens");
