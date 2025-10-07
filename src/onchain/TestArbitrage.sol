@@ -221,6 +221,19 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         _;
     }
 
+        modifier validTradeParams(TradeParams memory params) {
+        require(params.routerPath.length == 2, "TestArbitrage: Must provide exactly 2 routers");
+        require(params.tokenPath.length == 2, "TestArbitrage: Must provide exactly 2 tokens");
+        require(params.tokenPath[0] != params.tokenPath[1], "TestArbitrage: Tokens must be different");
+        require(params.routerPath[0] != address(0) && params.routerPath[1] != address(0), "TestArbitrage: Invalid router addresses");
+        require(params.tokenPath[0] != address(0) && params.tokenPath[1] != address(0), "TestArbitrage: Invalid token addresses");
+        require(params.fee > 0 && params.fee <= 10000, "TestArbitrage: Invalid fee tier");
+        require(params.minProfitBps >= MIN_PROFIT_BPS && params.minProfitBps <= MAX_BPS, "TestArbitrage: Invalid profit threshold");
+        require(params.maxSlippageBps <= MAX_SLIPPAGE_BPS, "TestArbitrage: Slippage too high");
+        require(params.deadline >= block.timestamp, "TestArbitrage: Trade deadline passed");
+        _;
+    }
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
