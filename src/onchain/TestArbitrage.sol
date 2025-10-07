@@ -243,6 +243,13 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         _;
     }
 
+    modifier validFlashAmount(uint256 amount) {
+        require(amount >= minFlashAmount, "TestArbitrage: Amount below minimum");
+        require(amount <= maxFlashAmount, "TestArbitrage: Amount exceeds maximum");
+        require(amount > 0, "TestArbitrage: Amount must be positive");
+        _;
+    }
+
     //////////////////////////////////////////////////////////////
     //                        CONSTRUCTOR                     //
     //////////////////////////////////////////////////////////////
