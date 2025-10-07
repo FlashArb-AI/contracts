@@ -143,6 +143,10 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @dev Prevents dust attacks and very small unprofitable trades
     uint256 public minFlashAmount = 1000; // Adjustable for different tokens
 
+    /// @notice Maximum flash loan amount (for testing safety)
+    /// @dev Prevents overly large trades during testing
+    uint256 public maxFlashAmount = 1000000 * 1e18; // Adjustable
+
     /// @notice Emergency withdrawal timelock
     /// @dev Adds security delay for emergency functions
     uint256 public emergencyUnlockTime;
@@ -240,6 +244,16 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         );
         require(params.maxSlippageBps <= MAX_SLIPPAGE_BPS, "TestArbitrage: Slippage too high");
         require(params.deadline >= block.timestamp, "TestArbitrage: Trade deadline passed");
+        _;
+    }
+
+    /// @notice Validates flash loan amount
+    /// @param amount Flash loan amount to validate
+    /// @dev Ensures amount is within safe testing bounds
+    modifier validFlashAmount(uint256 amount) {
+        require(amount >= minFlashAmount, "TestArbitrage: Amount below minimum");
+        require(amount <= maxFlashAmount, "TestArbitrage: Amount exceeds maximum");
+        require(amount > 0, "TestArbitrage: Amount must be positive");
         _;
     }
 
