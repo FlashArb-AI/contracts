@@ -207,6 +207,12 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
     /// @param executor Address executing the emergency action
     event EmergencyAction(string action, address token, uint256 amount, address executor);
 
+    //////////////////////////////////////////////////////////////
+    //                        MODIFIERS                       //
+    //////////////////////////////////////////////////////////////
+
+    /// @notice Restricts access to authorized traders or owner
+    /// @dev Prevents unauthorized trade execution
     modifier onlyAuthorized() {
         require(
             authorizedTraders[msg.sender] || msg.sender == owner(),
