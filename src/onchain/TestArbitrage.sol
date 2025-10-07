@@ -243,6 +243,9 @@ contract TestArbitrage is IFlashLoanRecipient, ReentrancyGuard, Ownable, Pausabl
         _;
     }
 
+    /// @notice Validates flash loan amount
+    /// @param amount Flash loan amount to validate
+    /// @dev Ensures amount is within safe testing bounds
     modifier validFlashAmount(uint256 amount) {
         require(amount >= minFlashAmount, "TestArbitrage: Amount below minimum");
         require(amount <= maxFlashAmount, "TestArbitrage: Amount exceeds maximum");
